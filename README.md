@@ -1,6 +1,3 @@
-## Project Structure
-
-```text
 LightGBM/
 │
 ├── regression/
@@ -13,7 +10,13 @@ LightGBM/
 │   ├── preprocessing.ipynb
 │   ├── lightgbm_regression.py
 │   ├── regression_metrics.py
+│   │
 │   └── product_sales_prediction.ipynb
+│       └── ⭐ Chia Train/Test 80/20
+│           → Huấn luyện model
+│           → Dự đoán
+│           → Đánh giá hiệu suất
+│           → Trực quan hóa kết quả
 │
 ├── classification/
 │   ├── data/
@@ -25,9 +28,14 @@ LightGBM/
 │   ├── preprocessing_data.ipynb
 │   ├── lightgbm_classification.py
 │   ├── classification_metrics.py
+│   │
 │   └── machine_failure_prediction.ipynb
+│       └── ⭐ Chia Train/Test 80/20
+│           → Huấn luyện model
+│           → Dự đoán
+│           → Đánh giá hiệu suất
+│           → Trực quan hóa kết quả
 │
 ├── README.md
 ├── requirements.txt
 └── .gitignore
-```
