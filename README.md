@@ -1,3 +1,6 @@
+## 📁 Project Structure
+
+```text
 LightGBM/
 │
 ├── regression/
@@ -49,3 +52,4 @@ LightGBM/
 ├── README.md
 ├── requirements.txt
 └── .gitignore
+```
