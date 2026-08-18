@@ -1,10 +1,12 @@
+## Project Structure
+
+```text
 LightGBM/
 │
 ├── regression/
 │   ├── data/
 │   │   ├── raw/
 │   │   │   └── regression_raw.csv
-│   │   │
 │   │   └── processed/
 │   │       └── regression_cleaned.csv
 │   │
@@ -17,11 +19,10 @@ LightGBM/
 │   ├── data/
 │   │   ├── raw/
 │   │   │   └── classification_raw.csv
-│   │   │
 │   │   └── processed/
 │   │       └── classification_cleaned.csv
 │   │
-│   ├── preprocessing_data.ipynb 
+│   ├── preprocessing_data.ipynb
 │   ├── lightgbm_classification.py
 │   ├── classification_metrics.py
 │   └── machine_failure_prediction.ipynb
@@ -29,3 +30,4 @@ LightGBM/
 ├── README.md
 ├── requirements.txt
 └── .gitignore
+```
