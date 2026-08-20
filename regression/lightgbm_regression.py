@@ -16,6 +16,7 @@ class LightGBMRegression:
         max_bins=32,
         top_rate=0.2,
         other_rate=0.1,
+        reg_alpha=0.0,
         reg_lambda=1.0,
         min_gain_to_split=0.0,
     ):
@@ -27,6 +28,7 @@ class LightGBMRegression:
         self.max_bins = max(2, int(max_bins))
         self.top_rate = top_rate
         self.other_rate = other_rate
+        self.reg_alpha = reg_alpha
         self.reg_lambda = reg_lambda
         self.min_gain_to_split = min_gain_to_split
         self.base_prediction = 0.0
@@ -35,6 +37,8 @@ class LightGBMRegression:
         self.bin_thresholds = None
         self.feature_importances_ = None
         self.efb_bundles = []
+        self.efb_applied = False
+        self.efb_offsets = {}
 
     def _prepare_bins(self, X):
         self.bin_thresholds = []
@@ -54,6 +58,12 @@ class LightGBMRegression:
             )
         self.feature_bins = bin_matrix
         self.efb_bundles = self._find_efb_bundles(X)
+        self.efb_applied = any(len(bundle) > 1 for bundle in self.efb_bundles)
+        self.efb_offsets = {
+            feature_index: position * (self.max_bins + 1)
+            for bundle in self.efb_bundles
+            for position, feature_index in enumerate(bundle)
+        }
 
     def _find_efb_bundles(self, X):
         active = (~np.isnan(X)) & (X != 0)
@@ -74,6 +84,34 @@ class LightGBMRegression:
 
     def _histogram(self, row_indices, gradients, hessians):
         histogram = np.zeros((self.feature_bins.shape[1], self.max_bins + 1, 2))
+        if self.efb_applied:
+            for bundle in self.efb_bundles:
+                bundle_width = len(bundle) * (self.max_bins + 1) + 1
+                bundled_bins = np.zeros(row_indices.size, dtype=np.int32)
+                for feature_index in bundle:
+                    bins = self.feature_bins[row_indices, feature_index]
+                    active = bins != self.max_bins
+                    bundled_bins[active] = (
+                        self.efb_offsets[feature_index] + bins[active] + 1
+                    )
+                bundled_histogram = np.zeros((bundle_width, 2))
+                np.add.at(
+                    bundled_histogram[:, 0],
+                    bundled_bins,
+                    gradients[row_indices],
+                )
+                np.add.at(
+                    bundled_histogram[:, 1],
+                    bundled_bins,
+                    hessians[row_indices],
+                )
+                for feature_index in bundle:
+                    offset = self.efb_offsets[feature_index]
+                    histogram[feature_index, 0, :] = bundled_histogram[0, :]
+                    histogram[feature_index, 1:, :] = bundled_histogram[
+                        offset + 1:offset + self.max_bins + 1, :
+                    ]
+            return histogram
         for feature_index in range(self.feature_bins.shape[1]):
             bins = self.feature_bins[row_indices, feature_index]
             np.add.at(histogram[feature_index, :, 0], bins, gradients[row_indices])
@@ -81,15 +119,24 @@ class LightGBMRegression:
         return histogram
 
     def _leaf_value(self, gradient_sum, hessian_sum):
+        gradient_sum = np.sign(gradient_sum) * max(
+            abs(gradient_sum) - self.reg_alpha, 0.0
+        )
         return -gradient_sum / (hessian_sum + self.reg_lambda)
+
+    def _regularized_score(self, gradient_sum, hessian_sum):
+        gradient_sum = np.sign(gradient_sum) * max(
+            abs(gradient_sum) - self.reg_alpha, 0.0
+        )
+        return gradient_sum**2 / (hessian_sum + self.reg_lambda)
 
     def _split_gain(self, parent_gradient, parent_hessian, left_gradient, left_hessian):
         right_gradient = parent_gradient - left_gradient
         right_hessian = parent_hessian - left_hessian
         return 0.5 * (
-            left_gradient**2 / (left_hessian + self.reg_lambda)
-            + right_gradient**2 / (right_hessian + self.reg_lambda)
-            - parent_gradient**2 / (parent_hessian + self.reg_lambda)
+            self._regularized_score(left_gradient, left_hessian)
+            + self._regularized_score(right_gradient, right_hessian)
+            - self._regularized_score(parent_gradient, parent_hessian)
         )
 
     def _best_split(self, histogram, gradient_sum, hessian_sum):
@@ -135,14 +182,13 @@ class LightGBMRegression:
             goes_left = goes_left & ~is_missing
         return row_indices[goes_left], row_indices[~goes_left]
 
-    def _best_first_tree(self, gradients, hessians):
-        all_rows = np.arange(self.feature_bins.shape[0])
-        root_histogram = self._histogram(all_rows, gradients, hessians)
-        root_gradient = gradients.sum()
-        root_hessian = hessians.sum()
+    def _best_first_tree(self, rows, gradients, hessians):
+        root_histogram = self._histogram(rows, gradients, hessians)
+        root_gradient = gradients[rows].sum()
+        root_hessian = hessians[rows].sum()
         root = {
             "value": self._leaf_value(root_gradient, root_hessian),
-            "rows": all_rows,
+            "rows": rows,
             "histogram": root_histogram,
             "gradient_sum": root_gradient,
             "hessian_sum": root_hessian,
@@ -258,6 +304,12 @@ class LightGBMRegression:
         y = np.asarray(y_train, dtype=float).reshape(-1)
         if X.ndim != 2 or X.shape[0] != y.shape[0]:
             raise ValueError("X_train phải là ma trận và có cùng số dòng với y_train.")
+        if not 0 < self.top_rate < 1 or not 0 < self.other_rate < 1:
+            raise ValueError("top_rate và other_rate phải thuộc khoảng (0, 1).")
+        if self.top_rate + self.other_rate > 1:
+            raise ValueError("top_rate + other_rate không được vượt quá 1.")
+        if self.reg_alpha < 0 or self.reg_lambda < 0:
+            raise ValueError("reg_alpha và reg_lambda không được âm.")
         self._prepare_bins(X)
         self.base_prediction = float(y.mean())
         predictions = np.full(y.shape, self.base_prediction, dtype=float)
@@ -272,7 +324,9 @@ class LightGBMRegression:
             sampled_hessians = np.zeros_like(hessians)
             sampled_gradients[selected_rows] = gradients[selected_rows] * weights[selected_rows]
             sampled_hessians[selected_rows] = hessians[selected_rows] * weights[selected_rows]
-            tree = self._best_first_tree(sampled_gradients, sampled_hessians)
+            tree = self._best_first_tree(
+                selected_rows, sampled_gradients, sampled_hessians
+            )
             self.trees.append(tree)
             predictions += self.learning_rate * self._predict_tree(X, tree)
         print("Huấn luyện hoàn tất!")
