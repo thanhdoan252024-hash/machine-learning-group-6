@@ -9,6 +9,45 @@ def sigmoid(x):
     return 1 / (1 + np.exp(-np.clip(x, -35, 35)))
 
 
+def calculate_gradients(y, raw_score):
+    """Tính gradient và Hessian của binary log-loss."""
+    probability = sigmoid(raw_score)
+    gradient = probability - y
+    hessian = np.maximum(probability * (1 - probability), 1e-12)
+    return gradient, hessian
+
+
+def encode_categorical_features(X, categorical_features, category_maps=None):
+    """Mã hóa feature phân loại thành số; category chưa gặp được gán NaN.
+
+    category_maps bằng None khi fit để học ánh xạ, và được truyền lại khi
+    predict để bảo đảm train/test dùng cùng một mã category.
+    """
+    X = np.asarray(X, dtype=object)
+    if X.ndim != 2:
+        raise ValueError("X phải là ma trận hai chiều.")
+    categorical_features = set(categorical_features or [])
+    fitting = category_maps is None
+    maps = {} if fitting else category_maps
+    encoded = np.empty(X.shape, dtype=float)
+
+    for j in range(X.shape[1]):
+        if j not in categorical_features:
+            encoded[:, j] = X[:, j].astype(float)
+            continue
+        keys = [
+            None if (value is None or
+                     isinstance(value, (float, np.floating)) and np.isnan(value))
+            else (type(value).__name__, str(value))
+            for value in X[:, j]
+        ]
+        if fitting:
+            unique_keys = dict.fromkeys(key for key in keys if key is not None)
+            maps[j] = {key: code for code, key in enumerate(unique_keys)}
+        encoded[:, j] = [maps[j].get(key, np.nan) for key in keys]
+    return encoded, maps
+
+
 def create_bins(X, max_bins):
     """Tạo các ngưỡng quantile; NaN được dành riêng bin số 0."""
     q = np.linspace(0, 1, max_bins)[1:-1]
@@ -21,13 +60,71 @@ def create_bins(X, max_bins):
 
 
 def bin_data(X, cuts):
-    """Nén đặc trưng liên tục thành chỉ số bin nguyên."""
+    """Nén đặc trưng thành bin; bin 0 chỉ dành riêng cho missing value."""
     result = np.empty(X.shape, dtype=np.int32)
     for j, thresholds in enumerate(cuts):
         result[:, j] = np.where(
             np.isnan(X[:, j]), 0,
             np.searchsorted(thresholds, X[:, j], side="right") + 1)
     return result
+
+
+def exclusive_feature_bundling(X, max_conflict_rate=0.0, bundles=None):
+    """Gộp các feature thưa gần như loại trừ nhau theo kỹ thuật EFB.
+
+    Mỗi feature trong bundle dùng một vùng bin riêng nên không bị lẫn giá trị.
+    Khi predict, truyền lại bundles đã học ở fit để biến đổi giống nhau.
+    """
+    if bundles is None:
+        groups = []
+        active = X != 0
+        for feature in range(X.shape[1]):
+            for group in groups:
+                occupied = np.any(active[:, group], axis=1)
+                conflict = np.mean(occupied & active[:, feature])
+                if conflict <= max_conflict_rate:
+                    group.append(feature)
+                    break
+            else:
+                groups.append([feature])
+
+        bundles = []
+        for group in groups:
+            offset, definition = 0, []
+            for feature in group:
+                definition.append((feature, offset))
+                offset += int(X[:, feature].max())
+            bundles.append(definition)
+
+    bundled = np.zeros((len(X), len(bundles)), dtype=np.int32)
+    for bundle_index, definition in enumerate(bundles):
+        for feature, offset in definition:
+            values = X[:, feature]
+            bundled[:, bundle_index] += np.where(values > 0, values + offset, 0)
+    return bundled, bundles
+
+
+def histogram_subtraction(parent_histogram, child_histogram):
+    """Tạo histogram sibling bằng histogram cha trừ histogram một child."""
+    return {
+        feature: parent_histogram[feature] - child_histogram[feature]
+        for feature in parent_histogram
+    }
+
+
+def build_histograms(X, gradients, hessians, rows, weights, features):
+    """Dựng histogram [gradient, Hessian, count] cho từng feature."""
+    histograms = {}
+    g, h = gradients[rows] * weights, hessians[rows] * weights
+    for feature in features:
+        bins = X[rows, feature]
+        n_bins = int(X[:, feature].max()) + 1
+        histograms[int(feature)] = np.vstack([
+            np.bincount(bins, weights=g, minlength=n_bins),
+            np.bincount(bins, weights=h, minlength=n_bins),
+            np.bincount(bins, minlength=n_bins)
+        ])
+    return histograms
 
 
 def goss_sample(gradients, top_rate, other_rate, rng):
@@ -66,52 +163,61 @@ class TreeNode:
     value: float
     feature: int = None
     threshold: int = None
+    default_left: bool = True
     left: object = None
     right: object = None
 
 
-def find_best_split(X, gradients, hessians, rows, weights, params):
-    """Tìm split tốt nhất bằng histogram gradient và Hessian."""
+def find_best_split(X, rows, histograms, params):
+    """Tìm split tốt nhất và thử đưa missing sang cả trái lẫn phải."""
     best, best_gain = None, params["min_split_gain"]
     node_X = X[rows]
-    g, h = gradients[rows] * weights, hessians[rows] * weights
 
     for feature in params["features"]:
         bins = node_X[:, feature]
-        n_bins = int(bins.max()) + 1
+        histogram = histograms[int(feature)]
+        n_bins = histogram.shape[1]
         if n_bins < 2:
             continue
-        # Histogram cho phép đánh giá nhanh mọi ngưỡng bin.
-        gh = np.bincount(bins, weights=g, minlength=n_bins)
-        hh = np.bincount(bins, weights=h, minlength=n_bins)
-        nh = np.bincount(bins, minlength=n_bins)
-        cg, ch, cn = np.cumsum(gh)[:-1], np.cumsum(hh)[:-1], np.cumsum(nh)[:-1]
-        total_g, total_h, total_n = gh.sum(), hh.sum(), len(rows)
+        missing = histogram[:, 0]
+        # Bin 0 là missing; tổng tích luỹ dưới đây chỉ gồm bin không thiếu.
+        cumulative = np.c_[np.zeros(3), np.cumsum(histogram[:, 1:], axis=1)]
+        total = histogram.sum(axis=1)
 
-        for threshold in range(n_bins - 1):
-            right_h, right_n = total_h - ch[threshold], total_n - cn[threshold]
-            if (cn[threshold] < params["min_child_samples"] or
-                    right_n < params["min_child_samples"] or
-                    ch[threshold] < params["min_child_weight"] or
-                    right_h < params["min_child_weight"]):
-                continue
-            gain = split_gain(
-                cg[threshold], ch[threshold], total_g - cg[threshold], right_h,
-                params["reg_alpha"], params["reg_lambda"])
-            if gain > best_gain:
-                best_gain = gain
-                best = (int(feature), threshold, bins <= threshold)
+        for threshold in range(n_bins):
+            for default_left in (True, False):
+                left = cumulative[:, threshold].copy()
+                if default_left:
+                    left += missing
+                right = total - left
+                if (left[2] < params["min_child_samples"] or
+                        right[2] < params["min_child_samples"] or
+                        left[1] < params["min_child_weight"] or
+                        right[1] < params["min_child_weight"]):
+                    continue
+                gain = split_gain(
+                    left[0], left[1], right[0], right[1],
+                    params["reg_alpha"], params["reg_lambda"])
+                if gain > best_gain:
+                    best_gain = gain
+                    mask = (bins != 0) & (bins <= threshold)
+                    if default_left:
+                        mask |= bins == 0
+                    best = (int(feature), threshold, default_left, mask)
     return best, best_gain
 
 
 def build_tree(X, gradients, hessians, rows, weights, params):
     """Xây cây leaf-wise: luôn tách leaf có gain lớn nhất."""
-    def make_leaf(r, w, depth):
+    def make_leaf(r, w, depth, histograms):
         g, h = np.sum(gradients[r] * w), np.sum(hessians[r] * w)
         node = TreeNode(leaf_value(g, h, params["reg_alpha"], params["reg_lambda"]))
-        return {"node": node, "rows": r, "weights": w, "depth": depth, "split": None}
+        return {"node": node, "rows": r, "weights": w, "depth": depth,
+                "histograms": histograms, "split": None}
 
-    root = make_leaf(rows, weights, 0)
+    root_histograms = build_histograms(
+        X, gradients, hessians, rows, weights, params["features"])
+    root = make_leaf(rows, weights, 0, root_histograms)
     leaves = [root]
     while len(leaves) < params["num_leaves"]:
         candidates = []
@@ -119,20 +225,32 @@ def build_tree(X, gradients, hessians, rows, weights, params):
             if leaf["split"] is None and (
                     params["max_depth"] < 0 or leaf["depth"] < params["max_depth"]):
                 leaf["split"] = find_best_split(
-                    X, gradients, hessians, leaf["rows"], leaf["weights"], params)
+                    X, leaf["rows"], leaf["histograms"], params)
             if leaf["split"] and leaf["split"][0] is not None:
                 candidates.append(leaf)
         if not candidates:
             break
 
         chosen = max(candidates, key=lambda x: x["split"][1])
-        (feature, threshold, mask), _ = chosen["split"]
-        left = make_leaf(chosen["rows"][mask], chosen["weights"][mask],
-                         chosen["depth"] + 1)
-        right = make_leaf(chosen["rows"][~mask], chosen["weights"][~mask],
-                          chosen["depth"] + 1)
+        (feature, threshold, default_left, mask), _ = chosen["split"]
+        left_rows, right_rows = chosen["rows"][mask], chosen["rows"][~mask]
+        left_weights, right_weights = chosen["weights"][mask], chosen["weights"][~mask]
+
+        # Chỉ dựng histogram cho child nhỏ; child còn lại = parent - child nhỏ.
+        if len(left_rows) <= len(right_rows):
+            left_hist = build_histograms(
+                X, gradients, hessians, left_rows, left_weights, params["features"])
+            right_hist = histogram_subtraction(chosen["histograms"], left_hist)
+        else:
+            right_hist = build_histograms(
+                X, gradients, hessians, right_rows, right_weights, params["features"])
+            left_hist = histogram_subtraction(chosen["histograms"], right_hist)
+
+        left = make_leaf(left_rows, left_weights, chosen["depth"] + 1, left_hist)
+        right = make_leaf(right_rows, right_weights, chosen["depth"] + 1, right_hist)
         node = chosen["node"]
         node.feature, node.threshold = feature, threshold
+        node.default_left = default_left
         node.left, node.right = left["node"], right["node"]
         leaves.remove(chosen)
         leaves.extend([left, right])
@@ -145,29 +263,43 @@ def predict_tree(tree, X):
     for i, row in enumerate(X):
         node = tree
         while node.feature is not None:
-            node = node.left if row[node.feature] <= node.threshold else node.right
+            value = row[node.feature]
+            go_left = node.default_left if value == 0 else value <= node.threshold
+            node = node.left if go_left else node.right
         result[i] = node.value
     return result
 
 
 class LightGBMClassification:
-    """Phân loại nhị phân bằng histogram, GOSS và cây leaf-wise."""
 
     def __init__(
-        self, n_estimators=100, learning_rate=0.1, num_leaves=31,
-        max_depth=-1, max_bins=255, min_child_samples=20,
-        min_child_weight=1e-3, min_split_gain=0.0, reg_alpha=0.0,
-        reg_lambda=1.0, top_rate=0.2, other_rate=0.1,
-        feature_fraction=1.0, random_state=None
+        self,
+        n_estimators=100,
+        learning_rate=0.1,
+        num_leaves=31,
+        max_depth=-1,
+        max_bins=255,
+        min_child_samples=20,
+        min_child_weight=1e-3,
+        min_split_gain=0.0,
+        reg_alpha=0.0,
+        reg_lambda=1.0,
+        top_rate=0.2,
+        other_rate=0.1,
+        feature_fraction=1.0,
+        categorical_features=None,
+        max_conflict_rate=0.0,
+        threshold=0.5,
+        random_state=None
     ):
-        # Lưu hyperparameter thành thuộc tính của class.
         for name, value in locals().copy().items():
             if name != "self":
                 setattr(self, name, value)
-
     def fit(self, X, y):
         """Huấn luyện ensemble và trả về self."""
-        X, y = np.asarray(X, float), np.asarray(y)
+        X, self.category_maps_ = encode_categorical_features(
+            X, self.categorical_features)
+        y = np.asarray(y)
         if X.ndim != 2 or y.ndim != 1 or len(X) != len(y) or np.isinf(X).any():
             raise ValueError("X hoặc y không hợp lệ.")
         self.classes_, y = np.unique(y, return_inverse=True)
@@ -182,85 +314,105 @@ class LightGBMClassification:
         self.n_features_in_ = X.shape[1]
         self.bin_thresholds_ = create_bins(X, self.max_bins)
         X_bin = bin_data(X, self.bin_thresholds_)
+        # EFB giảm số feature histogram nếu các feature thưa loại trừ nhau.
+        X_bin, self.feature_bundles_ = exclusive_feature_bundling(
+            X_bin, self.max_conflict_rate)
         positive_rate = np.clip(y.mean(), 1e-12, 1 - 1e-12)
         self.init_score_ = np.log(positive_rate / (1 - positive_rate))
         raw_score = np.full(len(y), self.init_score_)
         self.trees_, rng = [], np.random.default_rng(self.random_state)
 
         for _ in range(self.n_estimators):
-            # Gradient và Hessian của binary log-loss.
-            probability = sigmoid(raw_score)
-            gradients = probability - y
-            hessians = np.maximum(probability * (1 - probability), 1e-12)
+            gradients, hessians = calculate_gradients(y, raw_score)
             rows, weights = goss_sample(
                 gradients, self.top_rate, self.other_rate, rng)
-            n_features = max(1, int(np.ceil(self.feature_fraction * X.shape[1])))
+            n_features = max(1, int(np.ceil(self.feature_fraction * X_bin.shape[1])))
             params = vars(self) | {"features": rng.choice(
-                X.shape[1], n_features, replace=False)}
+                X_bin.shape[1], n_features, replace=False)}
             tree = build_tree(X_bin, gradients, hessians, rows, weights, params)
             raw_score += self.learning_rate * predict_tree(tree, X_bin)
             self.trees_.append(tree)
         return self
 
     def predict_proba(self, X):
-        """Trả ma trận xác suất [P(class 0), P(class 1)]."""
+        """Trả ma trận xác suất [P(lớp 0), P(lớp 1)] từ 0 đến 1."""
 
         if not hasattr(self, "trees_"):
             raise RuntimeError("Cần gọi fit trước khi dự đoán.")
 
-        X = np.asarray(X, float)
+        X, _ = encode_categorical_features(
+            X,
+            self.categorical_features,
+            self.category_maps_
+        )
 
         if X.ndim != 2 or X.shape[1] != self.n_features_in_:
             raise ValueError("Số đặc trưng không phù hợp.")
 
-        X_bin = bin_data(X, self.bin_thresholds_)
-
-        score = np.full(len(X), self.init_score_)
-
-        for tree in self.trees_:
-            score += self.learning_rate * predict_tree(tree, X_bin)
-
-        # Xác suất lớp 1
-        positive = sigmoid(score)
-
-        positive = np.nan_to_num(
-            positive,
-            nan=0.5,
-            posinf=1.0,
-            neginf=0.0
+        # Chuyển dữ liệu về bin giống quá trình training
+        X_bin = bin_data(
+            X,
+            self.bin_thresholds_
         )
 
-        positive = np.clip(positive, 0.0, 1.0)
+        # Áp dụng lại EFB đã học trong fit()
+        X_bin, _ = exclusive_feature_bundling(
+            X_bin,
+            bundles=self.feature_bundles_
+        )
+
+        # Khởi tạo raw score từ F0
+        score = np.full(
+            len(X),
+            self.init_score_,
+            dtype=float
+        )
+
+        # Cộng kết quả của toàn bộ cây
+        for tree in self.trees_:
+            score += (
+                self.learning_rate
+                * predict_tree(tree, X_bin)
+            )
+
+        # Raw score -> xác suất lớp 1
+        positive = sigmoid(score)
+
+        # Đảm bảo xác suất nằm trong [0, 1]
+        positive = np.clip(
+            positive,
+            0.0,
+            1.0
+        )
 
         # Xác suất lớp 0
         negative = 1.0 - positive
 
+        # Ma trận:
+        # cột 0 = P(class 0)
+        # cột 1 = P(class 1)
         probabilities = np.column_stack(
             (negative, positive)
         )
 
-        # Làm tròn 4 chữ số
-        probabilities = np.round(probabilities, 4)
-
-        # Ép NumPy hiển thị dạng 0.xxxx thay vì e-01, e-04
+        # Chỉ thay đổi CÁCH HIỂN THỊ, không thay đổi giá trị xác suất
         np.set_printoptions(
             suppress=True,
-            precision=4
+            precision=6,
+            floatmode="fixed"
         )
 
         return probabilities
+
     def predict(self, X):
-        """Dự đoán nhãn 0/1 với ngưỡng 0.5."""
-
-        probabilities = self.predict_proba(X)
-
-        # Lấy xác suất class 1
-        positive_probability = probabilities[:, 1]
-
-        class_index = (
-            positive_probability >= 0.5
-        ).astype(int)
-
+        """Dự đoán nhãn 0/1 với ngưỡng truyền vào ."""
+        class_index = (self.predict_proba(X)[:, 1] >= self.threshold).astype(int)
         return self.classes_[class_index]
 
-__all__ = ["LightGBMClassification"]
+__all__ = [
+    "LightGBMClassification", "TreeNode", "sigmoid", "calculate_gradients",
+    "encode_categorical_features", "create_bins", "bin_data",
+    "exclusive_feature_bundling", "goss_sample", "histogram_subtraction",
+    "build_histograms", "leaf_value", "split_gain", "find_best_split", "build_tree",
+    "predict_tree"
+]
