@@ -1,5 +1,6 @@
 """Integration tests cho report, hình, exporter và runner độc lập."""
 
+import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
@@ -362,6 +363,93 @@ class StandaloneRunnerIntegrationTests(unittest.TestCase):
             )
             self.assertTrue((output_dir / "tables" / "roc_points.csv").is_file())
             self.assertTrue(user_file.is_file())
+
+    def test_rejects_pipeline_root_v2_before_writing_any_artifact(self) -> None:
+        binary_arguments = {
+            "y_true": [0, 0, 1, 1],
+            "y_pred": [0, 0, 0, 1],
+            "y_proba": [0.10, 0.40, 0.35, 0.80],
+            "classes": [0, 1],
+            "class_names": ["Negative", "Positive"],
+            "positive_label": 1,
+            "task_type": "binary",
+        }
+
+        with TemporaryDirectory() as temporary_directory:
+            output_root = Path(temporary_directory) / "outputs"
+            train_root = output_root / "train"
+            test_root = output_root / "test"
+            train_root.mkdir(parents=True)
+            test_root.mkdir(parents=True)
+
+            train_sentinel = train_root / "sentinel.txt"
+            train_sentinel.write_bytes(b"train-sentinel\x00\xff")
+            child_manifest_bytes = (
+                b'{"schema_version":1,"task_type":"binary",'
+                b'"generated_files":["sentinel.txt"]}\n'
+            )
+            train_manifest = train_root / "evaluation_manifest.json"
+            test_manifest = test_root / "evaluation_manifest.json"
+            train_manifest.write_bytes(child_manifest_bytes)
+            test_manifest.write_bytes(child_manifest_bytes)
+
+            root_manifest = output_root / "evaluation_manifest.json"
+            root_manifest_bytes = (
+                json.dumps(
+                    {
+                        "schema_version": 2,
+                        "task_type": "binary",
+                        "model_fit_split": "train",
+                        "primary_reporting_split": "test",
+                        "splits": {
+                            "train": {
+                                "manifest_path": "train/evaluation_manifest.json"
+                            },
+                            "test": {
+                                "manifest_path": "test/evaluation_manifest.json"
+                            },
+                        },
+                        "generated_files": [
+                            "train/evaluation_manifest.json",
+                            "train/sentinel.txt",
+                            "test/evaluation_manifest.json",
+                        ],
+                    },
+                    ensure_ascii=False,
+                    indent=2,
+                )
+                + "\n"
+            ).encode("utf-8")
+            root_manifest.write_bytes(root_manifest_bytes)
+            files_before = {
+                path.relative_to(output_root).as_posix(): path.read_bytes()
+                for path in output_root.rglob("*")
+                if path.is_file()
+            }
+
+            with self.assertRaisesRegex(
+                ValueError,
+                r"schema v2.*split.*evaluate_machine_failure_splits",
+            ):
+                run_classification_evaluation(
+                    **binary_arguments,
+                    output_dir=output_root,
+                    save_dpi=100,
+                )
+
+            files_after = {
+                path.relative_to(output_root).as_posix(): path.read_bytes()
+                for path in output_root.rglob("*")
+                if path.is_file()
+            }
+            self.assertEqual(files_after, files_before)
+            self.assertEqual(root_manifest.read_bytes(), root_manifest_bytes)
+            self.assertEqual(train_manifest.read_bytes(), child_manifest_bytes)
+            self.assertEqual(test_manifest.read_bytes(), child_manifest_bytes)
+            self.assertEqual(train_sentinel.read_bytes(), b"train-sentinel\x00\xff")
+            self.assertFalse((output_root / "figures").exists())
+            self.assertFalse((output_root / "tables").exists())
+            self.assertFalse((output_root / "predictions").exists())
 
     def _assert_all_paths_exist(self, result: dict[str, object]) -> None:
         """Duyệt cấu trúc đường dẫn trả về và kiểm tra tệp không rỗng."""

@@ -1,18 +1,81 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "task_type": "binary",
+  "model_fit_split": "train",
+  "primary_reporting_split": "test",
+  "model_threshold": 0.5,
+  "splits": {
+    "train": {
+      "n_samples": 8000,
+      "class_counts": {
+        "0": 7729,
+        "1": 271
+      },
+      "manifest_path": "train/evaluation_manifest.json",
+      "generated_files": [
+        "train/figures/confusion_matrix_counts.png",
+        "train/figures/confusion_matrix_normalized.png",
+        "train/figures/correct_incorrect_pie.png",
+        "train/figures/overall_metrics_bar.png",
+        "train/figures/per_class_metrics.png",
+        "train/figures/roc_curve.png",
+        "train/predictions/predictions.csv",
+        "train/tables/classification_report.csv",
+        "train/tables/confusion_matrix_counts.csv",
+        "train/tables/confusion_matrix_normalized.csv",
+        "train/tables/metrics_summary.csv",
+        "train/tables/roc_points.csv"
+      ]
+    },
+    "test": {
+      "n_samples": 2000,
+      "class_counts": {
+        "0": 1932,
+        "1": 68
+      },
+      "manifest_path": "test/evaluation_manifest.json",
+      "generated_files": [
+        "test/figures/confusion_matrix_counts.png",
+        "test/figures/confusion_matrix_normalized.png",
+        "test/figures/correct_incorrect_pie.png",
+        "test/figures/overall_metrics_bar.png",
+        "test/figures/per_class_metrics.png",
+        "test/figures/roc_curve.png",
+        "test/predictions/predictions.csv",
+        "test/tables/classification_report.csv",
+        "test/tables/confusion_matrix_counts.csv",
+        "test/tables/confusion_matrix_normalized.csv",
+        "test/tables/metrics_summary.csv",
+        "test/tables/roc_points.csv"
+      ]
+    }
+  },
   "generated_files": [
-    "figures/confusion_matrix_counts.png",
-    "figures/confusion_matrix_normalized.png",
-    "figures/correct_incorrect_pie.png",
-    "figures/overall_metrics_bar.png",
-    "figures/per_class_metrics.png",
-    "figures/roc_curve.png",
-    "predictions/predictions.csv",
-    "tables/classification_report.csv",
-    "tables/confusion_matrix_counts.csv",
-    "tables/confusion_matrix_normalized.csv",
-    "tables/metrics_summary.csv",
-    "tables/roc_points.csv"
+    "test/evaluation_manifest.json",
+    "test/figures/confusion_matrix_counts.png",
+    "test/figures/confusion_matrix_normalized.png",
+    "test/figures/correct_incorrect_pie.png",
+    "test/figures/overall_metrics_bar.png",
+    "test/figures/per_class_metrics.png",
+    "test/figures/roc_curve.png",
+    "test/predictions/predictions.csv",
+    "test/tables/classification_report.csv",
+    "test/tables/confusion_matrix_counts.csv",
+    "test/tables/confusion_matrix_normalized.csv",
+    "test/tables/metrics_summary.csv",
+    "test/tables/roc_points.csv",
+    "train/evaluation_manifest.json",
+    "train/figures/confusion_matrix_counts.png",
+    "train/figures/confusion_matrix_normalized.png",
+    "train/figures/correct_incorrect_pie.png",
+    "train/figures/overall_metrics_bar.png",
+    "train/figures/per_class_metrics.png",
+    "train/figures/roc_curve.png",
+    "train/predictions/predictions.csv",
+    "train/tables/classification_report.csv",
+    "train/tables/confusion_matrix_counts.csv",
+    "train/tables/confusion_matrix_normalized.csv",
+    "train/tables/metrics_summary.csv",
+    "train/tables/roc_points.csv"
   ]
 }

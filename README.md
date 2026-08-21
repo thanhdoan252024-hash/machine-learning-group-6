@@ -24,9 +24,17 @@ classification/
     exporters.py
     tests/
     outputs/
-      tables/
-      figures/
-      predictions/
+      evaluation_manifest.json
+      train/
+        evaluation_manifest.json
+        tables/
+        figures/
+        predictions/
+      test/
+        evaluation_manifest.json
+        tables/
+        figures/
+        predictions/
     docs/
       Ke_hoach_danh_gia_truc_quan_LightGBM_Classification_khong_sklearn.md
       PROJECT_INTEGRATION_NOTES.md
@@ -70,8 +78,8 @@ Trên macOS/Linux, thay đường dẫn Python trong virtual environment bằng
 ```
 
 Bộ test bao phủ validation, metric thủ công, ROC-AUC, report/exporter, output
-lifecycle, adapter model thật và hợp đồng dataset/split. Sau khi gom package,
-full discovery đạt 90/90 test.
+lifecycle, adapter model thật và hợp đồng dataset/split. Full discovery hiện đạt
+97/97 test.
 
 ## Tái tạo kết quả classification
 
@@ -85,39 +93,44 @@ Có thể chạy notebook `classification/machine_failure_prediction.ipynb` từ
 root hoặc trực tiếp trong thư mục `classification`; notebook tự tìm repo root và
 không còn phụ thuộc đường dẫn tuyệt đối trên một máy cụ thể.
 
-## Artifact được tạo và commit
+## Artifact được tạo
 
-`classification/evaluation/outputs/` chứa:
+Pipeline fit model đúng một lần trên train rồi đánh giá độc lập cả train và test.
+`classification/evaluation/outputs/` chứa 27 file:
 
-- `tables/metrics_summary.csv`
-- `tables/classification_report.csv`
-- `tables/confusion_matrix_counts.csv`
-- `tables/confusion_matrix_normalized.csv`
-- `tables/roc_points.csv`
-- `predictions/predictions.csv`
-- Sáu hình PNG: hai confusion matrix, overall metrics, per-class metrics,
-  correct/incorrect pie và ROC curve.
-- `evaluation_manifest.json` ghi chính xác các artifact thuộc pipeline.
+- Root `evaluation_manifest.json` schema v2 ghi model fit split là `train`, split
+  báo cáo chính là `test` và đúng 26 path trong `generated_files`.
+- `train/` và `test/` mỗi thư mục có 12 artifact đánh giá cùng một child
+  `evaluation_manifest.json`: 5 table CSV, 1 predictions CSV và 6 PNG.
+- Predictions có 8.000 dòng cho train và 2.000 dòng cho test.
 
-Mỗi lần chạy thành công sẽ ghi đè bộ kết quả hiện tại và dọn artifact ROC cũ
-theo manifest; pipeline không xóa file ngoài danh sách do chính nó sở hữu.
+Root manifest chỉ được cập nhật sau khi cả hai split đánh giá thành công. Khi
+migrate từ layout v1, pipeline dọn các bảng/hình/predictions cũ ở ngay output
+root theo manifest cũ; đây là thay đổi filesystem contract có chủ đích. Pipeline
+không dùng glob để xóa file ngoài danh sách do chính nó sở hữu.
 
 ## Kết quả baseline
 
-Kết quả trong `classification/evaluation/outputs/` dùng model 100 estimator, threshold
-`0.5` và test split 2.000 mẫu:
+Kết quả dùng model 100 estimator và threshold `0.5`. Test là split báo cáo chính;
+train chỉ dùng để chẩn đoán overfit:
 
-| Metric | Giá trị |
-|---|---:|
-| Accuracy | 0,986000 |
-| Precision — máy hỏng | 0,900000 |
-| Recall — máy hỏng | 0,661765 |
-| F1-score — máy hỏng | 0,762712 |
-| ROC-AUC | 0,974211 |
+| Metric | Train — diagnostic | Test — primary |
+|---|---:|---:|
+| Accuracy | 0,993000 | 0,986000 |
+| Precision — máy hỏng | 0,961373 | 0,900000 |
+| Recall — máy hỏng | 0,826568 | 0,661765 |
+| F1-score — máy hỏng | 0,888889 | 0,762712 |
+| ROC-AUC | 0,996943 | 0,974211 |
 
-Confusion matrix gồm TN=1.927, FP=5, FN=23 và TP=45. Do lớp máy hỏng chỉ chiếm
-3,39% toàn dataset, không nên diễn giải Accuracy tách rời Precision, Recall, F1
-và ROC-AUC của lớp dương.
+Train có 8.000 mẫu (7.729 lớp 0, 271 lớp 1), confusion matrix TN=7.720,
+FP=9, FN=47, TP=224. Test có 2.000 mẫu (1.932 lớp 0, 68 lớp 1), confusion
+matrix TN=1.927, FP=5, FN=23, TP=45.
+
+Chênh lệch `test - train` lần lượt là -0,007000 Accuracy, -0,061373 Precision,
+-0,164803 Recall, -0,126177 F1 và -0,022732 ROC-AUC. Model nhìn chung hoạt
+động tốt, nhưng gap Recall/F1 của lớp thiểu số cho thấy dấu hiệu overfit hoặc
+generalization gap cần theo dõi. Không tuning threshold trên test set; test chỉ
+được dùng để báo cáo khả năng tổng quát hóa.
 
 API tích hợp hiện tại:
 
@@ -127,7 +140,16 @@ from classification.evaluation.adapter import (
     evaluate_fitted_classifier,
 )
 from classification.evaluation.runner import run_classification_evaluation
+from classification.evaluation.run_machine_failure_evaluation import (
+    evaluate_machine_failure_splits,
+)
 ```
+
+`evaluate_classification_outputs` và `run_classification_evaluation` chỉ nhận
+thư mục của một split, ví dụ `outputs/train` hoặc `outputs/test`. Không gọi hai
+API generic này trực tiếp vào aggregate output root; root
+`classification/evaluation/outputs/` được dành cho
+`evaluate_machine_failure_splits` hoặc CLI để quản lý manifest schema v2.
 
 Chi tiết các quyết định tích hợp nằm trong
 `classification/evaluation/docs/PROJECT_INTEGRATION_NOTES.md`; lịch sử prompt và

@@ -17,6 +17,18 @@
 > `.gitignore` vẫn nằm ở repository root. Các path này thay thế cấu trúc khung
 > độc lập trong những phần triển khai bên dưới.
 
+> **Cập nhật phạm vi train/test ngày 2026-08-21:** Model được fit đúng một lần
+> trên train, sau đó cùng helper public tạo prediction/probability và đánh giá
+> độc lập cả train lẫn test. Test là primary reporting split; train chỉ dùng để
+> chẩn đoán overfit. Artifact nằm trong
+> `classification/evaluation/outputs/{train,test}/`; mỗi split có 12 artifact và
+> một child manifest. Root `evaluation_manifest.json` schema v2 sở hữu 26 path,
+> nên toàn cây có 27 file. Layout root-level `tables/`, `figures/`,
+> `predictions/` trước đây được migrate có chủ đích và không còn là contract hiện
+> tại. Generic adapter/runner chỉ ghi vào một split directory; aggregate root
+> chỉ dành cho `evaluate_machine_failure_splits` hoặc pipeline để quản lý schema
+> v2. Full suite sau mở rộng đạt 97/97 test.
+
 ## 1. Mục tiêu
 
 Xây dựng hoàn chỉnh phần đánh giá và trực quan hóa kết quả của bài toán phân loại sử dụng LightGBM, với các yêu cầu:
@@ -301,7 +313,14 @@ machine-learning-group-6/
 │       ├── visualizations.py
 │       ├── exporters.py
 │       ├── tests/
-│       ├── outputs/{tables,figures,predictions}/
+│       ├── outputs/
+│       │   ├── evaluation_manifest.json
+│       │   ├── train/
+│       │   │   ├── evaluation_manifest.json
+│       │   │   └── {tables,figures,predictions}/
+│       │   └── test/
+│       │       ├── evaluation_manifest.json
+│       │       └── {tables,figures,predictions}/
 │       └── docs/
 ├── regression/
 ├── requirements.txt
@@ -317,6 +336,9 @@ from classification.evaluation.adapter import (
     evaluate_fitted_classifier,
 )
 from classification.evaluation.runner import run_classification_evaluation
+from classification.evaluation.run_machine_failure_evaluation import (
+    evaluate_machine_failure_splits,
+)
 ```
 
 ```powershell
@@ -543,8 +565,8 @@ Nếu tổng hàng bằng 0, toàn bộ hàng đó bằng 0.
 ### File đầu ra
 
 ```text
-classification/evaluation/outputs/tables/confusion_matrix_counts.csv
-classification/evaluation/outputs/tables/confusion_matrix_normalized.csv
+classification/evaluation/outputs/<split>/tables/confusion_matrix_counts.csv
+classification/evaluation/outputs/<split>/tables/confusion_matrix_normalized.csv
 ```
 
 ---
@@ -1158,7 +1180,7 @@ Yêu cầu:
 File:
 
 ```text
-classification/evaluation/outputs/figures/confusion_matrix_counts.png
+classification/evaluation/outputs/<split>/figures/confusion_matrix_counts.png
 ```
 
 ---
@@ -1185,7 +1207,7 @@ Giá trị hiển thị:
 File:
 
 ```text
-classification/evaluation/outputs/figures/confusion_matrix_normalized.png
+classification/evaluation/outputs/<split>/figures/confusion_matrix_normalized.png
 ```
 
 ---
@@ -1231,7 +1253,7 @@ Yêu cầu:
 File:
 
 ```text
-classification/evaluation/outputs/figures/overall_metrics_bar.png
+classification/evaluation/outputs/<split>/figures/overall_metrics_bar.png
 ```
 
 ---
@@ -1256,7 +1278,7 @@ Mỗi lớp có ba cột:
 File:
 
 ```text
-classification/evaluation/outputs/figures/per_class_metrics.png
+classification/evaluation/outputs/<split>/figures/per_class_metrics.png
 ```
 
 ---
@@ -1288,7 +1310,7 @@ Yêu cầu:
 File:
 
 ```text
-classification/evaluation/outputs/figures/roc_curve.png
+classification/evaluation/outputs/<split>/figures/roc_curve.png
 ```
 
 ### Multiclass
@@ -1307,7 +1329,7 @@ plot_multiclass_roc_curves(
 File:
 
 ```text
-classification/evaluation/outputs/figures/roc_ovr_multiclass.png
+classification/evaluation/outputs/<split>/figures/roc_ovr_multiclass.png
 ```
 
 ---
@@ -1340,7 +1362,7 @@ incorrect = len(y_true) - correct
 File:
 
 ```text
-classification/evaluation/outputs/figures/correct_incorrect_pie.png
+classification/evaluation/outputs/<split>/figures/correct_incorrect_pie.png
 ```
 
 Lưu ý:
@@ -1666,7 +1688,9 @@ Phải báo lỗi số cột không khớp số lớp.
 
 ## Test 10. Kiểm tra file đầu ra
 
-Sau khi chạy, trong `classification/evaluation/outputs/` phải có:
+Sau khi chạy, root phải có `evaluation_manifest.json` schema v2; trong cả
+`classification/evaluation/outputs/train/` và
+`classification/evaluation/outputs/test/` phải có:
 
 ```text
 metrics_summary.csv
@@ -1678,9 +1702,14 @@ roc_points.csv
 confusion_matrix_counts.png
 confusion_matrix_normalized.png
 overall_metrics_bar.png
+per_class_metrics.png
 roc_curve.png
 correct_incorrect_pie.png
+evaluation_manifest.json
 ```
+
+Mỗi split có 12 artifact cộng một child manifest; root manifest liệt kê đúng 26
+generated paths. Tổng số file dưới output root là 27.
 
 ---
 
@@ -2001,13 +2030,13 @@ Sử dụng assertAlmostEqual cho metric dạng số thực.
 15. Tạo exporter.
 16. Tạo integration runner.
 17. Chạy toàn bộ test.
-18. Kiểm tra không có import sklearn.
+18. Kiểm tra sklearn chỉ được dùng cho bước chia dữ liệu.
 19. Hoàn thiện AI prompting log.
 20. Chạy lại toàn bộ dự án trên dữ liệu thật.
 
 ---
 
-# 17. Kiểm tra tự động không dùng sklearn
+# 17. Kiểm tra tự động phạm vi sử dụng sklearn
 
 Tìm trong toàn bộ source code:
 
@@ -2015,7 +2044,9 @@ Tìm trong toàn bộ source code:
 grep -R "sklearn" .
 ```
 
-Kết quả không được có import sklearn trong các file Python.
+Kết quả chỉ được có `sklearn.model_selection.train_test_split` trong pipeline
+hoặc notebook chia dữ liệu; không được có sklearn model, metrics hay
+preprocessing trong phần classification.
 
 Kiểm tra các hàm có sẵn bị cấm:
 
@@ -2055,8 +2086,9 @@ Lưu ý:
 
 ## 18.3. Bảng kết quả
 
-Các bảng nằm trong `classification/evaluation/outputs/tables/`; prediction nằm
-trong `classification/evaluation/outputs/predictions/`.
+Các bảng nằm trong `classification/evaluation/outputs/<split>/tables/`;
+prediction nằm trong `classification/evaluation/outputs/<split>/predictions/`,
+với `<split>` là `train` hoặc `test`.
 
 - `metrics_summary.csv`
 - `classification_report.csv`
@@ -2065,9 +2097,13 @@ trong `classification/evaluation/outputs/predictions/`.
 - `predictions.csv`
 - `roc_points.csv`
 
+Mỗi split có child `evaluation_manifest.json`; output root có manifest schema v2
+liệt kê toàn bộ 26 child paths.
+
 ## 18.4. Hình trực quan hóa
 
-Các hình nằm trong `classification/evaluation/outputs/figures/`.
+Các hình nằm trong `classification/evaluation/outputs/<split>/figures/` cho cả
+train và test.
 
 - `confusion_matrix_counts.png`
 - `confusion_matrix_normalized.png`
@@ -2088,62 +2124,68 @@ Tất cả tài liệu bàn giao nằm trong `classification/evaluation/docs/`.
 
 ## Code
 
-- [ ] Không có `import sklearn`.
-- [ ] Không gọi `model.score()`.
-- [ ] Không sử dụng metric có sẵn của LightGBM.
-- [ ] Không dùng `numpy.trapezoid` hoặc `numpy.trapz`.
-- [ ] Confusion Matrix được tự xây dựng.
-- [ ] TP, TN, FP, FN được tự tính.
-- [ ] Accuracy được tự tính.
-- [ ] Precision được tự tính.
-- [ ] Recall được tự tính.
-- [ ] F1-score được tự tính.
-- [ ] ROC được tự xây dựng từ score và threshold.
-- [ ] AUC được tính bằng vòng lặp hình thang.
-- [ ] Hỗ trợ binary.
-- [ ] Hỗ trợ multiclass.
-- [ ] Hỗ trợ nhãn dạng chuỗi.
-- [ ] Positive label được chỉ định rõ.
+- [x] sklearn chỉ được dùng cho `train_test_split`; không dùng model/metrics có
+  sẵn.
+- [x] Không gọi `model.score()`.
+- [x] Không sử dụng metric có sẵn của LightGBM.
+- [x] Không dùng `numpy.trapezoid` hoặc `numpy.trapz`.
+- [x] Confusion Matrix được tự xây dựng.
+- [x] TP, TN, FP, FN được tự tính.
+- [x] Accuracy được tự tính.
+- [x] Precision được tự tính.
+- [x] Recall được tự tính.
+- [x] F1-score được tự tính.
+- [x] ROC được tự xây dựng từ score và threshold.
+- [x] AUC được tính bằng vòng lặp hình thang.
+- [x] Hỗ trợ binary.
+- [x] Hỗ trợ multiclass.
+- [x] Hỗ trợ nhãn dạng chuỗi.
+- [x] Positive label được chỉ định rõ.
 
 ## Trực quan hóa
 
-- [ ] Confusion Matrix số lượng.
-- [ ] Confusion Matrix chuẩn hóa.
-- [ ] Bar chart metric tổng thể.
-- [ ] Bar chart metric từng lớp.
-- [ ] ROC Curve.
-- [ ] Pie chart đúng/sai.
-- [ ] Hình được lưu ở 300 DPI.
-- [ ] Không có chữ hoặc tick bị cắt.
+- [x] Confusion Matrix số lượng.
+- [x] Confusion Matrix chuẩn hóa.
+- [x] Bar chart metric tổng thể.
+- [x] Bar chart metric từng lớp.
+- [x] ROC Curve.
+- [x] Pie chart đúng/sai.
+- [x] Hình được lưu ở 300 DPI.
+- [x] Không có chữ hoặc tick bị cắt.
 
 ## Kết quả
 
-- [ ] Có `metrics_summary.csv`.
-- [ ] Có `classification_report.csv`.
-- [ ] Có `confusion_matrix_counts.csv`.
-- [ ] Có `confusion_matrix_normalized.csv`.
-- [ ] Có `predictions.csv`.
-- [ ] Có `roc_points.csv`.
-- [ ] Có toàn bộ file PNG.
+- [x] Cả `train/` và `test/` có `tables/metrics_summary.csv`.
+- [x] Cả `train/` và `test/` có `tables/classification_report.csv`.
+- [x] Cả `train/` và `test/` có hai Confusion Matrix CSV.
+- [x] Cả `train/` và `test/` có `predictions/predictions.csv`.
+- [x] Cả `train/` và `test/` có `tables/roc_points.csv`.
+- [x] Cả `train/` và `test/` có đủ sáu file PNG.
+- [x] Mỗi split có child `evaluation_manifest.json` sở hữu đúng 12 artifact.
+- [x] Root schema-v2 manifest sở hữu đúng 26 path; toàn cây có 27 file.
 
 ## Kiểm thử
 
-- [ ] Binary metrics đúng với đáp án tính tay.
-- [ ] AUC bằng 0.75 với bộ dữ liệu mẫu.
-- [ ] Multiclass hoạt động.
-- [ ] Không lỗi chia cho 0.
-- [ ] Phát hiện xác suất sai.
-- [ ] Phát hiện shape sai.
-- [ ] Chạy lại toàn bộ từ đầu thành công.
+- [x] Binary metrics đúng với đáp án tính tay.
+- [x] AUC bằng 0.75 với bộ dữ liệu mẫu.
+- [x] Multiclass hoạt động.
+- [x] Không lỗi chia cho 0.
+- [x] Phát hiện xác suất sai.
+- [x] Phát hiện shape sai.
+- [x] Chạy lại toàn bộ từ đầu thành công.
+- [x] Full discovery đạt 97/97 test.
+- [x] Model chỉ fit trên train; test là primary reporting split.
+- [x] So sánh train/test để phát hiện generalization gap, không tuning threshold
+  trên test.
 
 ## AI Prompting Log
 
-- [ ] Mỗi module có Prompt ID.
-- [ ] Lưu nguyên văn prompt.
-- [ ] Ghi rõ code AI tạo.
-- [ ] Ghi rõ phần con người chỉnh sửa.
-- [ ] Có kết quả kiểm thử.
-- [ ] Prompt đủ chi tiết để coding agent khác tạo chức năng tương đương.
+- [x] Mỗi module có Prompt ID.
+- [x] Lưu nguyên văn prompt.
+- [x] Ghi rõ code AI tạo.
+- [x] Ghi rõ phần con người chỉnh sửa.
+- [x] Có kết quả kiểm thử.
+- [x] Prompt đủ chi tiết để coding agent khác tạo chức năng tương đương.
 
 ---
 
@@ -2151,7 +2193,8 @@ Tất cả tài liệu bàn giao nằm trong `classification/evaluation/docs/`.
 
 Kế hoạch này bảo đảm phần đánh giá và trực quan hóa:
 
-- Không phụ thuộc vào `sklearn`.
+- Không phụ thuộc vào `sklearn` cho model hoặc metrics; ngoại lệ duy nhất là
+  `train_test_split`.
 - Không sử dụng các hàm metric có sẵn.
 - Thể hiện rõ cách xây dựng từng công thức.
 - Đáp ứng yêu cầu metric dưới dạng function.

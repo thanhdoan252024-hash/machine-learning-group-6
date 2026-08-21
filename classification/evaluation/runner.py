@@ -72,6 +72,9 @@ def run_classification_evaluation(
     if isinstance(save_dpi, bool) or not isinstance(save_dpi, int) or save_dpi <= 0:
         raise ValueError("save_dpi phải là số nguyên dương.")
 
+    output_root = Path(output_dir)
+    _reject_pipeline_root_output_dir(output_root)
+
     metadata = validate_evaluation_inputs(
         y_true=y_true,
         y_pred=y_pred,
@@ -142,7 +145,6 @@ def run_classification_evaluation(
         accuracy=metrics["accuracy"],
     )
 
-    output_root = Path(output_dir)
     figures_dir = output_root / "figures"
     figures_dir.mkdir(parents=True, exist_ok=True)
 
@@ -330,6 +332,55 @@ def _read_manifest_paths(manifest_path: Path) -> set[str]:
         )
         return set()
     return set(generated_files)
+
+
+def _reject_pipeline_root_output_dir(output_root: Path) -> None:
+    """Không cho generic runner ghi đè aggregate manifest schema v2.
+
+    Manifest v1 và manifest hỏng vẫn được xử lý bởi lifecycle hiện hữu của
+    generic runner. Guard này chỉ nhận diện root manifest train/test schema v2
+    hợp lệ và chạy trước khi tạo bất kỳ CSV, PNG hoặc thư mục output nào.
+    """
+
+    manifest_path = output_root / "evaluation_manifest.json"
+    if not manifest_path.is_file():
+        return
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return
+
+    if not _is_pipeline_root_manifest_v2(manifest):
+        return
+    raise ValueError(
+        "output_dir đang là root pipeline có manifest schema v2; hãy dùng "
+        "thư mục split con như 'train'/'test' cho generic runner, hoặc gọi "
+        "evaluate_machine_failure_splits()."
+    )
+
+
+def _is_pipeline_root_manifest_v2(manifest: Any) -> bool:
+    """Nhận diện đúng aggregate manifest train/test, không chặn manifest hỏng."""
+
+    if not isinstance(manifest, Mapping) or manifest.get("schema_version") != 2:
+        return False
+    generated_files = manifest.get("generated_files")
+    splits = manifest.get("splits")
+    if (
+        manifest.get("model_fit_split") != "train"
+        or manifest.get("primary_reporting_split") != "test"
+        or not isinstance(generated_files, list)
+        or not all(isinstance(path, str) for path in generated_files)
+        or not isinstance(splits, Mapping)
+    ):
+        return False
+    for split_name in ("train", "test"):
+        split_entry = splits.get(split_name)
+        if not isinstance(split_entry, Mapping) or not isinstance(
+            split_entry.get("manifest_path"), str
+        ):
+            return False
+    return True
 
 
 def _safe_manifest_target(output_root: Path, relative_path: str) -> Path | None:

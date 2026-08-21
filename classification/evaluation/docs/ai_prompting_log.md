@@ -7,16 +7,17 @@
 - Người thực hiện code và ghi log: Codex theo yêu cầu của người dùng
 - Tài liệu đặc tả:
   `classification/evaluation/docs/Ke_hoach_danh_gia_truc_quan_LightGBM_Classification_khong_sklearn.md`
-- Phạm vi hiện tại: đã kết nối lõi đánh giá với model, notebook và dataset thật
-  của repo `machine-learning-group-6`, đồng thời sinh artifact từ test split thật.
+- Phạm vi hiện tại: model fit một lần trên train rồi cùng helper đánh giá cả
+  train và test thật; test là primary reporting split, train chỉ dùng diagnostic
+  overfit. Artifact được quản lý bằng root manifest schema v2.
 - Ngoại lệ đã được giảng viên xác nhận qua người dùng: sklearn được phép dùng
   riêng cho chia dữ liệu; model và toàn bộ metrics không gọi trực tiếp thư viện.
 - Chi tiết hợp đồng và kết quả tích hợp nằm trong
   `classification/evaluation/docs/PROJECT_INTEGRATION_NOTES.md`.
 
-Các path trong P01-P08 phản ánh layout độc lập tại thời điểm tạo core. Layout
-hiện tại, các mục P09-P11 và mọi lệnh bàn giao dùng package
-`classification/evaluation/`.
+Các path và output contract trong P01-P11 phản ánh đúng các snapshot lịch sử tại
+thời điểm từng prompt được thực hiện. Phần trạng thái đầu log và P12 là contract
+canonical hiện tại dưới package `classification/evaluation/`.
 
 Các prompt dưới đây được lưu đầy đủ theo từng Prompt ID. Chúng kết hợp yêu cầu
 bắt buộc của mục 15 trong kế hoạch với hợp đồng đầu ra thực tế của code hiện có,
@@ -31,14 +32,14 @@ kế hoạch; không gán cho con người những thay đổi không có lịch
 | Input validation | `classification/evaluation/tests/test_input_validation.py` | 42/42 passed |
 | Manual metrics | `classification/evaluation/tests/test_manual_metrics.py` | 19/19 passed |
 | Manual ROC-AUC | `classification/evaluation/tests/test_manual_roc_auc.py` | 15/15 passed |
-| Report, visualizations, exporter và runner | `classification/evaluation/tests/test_integration.py` | 7/7 passed |
+| Report, visualizations, exporter và runner | `classification/evaluation/tests/test_integration.py` | 8/8 passed |
 | Adapter model thật | `classification/evaluation/tests/test_classification_adapter.py` | 5/5 passed |
-| Dataset và stratified split | `classification/evaluation/tests/test_machine_failure_pipeline.py` | 2/2 passed |
+| Dataset, split và pipeline hai split | `classification/evaluation/tests/test_machine_failure_pipeline.py` | 8/8 passed |
 
-Tổng trạng thái lõi sau QA ban đầu là 83/83 test passed. Sau khi kết nối repo,
-suite có thêm 5 adapter tests và 2 dataset/split tests, đạt 90/90. Pipeline thật
-đã đánh giá 2.000 mẫu và tạo đủ CSV/PNG/manifest trong
-`classification/evaluation/outputs/`.
+Tổng trạng thái lõi sau QA ban đầu là 83/83 test passed. P09-P11 đưa suite lên
+90/90. P12 bổ sung 6 pipeline tests và 1 integration guard cho root schema v2,
+đưa full discovery lên 97/97. Pipeline thật đánh giá train 8.000 mẫu và test
+2.000 mẫu, tạo 27 file dưới `classification/evaluation/outputs/`.
 
 ---
 
@@ -1250,3 +1251,101 @@ Yêu cầu bắt buộc:
 - Thay đổi P11 đã được commit tại `f32c3d2`, push lên nhánh tích hợp và
   fast-forward vào `LightGBM` theo xác nhận của người dùng; không dùng
   force-push.
+
+---
+
+## P12 — Đánh giá train/test và root manifest schema v2
+
+- Ngày thực hiện: 2026-08-21
+- Công cụ AI: OpenAI Codex
+- Người thực hiện: Codex theo yêu cầu của người dùng
+- Mục tiêu: Fit model một lần, đánh giá độc lập train và test, dùng test làm kết
+  quả báo cáo chính và quản lý lifecycle hai split bằng root manifest schema v2.
+
+### Prompt đã sử dụng
+
+```text
+Mở rộng pipeline classification để đánh giá cả train và test mà không sửa công
+thức metric hoặc dùng metric có sẵn.
+
+Yêu cầu bắt buộc:
+- Fit model đúng một lần trên train; gọi predict và predict_proba đúng một lần
+  cho mỗi split train/test.
+- Tạo helper public dùng chung cho CLI và notebook; không lặp orchestration.
+- Ghi mỗi split vào `classification/evaluation/outputs/train` và `/test`, mỗi
+  child có manifest riêng. Test là primary reporting split; train chỉ diagnostic.
+- Chỉ ghi root manifest schema v2 sau khi cả hai split thành công; root manifest
+  phải ghi split sizes, class counts, threshold, primary split và toàn bộ owned
+  child paths.
+- Migrate artifact v1 ở root an toàn dựa trên manifest cũ, không glob-delete và
+  không xóa file người dùng.
+- Generic adapter/runner chỉ nhận single-split directory; không được ghi đè
+  aggregate root manifest.
+- Notebook gọi cùng helper sau fit, lưu `split_results` và hiển thị bảng so sánh
+  train/test; không predict hoặc export lặp.
+- Chạy full tests, sinh artifact thật, kiểm tra counts/metrics/manifest và cập
+  nhật README, integration notes, kế hoạch, prompting log.
+- Không tuning threshold trên test và không ghi nhận commit/push khi chưa thực hiện.
+```
+
+### Code AI tạo
+
+- `evaluate_machine_failure_splits(...)` trong
+  `classification/evaluation/run_machine_failure_evaluation.py` là orchestration
+  chung của notebook và CLI.
+- Return giữ top-level test compatibility và bổ sung `split_results`,
+  `primary_reporting_split="test"`, `pipeline_manifest_path` cùng root
+  `manifest_path`.
+- Root `evaluation_manifest.json` dùng schema v2; hai child tree `train/` và
+  `test/` giữ schema evaluator hiện có.
+- Notebook dùng helper, lưu kết quả theo split và tạo DataFrame so sánh Accuracy,
+  Precision, Recall, F1, ROC-AUC với cột test được đánh dấu primary.
+- Tests pipeline bổ sung contract fit-once, two-split evaluation, migration,
+  failure atomicity, manifest ownership và CLI train/test output.
+- Integration suite bổ sung guard để generic single-split runner không được ghi
+  đè aggregate root manifest schema v2.
+
+### Kiểm tra điều kiện
+
+- Model fit trên train đúng một lần; train/test prediction được tạo đúng một lần
+  mỗi split: Đạt.
+- Generic evaluator chỉ ghi child directory; aggregate root dành cho shared
+  orchestration: Đạt.
+- Test là `primary_reporting_split`, train chỉ diagnostic overfit: Đạt.
+- Root schema v2 liệt kê đúng 26 generated paths; toàn cây có 27 file: Đạt.
+- Mỗi split có 5 table CSV, 1 predictions CSV, 6 PNG và 1 child manifest: Đạt.
+- Predictions có 8.000 dòng train và 2.000 dòng test: Đạt.
+- Notebook JSON/code cells hợp lệ, không output/execution count cũ: Đạt.
+- Không tuning threshold trên test; threshold vẫn `0.5`: Đạt.
+
+### Điều chỉnh thủ công/điều chỉnh so với prompt khung
+
+- Giữ nguyên P01-P11 như provenance của các snapshot trước; trạng thái canonical
+  hiện tại được ghi ở phần đầu log và P12.
+- Đưa test result lên top-level để giữ compatibility, nhưng buộc consumer cần cả
+  hai split đọc `split_results` rõ ràng.
+- Root layout v1 `tables/`, `figures/`, `predictions/` được xem là breaking
+  filesystem contract và chỉ migrate sau khi hai child evaluation thành công.
+- Không diễn giải train metrics như khả năng tổng quát hóa; dùng gap test-train để
+  chẩn đoán dấu hiệu overfit, đặc biệt ở Recall/F1 của lớp thiểu số.
+
+### Kết quả kiểm thử
+
+- Full unittest discovery sau mở rộng: 97/97 passed.
+- Train 8.000 mẫu (`0=7.729`, `1=271`): Accuracy 0,993000; Precision 0,961373;
+  Recall 0,826568; F1 0,888889; ROC-AUC 0,996943; confusion matrix
+  `[[7720, 9], [47, 224]]`.
+- Test primary 2.000 mẫu (`0=1.932`, `1=68`): Accuracy 0,986000; Precision
+  0,900000; Recall 0,661765; F1 0,762712; ROC-AUC 0,974211; confusion matrix
+  `[[1927, 5], [23, 45]]`.
+- Gap `test - train`: Accuracy -0,007000; Precision -0,061373; Recall -0,164803;
+  F1 -0,126177; ROC-AUC -0,022732.
+- Test artifacts giữ byte-identical với baseline cũ; train artifacts và root
+  manifest v2 được sinh mới theo contract hai split.
+
+### Kết luận
+
+- Model hoạt động tốt tổng thể, nhưng minority Recall/F1 gap cho thấy dấu hiệu
+  overfit hoặc generalization gap cần theo dõi.
+- Test vẫn là nguồn báo cáo chính; không chọn threshold bằng test set.
+- Thay đổi P12 đã sẵn sàng review nhưng chưa được ghi nhận là đã commit hoặc push.
