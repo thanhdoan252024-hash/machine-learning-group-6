@@ -1,0 +1,12 @@
+metric,value
+accuracy,0.986000
+precision,0.900000
+recall,0.661765
+f1_score,0.762712
+roc_auc,0.974211
+precision_macro,0.944103
+recall_macro,0.829588
+f1_macro,0.877750
+precision_weighted,0.985206
+recall_weighted,0.986000
+f1_weighted,0.984965

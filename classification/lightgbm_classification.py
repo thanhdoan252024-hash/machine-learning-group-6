@@ -394,13 +394,6 @@ class LightGBMClassification:
             (negative, positive)
         )
 
-        # Chỉ thay đổi CÁCH HIỂN THỊ, không thay đổi giá trị xác suất
-        np.set_printoptions(
-            suppress=True,
-            precision=6,
-            floatmode="fixed"
-        )
-
         return probabilities
 
     def predict(self, X):
