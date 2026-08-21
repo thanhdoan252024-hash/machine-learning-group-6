@@ -158,7 +158,8 @@ báo cáo khả năng tổng quát hóa.
 - [x] Đối chiếu test artifacts với baseline v1: byte-identical; train artifacts
   và root schema v2 được xác minh theo contract mới.
 - [x] Snapshot P10-P11 trước mở rộng train/test đã được commit và push.
-- [ ] Chỉ đánh dấu commit/push cho P12 sau khi QA và thao tác Git thật hoàn tất.
+- [x] P12 đã được commit, push nhánh tích hợp và fast-forward vào `LightGBM`
+  sau khi toàn bộ QA đạt.
 
 Baseline train: Accuracy 0,993000; Precision 0,961373; Recall 0,826568;
 F1-score 0,888889; ROC-AUC 0,996943. Confusion matrix có TN=7.720, FP=9,
@@ -183,7 +184,7 @@ Matplotlib 3.11.1 và scikit-learn 1.9.0. `requirements.txt` dùng lower bounds 
 không khóa người dùng vào đúng môi trường này; test artifacts byte-identical với
 baseline trước khi đổi layout đã được xác minh trong môi trường nêu trên.
 
-## Lịch sử GitHub trước mở rộng train/test
+## Lịch sử GitHub
 
 - Nhánh tích hợp đã push: `classification-evaluation-integration`.
 - Commit triển khai chính: `cd3913a` —
@@ -194,10 +195,13 @@ baseline trước khi đổi layout đã được xác minh trong môi trường
   `32397d0` qua `f32c3d2`; không force-push và không tạo pull request trung gian.
 - Commit tài liệu trạng thái bàn giao này được đẩy tiếp lên cả `LightGBM` và
   `classification-evaluation-integration` để hai nhánh cùng trỏ tới snapshot cuối.
-
-Phần mở rộng train+test và root manifest schema v2 trong lượt hiện tại chưa được
-ghi nhận là đã commit hoặc push; không gán commit hash trước khi thao tác Git hoàn
-tất.
+- Nhánh tích hợp train/test: `classification-train-test-evaluation`.
+- Commit mở rộng train/test: `2d40939` —
+  `feat(classification): evaluate train and test splits`.
+- Sau QA, `LightGBM` đã được fast-forward từ `a5050fa` qua `2d40939`; không
+  force-push và không tạo merge commit trung gian.
+- Commit tài liệu trạng thái này được đẩy tiếp lên cả nhánh train/test và
+  `LightGBM` để hai nhánh cùng trỏ tới snapshot bàn giao cuối.
 
 ## Giới hạn chủ ý
 

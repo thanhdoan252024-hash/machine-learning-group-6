@@ -1348,4 +1348,6 @@ Yêu cầu bắt buộc:
 - Model hoạt động tốt tổng thể, nhưng minority Recall/F1 gap cho thấy dấu hiệu
   overfit hoặc generalization gap cần theo dõi.
 - Test vẫn là nguồn báo cáo chính; không chọn threshold bằng test set.
-- Thay đổi P12 đã sẵn sàng review nhưng chưa được ghi nhận là đã commit hoặc push.
+- Thay đổi P12 đã được commit tại `2d40939`, push lên
+  `classification-train-test-evaluation` và fast-forward vào `LightGBM` sau khi
+  toàn bộ QA đạt; không dùng force-push.
