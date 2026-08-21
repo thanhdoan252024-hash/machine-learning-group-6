@@ -139,11 +139,15 @@ không khóa người dùng vào đúng môi trường này; khả năng tái l�
 
 ## Trạng thái GitHub
 
-- Nhánh đã push: `classification-evaluation-integration`.
+- Nhánh tích hợp đã push: `classification-evaluation-integration`.
 - Commit triển khai chính: `cd3913a` —
   `feat(classification): add manual evaluation pipeline`.
-- Nhánh được tách từ `LightGBM` tại `32397d0`; không ghi trực tiếp lên nhánh dùng
-  chung và chưa tự động tạo/merge pull request.
+- Commit tái cấu trúc: `f32c3d2` —
+  `refactor(classification): isolate evaluation package`.
+- Theo xác nhận của người dùng, nhánh `LightGBM` đã được fast-forward từ
+  `32397d0` qua `f32c3d2`; không force-push và không tạo pull request trung gian.
+- Commit tài liệu trạng thái bàn giao này được đẩy tiếp lên cả `LightGBM` và
+  `classification-evaluation-integration` để hai nhánh cùng trỏ tới snapshot cuối.
 
 ## Giới hạn chủ ý
 

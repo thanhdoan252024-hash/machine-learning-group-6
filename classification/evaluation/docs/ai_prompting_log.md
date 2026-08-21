@@ -1247,4 +1247,6 @@ Yêu cầu bắt buộc:
 
 - Layout `classification/evaluation/{modules,tests,outputs,docs}` đã hoàn tất.
 - Tài liệu, import path, CLI và lệnh test hiện thống nhất với filesystem.
-- Thay đổi P11 sẵn sàng để review và commit; chưa commit trong lượt tái cấu trúc này.
+- Thay đổi P11 đã được commit tại `f32c3d2`, push lên nhánh tích hợp và
+  fast-forward vào `LightGBM` theo xác nhận của người dùng; không dùng
+  force-push.
