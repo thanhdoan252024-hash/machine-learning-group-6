@@ -10,27 +10,29 @@ pipeline đánh giá, báo cáo, trực quan hóa và xuất artifact hoàn ch�
 classification/
   data/raw/machine_fail.csv
   lightgbm_classification.py
-  classification_evaluation_adapter.py
   classification_metrics.py
-  machine_failure_pipeline.py
   machine_failure_prediction.ipynb
-  outputs/
-    tables/
-    figures/
-    predictions/
-evaluation/
-  input_validation.py
-  manual_metrics.py
-  manual_roc_auc.py
-  reports.py
-  visualizations.py
-  exporters.py
-experiments/
-  run_classification_evaluation.py
+  evaluation/
+    adapter.py
+    runner.py
+    run_machine_failure_evaluation.py
+    input_validation.py
+    manual_metrics.py
+    manual_roc_auc.py
+    reports.py
+    visualizations.py
+    exporters.py
+    tests/
+    outputs/
+      tables/
+      figures/
+      predictions/
+    docs/
+      Ke_hoach_danh_gia_truc_quan_LightGBM_Classification_khong_sklearn.md
+      PROJECT_INTEGRATION_NOTES.md
+      ai_prompting_log.md
 regression/
-tests/
-PROJECT_INTEGRATION_NOTES.md
-ai_prompting_log.md
+.gitignore
 requirements.txt
 ```
 
@@ -41,7 +43,7 @@ requirements.txt
 - `sklearn` chỉ được dùng cho `train_test_split` có stratification.
 - Không dùng `sklearn.metrics`, metric của LightGBM hoặc `model.score()`.
 - Confusion Matrix, Accuracy, Precision, Recall, F1, ROC và AUC đều được tính
-  thủ công bằng Python/NumPy trong `evaluation/`.
+  thủ công bằng Python/NumPy trong `classification/evaluation/`.
 - Pandas chỉ tổ chức bảng/xuất CSV; Matplotlib chỉ tạo hình.
 - Không dùng `numpy.trapz` hoặc `numpy.trapezoid` để tính AUC.
 
@@ -64,18 +66,19 @@ Trên macOS/Linux, thay đường dẫn Python trong virtual environment bằng
 ## Chạy kiểm thử
 
 ```powershell
-.\venv\Scripts\python.exe -m unittest discover -s tests -p "test_*.py" -v
+.\venv\Scripts\python.exe -m unittest discover -s classification/evaluation/tests -p "test_*.py" -v
 ```
 
 Bộ test bao phủ validation, metric thủ công, ROC-AUC, report/exporter, output
-lifecycle, adapter model thật và hợp đồng dataset/split.
+lifecycle, adapter model thật và hợp đồng dataset/split. Sau khi gom package,
+full discovery đạt 90/90 test.
 
 ## Tái tạo kết quả classification
 
 Chạy toàn bộ preprocessing, train, predict, đánh giá và xuất artifact:
 
 ```powershell
-.\venv\Scripts\python.exe -m classification.machine_failure_pipeline
+.\venv\Scripts\python.exe -m classification.evaluation.run_machine_failure_evaluation
 ```
 
 Có thể chạy notebook `classification/machine_failure_prediction.ipynb` từ repo
@@ -84,7 +87,7 @@ không còn phụ thuộc đường dẫn tuyệt đối trên một máy cụ t
 
 ## Artifact được tạo và commit
 
-`classification/outputs/` chứa:
+`classification/evaluation/outputs/` chứa:
 
 - `tables/metrics_summary.csv`
 - `tables/classification_report.csv`
@@ -101,7 +104,7 @@ theo manifest; pipeline không xóa file ngoài danh sách do chính nó sở h�
 
 ## Kết quả baseline
 
-Kết quả trong `classification/outputs/` dùng model 100 estimator, threshold
+Kết quả trong `classification/evaluation/outputs/` dùng model 100 estimator, threshold
 `0.5` và test split 2.000 mẫu:
 
 | Metric | Giá trị |
@@ -116,5 +119,16 @@ Confusion matrix gồm TN=1.927, FP=5, FN=23 và TP=45. Do lớp máy hỏng ch�
 3,39% toàn dataset, không nên diễn giải Accuracy tách rời Precision, Recall, F1
 và ROC-AUC của lớp dương.
 
-Chi tiết các quyết định tích hợp nằm trong `PROJECT_INTEGRATION_NOTES.md`; lịch
-sử prompt và kiểm tra AI nằm trong `ai_prompting_log.md`.
+API tích hợp hiện tại:
+
+```python
+from classification.evaluation.adapter import (
+    evaluate_classification_outputs,
+    evaluate_fitted_classifier,
+)
+from classification.evaluation.runner import run_classification_evaluation
+```
+
+Chi tiết các quyết định tích hợp nằm trong
+`classification/evaluation/docs/PROJECT_INTEGRATION_NOTES.md`; lịch sử prompt và
+kiểm tra AI nằm trong `classification/evaluation/docs/ai_prompting_log.md`.

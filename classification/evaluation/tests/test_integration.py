@@ -11,9 +11,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from evaluation.reports import create_classification_report_dataframe
-from evaluation.visualizations import plot_per_class_metrics
-from experiments.run_classification_evaluation import (
+from classification.evaluation.reports import create_classification_report_dataframe
+from classification.evaluation.visualizations import plot_per_class_metrics
+from classification.evaluation.runner import (
     run_classification_evaluation,
 )
 

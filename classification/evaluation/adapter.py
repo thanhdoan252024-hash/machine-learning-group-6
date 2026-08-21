@@ -2,7 +2,7 @@
 
 Adapter này chỉ chuẩn hóa metadata và chuyển các mảng dự đoán sang runner dùng
 chung. Toàn bộ công thức metric, ROC-AUC, bảng và biểu đồ vẫn thuộc các module
-``evaluation``/``experiments``; không có metric nào được tính lại tại đây.
+``classification.evaluation``; không có metric nào được tính lại tại đây.
 """
 
 from pathlib import Path
@@ -10,7 +10,7 @@ from typing import Any, Protocol, Sequence
 
 import numpy as np
 
-from experiments.run_classification_evaluation import (
+from .runner import (
     run_classification_evaluation,
 )
 
@@ -60,7 +60,7 @@ def evaluate_classification_outputs(
         y_pred: Nhãn dự đoán một chiều do ``model.predict`` trả về.
         y_proba: Ma trận xác suất do ``model.predict_proba`` trả về.
         output_dir: Thư mục output; convention của repo là
-            ``<repo>/classification/outputs``.
+            ``<repo>/classification/evaluation/outputs``.
         save_dpi: Độ phân giải của các hình PNG.
 
     Returns:

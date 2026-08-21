@@ -10,7 +10,7 @@ import matplotlib
 matplotlib.use("Agg", force=True)
 import numpy as np
 
-from classification.classification_evaluation_adapter import (
+from classification.evaluation.adapter import (
     CLASS_NAME_BY_LABEL,
     POSITIVE_LABEL,
     evaluate_classification_outputs,
@@ -23,7 +23,7 @@ class ClassificationOutputAdapterTests(unittest.TestCase):
     """Kiểm tra metadata repo được chuyển nguyên vẹn vào core runner."""
 
     @patch(
-        "classification.classification_evaluation_adapter."
+        "classification.evaluation.adapter."
         "run_classification_evaluation"
     )
     def test_uses_model_classes_and_label_based_names(self, runner: Mock) -> None:
@@ -46,7 +46,7 @@ class ClassificationOutputAdapterTests(unittest.TestCase):
             y_true,
             y_pred,
             y_proba,
-            Path("classification") / "outputs",
+            Path("classification") / "evaluation" / "outputs",
             save_dpi=120,
         )
 
@@ -59,12 +59,12 @@ class ClassificationOutputAdapterTests(unittest.TestCase):
             class_names=[CLASS_NAME_BY_LABEL[0], CLASS_NAME_BY_LABEL[1]],
             positive_label=POSITIVE_LABEL,
             task_type="binary",
-            output_dir=Path("classification") / "outputs",
+            output_dir=Path("classification") / "evaluation" / "outputs",
             save_dpi=120,
         )
 
     @patch(
-        "classification.classification_evaluation_adapter."
+        "classification.evaluation.adapter."
         "run_classification_evaluation"
     )
     def test_rejects_classes_with_positive_label_in_wrong_column(
@@ -80,7 +80,7 @@ class ClassificationOutputAdapterTests(unittest.TestCase):
                 [0, 1],
                 [0, 1],
                 [[0.8, 0.2], [0.2, 0.8]],
-                "classification/outputs",
+                "classification/evaluation/outputs",
             )
 
         runner.assert_not_called()
@@ -95,11 +95,11 @@ class ClassificationOutputAdapterTests(unittest.TestCase):
                 [0, 1],
                 [0, 1],
                 [[0.8, 0.2], [0.2, 0.8]],
-                "classification/outputs",
+                "classification/evaluation/outputs",
             )
 
     @patch(
-        "classification.classification_evaluation_adapter."
+        "classification.evaluation.adapter."
         "evaluate_classification_outputs"
     )
     def test_fitted_model_api_calls_predict_and_predict_proba_once(
@@ -119,7 +119,7 @@ class ClassificationOutputAdapterTests(unittest.TestCase):
             model,
             X,
             y_true,
-            "classification/outputs",
+            "classification/evaluation/outputs",
             save_dpi=96,
         )
 
@@ -131,7 +131,7 @@ class ClassificationOutputAdapterTests(unittest.TestCase):
             y_true=y_true,
             y_pred=model.predict.return_value,
             y_proba=model.predict_proba.return_value,
-            output_dir="classification/outputs",
+            output_dir="classification/evaluation/outputs",
             save_dpi=96,
         )
 
@@ -164,7 +164,12 @@ class RealModelAdapterIntegrationTests(unittest.TestCase):
         np.testing.assert_array_equal(y_pred, expected_prediction)
 
         with TemporaryDirectory() as temporary_directory:
-            output_dir = Path(temporary_directory) / "classification" / "outputs"
+            output_dir = (
+                Path(temporary_directory)
+                / "classification"
+                / "evaluation"
+                / "outputs"
+            )
             result = evaluate_fitted_classifier(
                 model,
                 X,

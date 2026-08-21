@@ -2,7 +2,7 @@
 
 import unittest
 
-from classification.machine_failure_pipeline import (
+from classification.evaluation.run_machine_failure_evaluation import (
     DEFAULT_DATA_PATH,
     FEATURE_COLUMNS,
     load_machine_failure_dataset,

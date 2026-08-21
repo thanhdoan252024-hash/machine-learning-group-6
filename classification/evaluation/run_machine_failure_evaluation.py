@@ -10,15 +10,15 @@ from typing import Any
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from classification.classification_evaluation_adapter import (
+from classification.evaluation.adapter import (
     evaluate_classification_outputs,
 )
 from classification.lightgbm_classification import LightGBMClassification
 
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_DATA_PATH = REPO_ROOT / "classification" / "data" / "raw" / "machine_fail.csv"
-DEFAULT_OUTPUT_DIR = REPO_ROOT / "classification" / "outputs"
+DEFAULT_OUTPUT_DIR = REPO_ROOT / "classification" / "evaluation" / "outputs"
 
 TARGET_COLUMN = "Machine failure"
 FEATURE_COLUMNS = (

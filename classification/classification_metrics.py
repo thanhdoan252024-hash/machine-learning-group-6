@@ -1,11 +1,12 @@
 """Facade cho bộ metric classification được cài đặt thủ công.
 
 File này được giữ ở vị trí cũ để notebook hoặc thành viên trong nhóm có thể
-import API quen thuộc. Công thức thật nằm trong package :mod:`evaluation` và
+import API quen thuộc. Công thức thật nằm trong package
+:mod:`classification.evaluation` và
 không sử dụng ``sklearn.metrics`` hay metric có sẵn của LightGBM.
 """
 
-from evaluation import (
+from classification.evaluation import (
     build_confusion_matrix,
     calculate_accuracy_from_confusion_matrix,
     calculate_aggregate_metrics,

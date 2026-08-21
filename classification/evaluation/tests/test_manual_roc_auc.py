@@ -4,7 +4,7 @@ import unittest
 
 import numpy as np
 
-from evaluation.manual_roc_auc import (
+from classification.evaluation.manual_roc_auc import (
     calculate_auc_trapezoid,
     calculate_binary_roc_curve,
     calculate_multiclass_roc_ovr,

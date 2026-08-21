@@ -7,6 +7,16 @@
 > `sklearn.model_selection` trong bản kế hoạch gốc; mọi lệnh cấm
 > `sklearn.metrics`, metric có sẵn, `model.score()` và AUC có sẵn vẫn giữ nguyên.
 
+> **Cập nhật layout tích hợp ngày 2026-08-21:** Phần đánh giá hiện nằm trọn trong
+> `classification/evaluation/`: module ở package này, test ở
+> `classification/evaluation/tests/`, artifact ở
+> `classification/evaluation/outputs/` và tài liệu ở
+> `classification/evaluation/docs/`. Entry point chuẩn là
+> `python -m classification.evaluation.run_machine_failure_evaluation`; runner
+> được import từ `classification.evaluation.runner`. `requirements.txt` và
+> `.gitignore` vẫn nằm ở repository root. Các path này thay thế cấu trúc khung
+> độc lập trong những phần triển khai bên dưới.
+
 ## 1. Mục tiêu
 
 Xây dựng hoàn chỉnh phần đánh giá và trực quan hóa kết quả của bài toán phân loại sử dụng LightGBM, với các yêu cầu:
@@ -274,39 +284,44 @@ Không được mặc định rằng lớp dương luôn là lớp `1` nếu ch�
 ## 6. Cấu trúc thư mục dự án
 
 ```text
-lightgbm_classification_project/
-│
-├── data/
-│   └── processed_dataset.csv
-│
-├── model/
-│   └── lightgbm_classifier.py
-│
-├── evaluation/
-│   ├── __init__.py
-│   ├── input_validation.py
-│   ├── manual_metrics.py
-│   ├── manual_roc_auc.py
-│   ├── reports.py
-│   ├── visualizations.py
-│   └── exporters.py
-│
-├── experiments/
-│   └── run_classification_evaluation.py
-│
-├── tests/
-│   ├── test_manual_metrics.py
-│   ├── test_manual_roc_auc.py
-│   └── test_integration.py
-│
-├── outputs/
-│   ├── tables/
-│   ├── figures/
-│   └── predictions/
-│
-├── ai_prompting_log.md
+machine-learning-group-6/
+├── classification/
+│   ├── data/raw/machine_fail.csv
+│   ├── lightgbm_classification.py
+│   ├── classification_metrics.py
+│   ├── machine_failure_prediction.ipynb
+│   └── evaluation/
+│       ├── adapter.py
+│       ├── runner.py
+│       ├── run_machine_failure_evaluation.py
+│       ├── input_validation.py
+│       ├── manual_metrics.py
+│       ├── manual_roc_auc.py
+│       ├── reports.py
+│       ├── visualizations.py
+│       ├── exporters.py
+│       ├── tests/
+│       ├── outputs/{tables,figures,predictions}/
+│       └── docs/
+├── regression/
 ├── requirements.txt
+├── .gitignore
 └── README.md
+```
+
+Import tích hợp và lệnh chạy chuẩn từ repository root:
+
+```python
+from classification.evaluation.adapter import (
+    evaluate_classification_outputs,
+    evaluate_fitted_classifier,
+)
+from classification.evaluation.runner import run_classification_evaluation
+```
+
+```powershell
+.\venv\Scripts\python.exe -m unittest discover -s classification/evaluation/tests -p "test_*.py" -v
+.\venv\Scripts\python.exe -m classification.evaluation.run_machine_failure_evaluation
 ```
 
 ---
@@ -352,7 +367,7 @@ Hoàn thiện AI prompting log
 File chính:
 
 ```text
-experiments/run_classification_evaluation.py
+classification/evaluation/runner.py
 ```
 
 Cấu hình dự kiến:
@@ -363,7 +378,7 @@ CONFIG = {
     "positive_label": 1,
     "classes": [0, 1],
     "class_names": ["Negative", "Positive"],
-    "output_dir": "outputs",
+    "output_dir": "classification/evaluation/outputs",
     "save_dpi": 300
 }
 ```
@@ -385,7 +400,7 @@ Không hard-code các thông tin này bên trong hàm metric.
 File:
 
 ```text
-evaluation/input_validation.py
+classification/evaluation/input_validation.py
 ```
 
 Các hàm:
@@ -460,7 +475,7 @@ validate_evaluation_inputs(...)
 File:
 
 ```text
-evaluation/manual_metrics.py
+classification/evaluation/manual_metrics.py
 ```
 
 Hàm:
@@ -528,8 +543,8 @@ Nếu tổng hàng bằng 0, toàn bộ hàng đó bằng 0.
 ### File đầu ra
 
 ```text
-outputs/tables/confusion_matrix_counts.csv
-outputs/tables/confusion_matrix_normalized.csv
+classification/evaluation/outputs/tables/confusion_matrix_counts.csv
+classification/evaluation/outputs/tables/confusion_matrix_normalized.csv
 ```
 
 ---
@@ -850,7 +865,7 @@ ROC-AUC được tách thành module riêng.
 File:
 
 ```text
-evaluation/manual_roc_auc.py
+classification/evaluation/manual_roc_auc.py
 ```
 
 ## 9.1. Chuyển nhãn thành binary
@@ -1050,7 +1065,7 @@ Nếu một lớp không xuất hiện trong `y_test`, cần cảnh báo và đ�
 File:
 
 ```text
-evaluation/reports.py
+classification/evaluation/reports.py
 ```
 
 Hàm:
@@ -1098,7 +1113,7 @@ Không sử dụng `sklearn.classification_report`.
 File:
 
 ```text
-evaluation/visualizations.py
+classification/evaluation/visualizations.py
 ```
 
 Sử dụng:
@@ -1143,7 +1158,7 @@ Yêu cầu:
 File:
 
 ```text
-outputs/figures/confusion_matrix_counts.png
+classification/evaluation/outputs/figures/confusion_matrix_counts.png
 ```
 
 ---
@@ -1170,7 +1185,7 @@ Giá trị hiển thị:
 File:
 
 ```text
-outputs/figures/confusion_matrix_normalized.png
+classification/evaluation/outputs/figures/confusion_matrix_normalized.png
 ```
 
 ---
@@ -1216,7 +1231,7 @@ Yêu cầu:
 File:
 
 ```text
-outputs/figures/overall_metrics_bar.png
+classification/evaluation/outputs/figures/overall_metrics_bar.png
 ```
 
 ---
@@ -1241,7 +1256,7 @@ Mỗi lớp có ba cột:
 File:
 
 ```text
-outputs/figures/per_class_metrics.png
+classification/evaluation/outputs/figures/per_class_metrics.png
 ```
 
 ---
@@ -1273,7 +1288,7 @@ Yêu cầu:
 File:
 
 ```text
-outputs/figures/roc_curve.png
+classification/evaluation/outputs/figures/roc_curve.png
 ```
 
 ### Multiclass
@@ -1292,7 +1307,7 @@ plot_multiclass_roc_curves(
 File:
 
 ```text
-outputs/figures/roc_ovr_multiclass.png
+classification/evaluation/outputs/figures/roc_ovr_multiclass.png
 ```
 
 ---
@@ -1325,7 +1340,7 @@ incorrect = len(y_true) - correct
 File:
 
 ```text
-outputs/figures/correct_incorrect_pie.png
+classification/evaluation/outputs/figures/correct_incorrect_pie.png
 ```
 
 Lưu ý:
@@ -1339,7 +1354,7 @@ Lưu ý:
 File:
 
 ```text
-evaluation/exporters.py
+classification/evaluation/exporters.py
 ```
 
 Hàm tổng:
@@ -1424,7 +1439,7 @@ roc_points_class_2.csv
 File:
 
 ```text
-experiments/run_classification_evaluation.py
+classification/evaluation/runner.py
 ```
 
 Cấu trúc:
@@ -1651,7 +1666,7 @@ Phải báo lỗi số cột không khớp số lớp.
 
 ## Test 10. Kiểm tra file đầu ra
 
-Sau khi chạy phải có:
+Sau khi chạy, trong `classification/evaluation/outputs/` phải có:
 
 ```text
 metrics_summary.csv
@@ -1674,7 +1689,7 @@ correct_incorrect_pie.png
 File:
 
 ```text
-ai_prompting_log.md
+classification/evaluation/docs/ai_prompting_log.md
 ```
 
 ## 15.1. Quy tắc bắt buộc cho mọi prompt
@@ -1701,7 +1716,7 @@ Yêu cầu bắt buộc:
 ## P01. Input validation
 
 ```text
-Hãy viết file evaluation/input_validation.py cho một dự án đánh giá
+Hãy viết file classification/evaluation/input_validation.py cho một dự án đánh giá
 mô hình classification.
 
 Cần tạo các hàm:
@@ -1729,7 +1744,7 @@ Yêu cầu:
 ## P02. Manual metrics
 
 ```text
-Hãy viết file evaluation/manual_metrics.py.
+Hãy viết file classification/evaluation/manual_metrics.py.
 
 Cần tạo:
 1. safe_divide
@@ -1760,7 +1775,7 @@ Yêu cầu:
 ## P03. Manual ROC-AUC
 
 ```text
-Hãy viết file evaluation/manual_roc_auc.py.
+Hãy viết file classification/evaluation/manual_roc_auc.py.
 
 Cần tạo:
 1. convert_to_binary_targets
@@ -1787,7 +1802,7 @@ Yêu cầu:
 ## P04. Classification Report
 
 ```text
-Hãy viết file evaluation/reports.py.
+Hãy viết file classification/evaluation/reports.py.
 
 Tạo hàm create_classification_report_dataframe.
 
@@ -1811,7 +1826,7 @@ Yêu cầu:
 ## P05. Visualizations
 
 ```text
-Hãy viết file evaluation/visualizations.py.
+Hãy viết file classification/evaluation/visualizations.py.
 
 Cần tạo:
 1. plot_confusion_matrix
@@ -1840,7 +1855,7 @@ Yêu cầu:
 ## P06. Exporter
 
 ```text
-Hãy viết file evaluation/exporters.py.
+Hãy viết file classification/evaluation/exporters.py.
 
 Tạo hàm export_evaluation_results.
 
@@ -1866,7 +1881,7 @@ Yêu cầu:
 ## P07. Integration runner
 
 ```text
-Hãy viết file experiments/run_classification_evaluation.py.
+Hãy viết file classification/evaluation/runner.py.
 
 Giả định mô hình đã được thành viên khác xây dựng và huấn luyện.
 
@@ -1927,7 +1942,7 @@ Sử dụng assertAlmostEqual cho metric dạng số thực.
 - Ngày thực hiện:
 - Công cụ AI:
 - Người thực hiện:
-- File đầu ra: `evaluation/manual_roc_auc.py`
+- File đầu ra: `classification/evaluation/manual_roc_auc.py`
 - Mục tiêu: Tự xây dựng ROC Curve và ROC-AUC.
 
 ### Prompt đã sử dụng
@@ -2019,21 +2034,29 @@ Lưu ý:
 
 ## 18.1. Code
 
-- `evaluation/input_validation.py`
-- `evaluation/manual_metrics.py`
-- `evaluation/manual_roc_auc.py`
-- `evaluation/reports.py`
-- `evaluation/visualizations.py`
-- `evaluation/exporters.py`
-- `experiments/run_classification_evaluation.py`
+- `classification/evaluation/input_validation.py`
+- `classification/evaluation/manual_metrics.py`
+- `classification/evaluation/manual_roc_auc.py`
+- `classification/evaluation/reports.py`
+- `classification/evaluation/visualizations.py`
+- `classification/evaluation/exporters.py`
+- `classification/evaluation/runner.py`
+- `classification/evaluation/adapter.py`
+- `classification/evaluation/run_machine_failure_evaluation.py`
 
 ## 18.2. Kiểm thử
 
-- `tests/test_manual_metrics.py`
-- `tests/test_manual_roc_auc.py`
-- `tests/test_integration.py`
+- `classification/evaluation/tests/test_manual_metrics.py`
+- `classification/evaluation/tests/test_manual_roc_auc.py`
+- `classification/evaluation/tests/test_integration.py`
+- `classification/evaluation/tests/test_input_validation.py`
+- `classification/evaluation/tests/test_classification_adapter.py`
+- `classification/evaluation/tests/test_machine_failure_pipeline.py`
 
 ## 18.3. Bảng kết quả
+
+Các bảng nằm trong `classification/evaluation/outputs/tables/`; prediction nằm
+trong `classification/evaluation/outputs/predictions/`.
 
 - `metrics_summary.csv`
 - `classification_report.csv`
@@ -2044,6 +2067,8 @@ Lưu ý:
 
 ## 18.4. Hình trực quan hóa
 
+Các hình nằm trong `classification/evaluation/outputs/figures/`.
+
 - `confusion_matrix_counts.png`
 - `confusion_matrix_normalized.png`
 - `overall_metrics_bar.png`
@@ -2053,7 +2078,9 @@ Lưu ý:
 
 ## 18.5. Minh chứng AI
 
-- `ai_prompting_log.md`
+Tất cả tài liệu bàn giao nằm trong `classification/evaluation/docs/`.
+
+- `classification/evaluation/docs/ai_prompting_log.md`
 
 ---
 

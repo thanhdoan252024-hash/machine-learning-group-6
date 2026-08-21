@@ -6,7 +6,7 @@ import unittest
 
 import numpy as np
 
-from evaluation.input_validation import (
+from classification.evaluation.input_validation import (
     validate_binary_configuration,
     validate_classes,
     validate_class_names,

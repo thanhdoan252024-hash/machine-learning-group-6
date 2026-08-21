@@ -4,7 +4,7 @@ import unittest
 
 import numpy as np
 
-from evaluation.manual_metrics import (
+from classification.evaluation.manual_metrics import (
     build_confusion_matrix,
     calculate_accuracy_from_confusion_matrix,
     calculate_aggregate_metrics,

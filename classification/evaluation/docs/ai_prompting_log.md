@@ -5,12 +5,18 @@
 - Ngày lập log: 2026-08-20; cập nhật kết nối repo ngày 2026-08-21
 - Công cụ AI: OpenAI Codex
 - Người thực hiện code và ghi log: Codex theo yêu cầu của người dùng
-- Tài liệu đặc tả: `Ke_hoach_danh_gia_truc_quan_LightGBM_Classification_khong_sklearn.md`
+- Tài liệu đặc tả:
+  `classification/evaluation/docs/Ke_hoach_danh_gia_truc_quan_LightGBM_Classification_khong_sklearn.md`
 - Phạm vi hiện tại: đã kết nối lõi đánh giá với model, notebook và dataset thật
   của repo `machine-learning-group-6`, đồng thời sinh artifact từ test split thật.
 - Ngoại lệ đã được giảng viên xác nhận qua người dùng: sklearn được phép dùng
   riêng cho chia dữ liệu; model và toàn bộ metrics không gọi trực tiếp thư viện.
-- Chi tiết hợp đồng và kết quả tích hợp nằm trong `PROJECT_INTEGRATION_NOTES.md`.
+- Chi tiết hợp đồng và kết quả tích hợp nằm trong
+  `classification/evaluation/docs/PROJECT_INTEGRATION_NOTES.md`.
+
+Các path trong P01-P08 phản ánh layout độc lập tại thời điểm tạo core. Layout
+hiện tại, các mục P09-P11 và mọi lệnh bàn giao dùng package
+`classification/evaluation/`.
 
 Các prompt dưới đây được lưu đầy đủ theo từng Prompt ID. Chúng kết hợp yêu cầu
 bắt buộc của mục 15 trong kế hoạch với hợp đồng đầu ra thực tế của code hiện có,
@@ -22,17 +28,17 @@ kế hoạch; không gán cho con người những thay đổi không có lịch
 
 | Nhóm kiểm thử | Tệp | Trạng thái hiện biết |
 |---|---|---:|
-| Input validation | `tests/test_input_validation.py` | 42/42 passed |
-| Manual metrics | `tests/test_manual_metrics.py` | 19/19 passed |
-| Manual ROC-AUC | `tests/test_manual_roc_auc.py` | 15/15 passed |
-| Report, visualizations, exporter và runner | `tests/test_integration.py` | 7/7 passed |
-| Adapter model thật | `tests/test_classification_adapter.py` | 5/5 passed |
-| Dataset và stratified split | `tests/test_machine_failure_pipeline.py` | 2/2 passed |
+| Input validation | `classification/evaluation/tests/test_input_validation.py` | 42/42 passed |
+| Manual metrics | `classification/evaluation/tests/test_manual_metrics.py` | 19/19 passed |
+| Manual ROC-AUC | `classification/evaluation/tests/test_manual_roc_auc.py` | 15/15 passed |
+| Report, visualizations, exporter và runner | `classification/evaluation/tests/test_integration.py` | 7/7 passed |
+| Adapter model thật | `classification/evaluation/tests/test_classification_adapter.py` | 5/5 passed |
+| Dataset và stratified split | `classification/evaluation/tests/test_machine_failure_pipeline.py` | 2/2 passed |
 
 Tổng trạng thái lõi sau QA ban đầu là 83/83 test passed. Sau khi kết nối repo,
 suite có thêm 5 adapter tests và 2 dataset/split tests, đạt 90/90. Pipeline thật
 đã đánh giá 2.000 mẫu và tạo đủ CSV/PNG/manifest trong
-`classification/outputs/`.
+`classification/evaluation/outputs/`.
 
 ---
 
@@ -992,7 +998,8 @@ Các mục sau là checklist đã dùng để tạo P09 và P10 mà không sửa
 7. Kết quả chạy unit suite, integration với repo và output thực tế.
 8. Kết quả quét source cho import/call bị cấm.
 
-Danh sách quyết định và checklist đầy đủ nằm trong `PROJECT_INTEGRATION_NOTES.md`.
+Danh sách quyết định và checklist đầy đủ nằm trong
+`classification/evaluation/docs/PROJECT_INTEGRATION_NOTES.md`.
 
 ---
 
@@ -1018,7 +1025,7 @@ Yêu cầu bắt buộc:
 - Xác định target, task type, ordered classes, positive label, class names,
   predict/predict_proba shape và semantics cột xác suất từ source/dataset thật.
 - Adapter phải lấy classes từ model.classes_, không tính lại metric và chỉ gọi
-  experiments.run_classification_evaluation.
+  `classification.evaluation.runner.run_classification_evaluation`.
 - Kiểm tra rõ positive label 1 là Machine failure và cột xác suất tương ứng.
 - Thêm test adapter với model NumPy thật: shape (n,2), row sum bằng 1 và predict
   khớp classes_[(proba[:,1] >= threshold)].
@@ -1027,8 +1034,9 @@ Yêu cầu bắt buộc:
 
 ### Code AI tạo
 
-- `classification/classification_evaluation_adapter.py`: 155 dòng.
-- `tests/test_classification_adapter.py`: 189 dòng, 5 test.
+- `classification/evaluation/adapter.py`: 155 dòng.
+- `classification/evaluation/tests/test_classification_adapter.py`: 189 dòng,
+  5 test.
 - Import chính: `numpy`, `pathlib`, `typing`, core runner và model repo trong test.
 - API public:
   `evaluate_classification_outputs()` và `evaluate_fitted_classifier()`.
@@ -1050,7 +1058,8 @@ Yêu cầu bắt buộc:
   theo vị trí list âm thầm.
 - Adapter dataset-specific được phép cố định positive label đã xác minh; core
   generic vẫn bắt buộc người gọi truyền positive label và không hard-code.
-- Output convention được chốt là `classification/outputs` để nằm cùng bài toán.
+- Output convention hiện tại là `classification/evaluation/outputs/` để code,
+  tests, artifacts và docs của phần đánh giá nằm cùng một subtree.
 
 ### Kết quả kiểm thử
 
@@ -1085,8 +1094,9 @@ Triển khai:
 - Chuyển notebook từ path D:\ tuyệt đối sang repo-relative path, import package
   portable và thêm cell gọi adapter sau predict/predict_proba.
 - Thêm random_state=42 cho model để kết quả tái lập.
-- Tạo CLI classification.machine_failure_pipeline dùng cùng preprocessing,
-  hyperparameter, split 80/20 stratified và output classification/outputs.
+- Tạo CLI `classification.evaluation.run_machine_failure_evaluation` dùng cùng
+  preprocessing, hyperparameter, split 80/20 stratified và output
+  `classification/evaluation/outputs/`.
 - Giữ sklearn duy nhất ở train_test_split; cấm sklearn.metrics, model.score,
   metric LightGBM và np.trapz/np.trapezoid.
 - Chạy full tests, train model 100 estimator trên dữ liệu thật, kiểm tra toàn bộ
@@ -1096,16 +1106,18 @@ Triển khai:
 
 ### Code AI tạo
 
-- `classification/machine_failure_pipeline.py`: 172 dòng.
-- `tests/test_machine_failure_pipeline.py`: 47 dòng, 2 test.
+- `classification/evaluation/run_machine_failure_evaluation.py`: 172 dòng.
+- `classification/evaluation/tests/test_machine_failure_pipeline.py`: 47 dòng,
+  2 test.
 - `classification/classification_metrics.py`: facade 39 dòng, không lặp công thức.
 - `classification/__init__.py`, `requirements.txt` và cấu trúc output.
 - Cập nhật `classification/machine_failure_prediction.ipynb`: 14 cell, path
   portable, seed model và evaluation cell.
 - Cập nhật `classification/lightgbm_classification.py`: bỏ side effect
   `np.set_printoptions()` khỏi `predict_proba()`.
-- Thêm/cập nhật `README.md`, `PROJECT_INTEGRATION_NOTES.md`, `.gitignore` và tài
-  liệu kế hoạch gốc.
+- Thêm/cập nhật `README.md`,
+  `classification/evaluation/docs/PROJECT_INTEGRATION_NOTES.md`, `.gitignore` và
+  tài liệu kế hoạch trong `classification/evaluation/docs/`.
 
 ### Kiểm tra điều kiện
 
@@ -1158,3 +1170,81 @@ Triển khai:
 - Pipeline classification end-to-end và artifact thật: Đã commit tại `cd3913a`
   và push lên nhánh `classification-evaluation-integration`.
 - Tài liệu và lệnh tái tạo kết quả: Đã bổ sung.
+
+---
+
+## P11 — Gom toàn bộ phần evaluation vào package classification
+
+- Ngày thực hiện: 2026-08-21
+- Công cụ AI: OpenAI Codex
+- Người thực hiện: Codex theo yêu cầu của người dùng
+- Mục tiêu: Tái cấu trúc để module, tests, outputs và docs của evaluation nằm
+  cùng một subtree, không thay đổi công thức hay baseline.
+
+### Prompt đã sử dụng
+
+```text
+Gom toàn bộ phần đánh giá classification vào `classification/evaluation/`.
+
+Yêu cầu bắt buộc:
+- Core modules nằm trực tiếp trong package `classification/evaluation/`.
+- Đổi runner thành `classification/evaluation/runner.py`, adapter thành
+  `classification/evaluation/adapter.py` và CLI thành
+  `classification/evaluation/run_machine_failure_evaluation.py`.
+- Chuyển tests vào `classification/evaluation/tests/`, artifacts vào
+  `classification/evaluation/outputs/` và ba tài liệu vào
+  `classification/evaluation/docs/`.
+- Cập nhật toàn bộ internal imports, notebook, README, lệnh test và CLI theo
+  package path mới.
+- Giữ `requirements.txt` và `.gitignore` ở repository root.
+- Không sửa thuật toán model, công thức metric, nội dung artifact hay hợp đồng
+  public ngoài việc đổi module path.
+- Chạy toàn bộ test suite và kiểm tra không còn import/path runtime cũ.
+```
+
+### Code AI tạo
+
+- Package hiện tại gồm `classification/evaluation/{adapter.py,runner.py,
+  run_machine_failure_evaluation.py,input_validation.py,manual_metrics.py,
+  manual_roc_auc.py,reports.py,visualizations.py,exporters.py}`.
+- Sáu file test nằm trong `classification/evaluation/tests/`.
+- Mười ba artifact baseline nằm trong `classification/evaluation/outputs/`.
+- Kế hoạch, integration notes và prompting log nằm trong
+  `classification/evaluation/docs/`.
+- Import public hiện tại:
+  `classification.evaluation.adapter.evaluate_classification_outputs`,
+  `classification.evaluation.adapter.evaluate_fitted_classifier` và
+  `classification.evaluation.runner.run_classification_evaluation`.
+
+### Kiểm tra điều kiện
+
+- Import nội bộ và import public dùng namespace `classification.evaluation`: Đạt.
+- CLI chuẩn là
+  `python -m classification.evaluation.run_machine_failure_evaluation`: Đạt.
+- Test discovery dùng `classification/evaluation/tests`: Đạt.
+- Output mặc định dùng `classification/evaluation/outputs/`: Đạt.
+- `requirements.txt` và `.gitignore` vẫn ở repository root: Đạt.
+- Không thay đổi model, công thức metric, notebook output hoặc artifact data: Đạt.
+
+### Điều chỉnh thủ công/điều chỉnh so với prompt khung
+
+- Giữ nguyên path lịch sử trong P01-P08 để log phản ánh đúng trình tự tạo core;
+  bổ sung ghi chú đầu log để phân biệt với layout hiện tại.
+- Chuẩn hóa phần trạng thái hiện tại, P09 và P10 sang path mới; P11 ghi riêng
+  thao tác tái cấu trúc để không làm mất provenance của baseline đã commit.
+- README root chỉ giữ vai trò entry point; tài liệu chi tiết được đặt cạnh package
+  evaluation.
+
+### Kết quả kiểm thử
+
+- Lệnh:
+  `python -m unittest discover -s classification/evaluation/tests -p "test_*.py" -v`.
+- Full discovery sau khi đổi layout: 90/90 passed.
+- Các import public mới và notebook JSON được kiểm tra thành công.
+- Cây artifact vẫn gồm 5 table CSV, 1 predictions CSV, 6 PNG và 1 manifest.
+
+### Kết luận
+
+- Layout `classification/evaluation/{modules,tests,outputs,docs}` đã hoàn tất.
+- Tài liệu, import path, CLI và lệnh test hiện thống nhất với filesystem.
+- Thay đổi P11 sẵn sàng để review và commit; chưa commit trong lượt tái cấu trúc này.

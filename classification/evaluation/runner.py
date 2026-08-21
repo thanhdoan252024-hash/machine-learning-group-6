@@ -1,8 +1,8 @@
 """Điều phối đánh giá classification từ các mảng dự đoán đã có.
 
 Module này cố ý không import model hoặc dataset. Adapter dành cho bài toán hỏng
-máy nằm tại ``classification.classification_evaluation_adapter`` và chỉ chuẩn
-hóa output trước khi gọi ``run_classification_evaluation``.
+máy nằm tại ``classification.evaluation.adapter`` và chỉ chuẩn hóa output trước
+khi gọi ``run_classification_evaluation``.
 """
 
 import json
@@ -12,23 +12,23 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 
-# Cho phép chạy trực tiếp `python experiments/run_classification_evaluation.py`
+# Cho phép chạy trực tiếp `python classification/evaluation/runner.py`
 # trước khi project được đóng gói/cài đặt. Khi import như module, không đổi sys.path.
 if __package__ in (None, ""):
-    project_root = Path(__file__).resolve().parents[1]
+    project_root = Path(__file__).resolve().parents[2]
     if str(project_root) not in sys.path:
         sys.path.insert(0, str(project_root))
 
-from evaluation.exporters import export_evaluation_results
-from evaluation.input_validation import validate_evaluation_inputs
-from evaluation.manual_metrics import evaluate_classification
-from evaluation.manual_roc_auc import (
+from classification.evaluation.exporters import export_evaluation_results
+from classification.evaluation.input_validation import validate_evaluation_inputs
+from classification.evaluation.manual_metrics import evaluate_classification
+from classification.evaluation.manual_roc_auc import (
     calculate_binary_roc_curve,
     calculate_multiclass_roc_ovr,
     extract_positive_scores,
 )
-from evaluation.reports import create_classification_report_dataframe
-from evaluation.visualizations import (
+from classification.evaluation.reports import create_classification_report_dataframe
+from classification.evaluation.visualizations import (
     plot_binary_roc_curve,
     plot_confusion_matrix,
     plot_correct_incorrect_pie,
@@ -348,12 +348,13 @@ def _safe_manifest_target(output_root: Path, relative_path: str) -> Path | None:
 def main() -> None:
     """Thông báo hai entry point được hỗ trợ."""
     print(
-        "Core arrays: import run_classification_evaluation and supply y_true, "
-        "y_pred, y_proba, classes and class metadata."
+        "Core arrays: from classification.evaluation.runner import "
+        "run_classification_evaluation; then supply y_true, y_pred, y_proba, "
+        "classes and class metadata."
     )
     print(
         "Machine-failure pipeline: python -m "
-        "classification.machine_failure_pipeline"
+        "classification.evaluation.run_machine_failure_evaluation"
     )
 
 

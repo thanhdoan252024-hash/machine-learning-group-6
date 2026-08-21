@@ -13,7 +13,35 @@ Nó thay cho các giả định tạm thời trước khi model và dataset đư
 - Dataset thật: `classification/data/raw/machine_fail.csv`.
 - Target: `Machine failure`.
 - Output được phép commit: toàn bộ CSV, PNG và manifest trong
-  `classification/outputs/`.
+  `classification/evaluation/outputs/`.
+
+## Layout tích hợp hiện tại
+
+Toàn bộ phần đánh giá classification được gom dưới
+`classification/evaluation/`:
+
+- Các module: `adapter.py`, `runner.py`, `input_validation.py`,
+  `manual_metrics.py`, `manual_roc_auc.py`, `reports.py`, `visualizations.py`,
+  `exporters.py` và entry point `run_machine_failure_evaluation.py`.
+- Tests: `classification/evaluation/tests/`.
+- Artifacts: `classification/evaluation/outputs/`.
+- Tài liệu: `classification/evaluation/docs/`.
+
+`requirements.txt` và `.gitignore` tiếp tục nằm ở repository root. Import công
+khai và lệnh chạy chuẩn là:
+
+```python
+from classification.evaluation.adapter import (
+    evaluate_classification_outputs,
+    evaluate_fitted_classifier,
+)
+from classification.evaluation.runner import run_classification_evaluation
+```
+
+```powershell
+.\venv\Scripts\python.exe -m unittest discover -s classification/evaluation/tests -p "test_*.py" -v
+.\venv\Scripts\python.exe -m classification.evaluation.run_machine_failure_evaluation
+```
 
 ## Quyết định về sklearn
 
@@ -26,7 +54,7 @@ Các giới hạn còn giữ nguyên:
 - Model LightGBM-style phải là implementation của repository.
 - Không dùng `sklearn.metrics`, metric của LightGBM hoặc `model.score()`.
 - Confusion Matrix, Accuracy, Precision, Recall, F1, ROC và AUC được tính thủ
-  công trong `evaluation/`.
+  công trong `classification/evaluation/`.
 - Không dùng `numpy.trapz` hoặc `numpy.trapezoid` để tính AUC.
 
 ## Hợp đồng model và dataset đã xác minh
@@ -55,10 +83,10 @@ machine_fail.csv
   -> preprocessing 6 feature không leakage
   -> sklearn train_test_split (phạm vi sklearn được cho phép)
   -> LightGBMClassification.fit/predict/predict_proba
-  -> classification_evaluation_adapter
-  -> experiments.run_classification_evaluation
-  -> evaluation/* (metric và ROC-AUC thủ công)
-  -> classification/outputs/{tables,figures,predictions}
+  -> classification.evaluation.adapter
+  -> classification.evaluation.runner
+  -> classification/evaluation/* (metric và ROC-AUC thủ công)
+  -> classification/evaluation/outputs/{tables,figures,predictions}
 ```
 
 Adapter không tính lại metric. Nó lấy `model.classes_`, kiểm tra positive label
@@ -66,18 +94,22 @@ và ánh xạ tên lớp theo chính giá trị label trước khi gọi runner 
 
 ## Những file được thêm hoặc điều chỉnh
 
-- `evaluation/`: validation, manual metrics, manual ROC-AUC, report, hình và
-  exporter.
-- `experiments/run_classification_evaluation.py`: điều phối đánh giá từ các mảng
-  dự đoán.
-- `classification/classification_evaluation_adapter.py`: adapter model thật.
-- `classification/machine_failure_pipeline.py`: entry point tái lập toàn bộ run.
+- `classification/evaluation/`: package chứa validation, manual metrics,
+  manual ROC-AUC, report, hình và exporter.
+- `classification/evaluation/runner.py`: điều phối đánh giá từ các mảng dự đoán.
+- `classification/evaluation/adapter.py`: adapter model thật.
+- `classification/evaluation/run_machine_failure_evaluation.py`: entry point
+  tái lập toàn bộ run.
 - `classification/classification_metrics.py`: facade tương thích, không chứa
   công thức trùng lặp.
 - `classification/machine_failure_prediction.ipynb`: path portable và cell gọi
   evaluation; output chạy cũ được xóa để không mâu thuẫn với baseline có seed.
-- `tests/`: generic tests, adapter contract và dataset/split contract.
-- `classification/outputs/`: artifact chạy thật được commit theo yêu cầu.
+- `classification/evaluation/tests/`: generic tests, adapter contract và
+  dataset/split contract.
+- `classification/evaluation/outputs/`: artifact chạy thật được commit theo yêu
+  cầu.
+- `classification/evaluation/docs/`: kế hoạch, integration notes và prompting
+  log.
 
 ## Kiểm tra bàn giao
 
@@ -87,6 +119,8 @@ và ánh xạ tên lớp theo chính giá trị label trước khi gọi runner 
   threshold.
 - [x] Dataset và stratified split được kiểm tra bằng dữ liệu thật.
 - [x] Chạy toàn bộ test suite sau chỉnh sửa cuối: 90/90 test đạt.
+- [x] Gom module, tests, outputs và docs vào `classification/evaluation/`; cập
+  nhật import, notebook, CLI và lệnh test theo namespace mới.
 - [x] Chạy pipeline 100 estimator trên đủ test split 2.000 mẫu.
 - [x] Kiểm tra trực quan sáu PNG ở 300 DPI và schema/số dòng CSV.
 - [x] Chạy lại pipeline và đối chiếu SHA-256: toàn bộ artifact tái lập byte-for-byte.
