@@ -1155,5 +1155,6 @@ Triển khai:
 
 ### Kết luận
 
-- Pipeline classification end-to-end và artifact thật: Sẵn sàng commit.
+- Pipeline classification end-to-end và artifact thật: Đã commit tại `cd3913a`
+  và push lên nhánh `classification-evaluation-integration`.
 - Tài liệu và lệnh tái tạo kết quả: Đã bổ sung.

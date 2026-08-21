@@ -90,7 +90,7 @@ và ánh xạ tên lớp theo chính giá trị label trước khi gọi runner 
 - [x] Chạy pipeline 100 estimator trên đủ test split 2.000 mẫu.
 - [x] Kiểm tra trực quan sáu PNG ở 300 DPI và schema/số dòng CSV.
 - [x] Chạy lại pipeline và đối chiếu SHA-256: toàn bộ artifact tái lập byte-for-byte.
-- [ ] Ghi kết quả cuối, commit và push nhánh tích hợp.
+- [x] Ghi kết quả cuối, commit và push nhánh tích hợp lên GitHub.
 
 Kết quả baseline: Accuracy 0,986000; Precision 0,900000; Recall 0,661765;
 F1-score 0,762712; ROC-AUC 0,974211. Confusion matrix có TN=1.927, FP=5,
@@ -102,6 +102,14 @@ Môi trường sinh artifact: Python 3.13.5, NumPy 2.5.2, pandas 3.0.5,
 Matplotlib 3.11.1 và scikit-learn 1.9.0. `requirements.txt` dùng lower bounds để
 không khóa người dùng vào đúng môi trường này; khả năng tái lập byte-for-byte đã
 được xác minh trong môi trường nêu trên.
+
+## Trạng thái GitHub
+
+- Nhánh đã push: `classification-evaluation-integration`.
+- Commit triển khai chính: `cd3913a` —
+  `feat(classification): add manual evaluation pipeline`.
+- Nhánh được tách từ `LightGBM` tại `32397d0`; không ghi trực tiếp lên nhánh dùng
+  chung và chưa tự động tạo/merge pull request.
 
 ## Giới hạn chủ ý
 
