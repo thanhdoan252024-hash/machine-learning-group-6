@@ -1,4 +1,3 @@
-"""LightGBM rút gọn cho classification nhị phân, chỉ dùng NumPy."""
 
 from dataclasses import dataclass
 import numpy as np
