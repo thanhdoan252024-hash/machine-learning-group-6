@@ -39,6 +39,7 @@ class LightGBMRegression:
         self.efb_bundles = []
         self.efb_applied = False
         self.efb_offsets = {}
+        self.feature_missing = None
 
     def _prepare_bins(self, X):
         self.bin_thresholds = []
@@ -59,6 +60,7 @@ class LightGBMRegression:
         self.feature_bins = bin_matrix
         self.efb_bundles = self._find_efb_bundles(X)
         self.efb_applied = any(len(bundle) > 1 for bundle in self.efb_bundles)
+        self.feature_missing = np.isnan(X) | (X == 0) if self.efb_applied else np.isnan(X)
         self.efb_offsets = {
             feature_index: position * (self.max_bins + 1)
             for bundle in self.efb_bundles
@@ -107,7 +109,10 @@ class LightGBMRegression:
                 )
                 for feature_index in bundle:
                     offset = self.efb_offsets[feature_index]
-                    histogram[feature_index, 0, :] = bundled_histogram[0, :]
+                    histogram[feature_index, 0, :] = np.array([
+                        gradients[row_indices][self.feature_missing[row_indices, feature_index]].sum(),
+                        hessians[row_indices][self.feature_missing[row_indices, feature_index]].sum(),
+                    ])
                     histogram[feature_index, 1:, :] = bundled_histogram[
                         offset + 1:offset + self.max_bins + 1, :
                     ]
@@ -174,7 +179,7 @@ class LightGBMRegression:
 
     def _split_rows(self, row_indices, split):
         bins = self.feature_bins[row_indices, split["feature"]]
-        is_missing = bins == self.max_bins
+        is_missing = self.feature_missing[row_indices, split["feature"]]
         goes_left = bins <= split["threshold_bin"]
         if split["missing_left"]:
             goes_left = goes_left | is_missing
@@ -281,7 +286,12 @@ class LightGBMRegression:
             bins[valid, feature_index] = np.searchsorted(
                 thresholds, X[valid, feature_index], side="right"
             )
+        if self.efb_applied:
+            bins[self.feature_missing_for_data(X)] = self.max_bins
         return bins
+
+    def feature_missing_for_data(self, X):
+        return np.isnan(X) | (X == 0)
 
     def _predict_tree_row(self, row_bins, node):
         if "split" not in node:
