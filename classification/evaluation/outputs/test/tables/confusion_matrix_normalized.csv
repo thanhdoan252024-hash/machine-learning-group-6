@@ -1,0 +1,3 @@
+true_label,predicted_không_hỏng_máy,predicted_hỏng_máy
+Không hỏng máy,0.997412,0.002588
+Hỏng máy,0.338235,0.661765
