@@ -6,7 +6,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
 
 from linear_regression import LinearRegressionScratch
-from preprocessing import preprocess_pipeline
+from preprocessing import preprocess_pipeline, make_kfold_splits
 
 
 def test_linear_regression_scratch_fit_predict_and_loss():
@@ -54,3 +54,27 @@ def test_preprocess_pipeline_excludes_opposite_target_for_y2_prediction():
     assert 'Y2' not in X_train.columns
     assert len(y_train) == 5
     assert len(y_test) == 1
+
+
+def test_make_kfold_splits_returns_five_safe_fold_slices():
+    df = pd.DataFrame({
+        'X1': np.arange(30, dtype=float),
+        'X2': np.arange(30, dtype=float),
+        'X3': np.arange(30, dtype=float),
+        'X4': np.arange(30, dtype=float),
+        'X5': np.arange(30, dtype=float),
+        'X6': ['A', 'B'] * 15,
+        'X7': np.arange(30, dtype=float),
+        'X8': ['C', 'D'] * 15,
+        'Y1': np.arange(30, dtype=float),
+        'Y2': np.arange(30, dtype=float) + 100,
+    })
+
+    folds = make_kfold_splits(df, target_col='Y1', n_splits=5, random_seed=42)
+
+    assert len(folds) == 5
+    for train_df, test_df in folds:
+        assert 'Y2' not in train_df.columns
+        assert 'Y2' not in test_df.columns
+        assert 'Y1' in train_df.columns
+        assert 'Y1' in test_df.columns

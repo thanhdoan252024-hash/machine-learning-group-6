@@ -2,33 +2,41 @@
 Rows loaded: 768
 Targets trained: Y1 Heating Load and Y2 Cooling Load.
 Leakage guard: the opposite target is excluded from X for each run.
+Multicollinearity guard: X2 has been removed because X2 = X3 + 2X4 in the data.
+Cross-validation guard: 5-fold CV is reported for each target with mean/std.
 No sklearn LinearRegression used.
 
 === Target Y1: Heating Load (Y1) ===
-Final feature matrix columns: ['X1', 'X2', 'X3', 'X4', 'X5', 'X6_3', 'X6_4', 'X6_5', 'X7', 'X8_1', 'X8_2', 'X8_3', 'X8_4', 'X8_5']
+Final feature matrix columns: ['X1', 'X3', 'X4', 'X5', 'X6_3', 'X6_4', 'X6_5', 'X7', 'X8_1', 'X8_2', 'X8_3', 'X8_4', 'X8_5']
 Train rows: 614
 Test rows: 154
 Learning rate: 0.01
 Iterations run: 1000
-Final loss: 8.60288320750221
+Final loss: 8.631392103983966
 Baseline MAE: 9.272103050044418
 Baseline RMSE: 10.23758974168782
 Baseline R2: -0.0055245239100216725
-LR MAE: 2.209380179349351
-LR RMSE: 3.072656712767628
-LR R2: 0.9094214617165016
+LR MAE: 2.22512705267012
+LR RMSE: 3.0787968348205705
+LR R2: 0.909059091933001
+CV MAE_mean: 2.177245, MAE_std: 0.082360
+CV RMSE_mean: 3.007489, RMSE_std: 0.124677
+CV R2_mean: 0.910323, R2_std: 0.002510
 
 === Target Y2: Cooling Load (Y2) ===
-Final feature matrix columns: ['X1', 'X2', 'X3', 'X4', 'X5', 'X6_3', 'X6_4', 'X6_5', 'X7', 'X8_1', 'X8_2', 'X8_3', 'X8_4', 'X8_5']
+Final feature matrix columns: ['X1', 'X3', 'X4', 'X5', 'X6_3', 'X6_4', 'X6_5', 'X7', 'X8_1', 'X8_2', 'X8_3', 'X8_4', 'X8_5']
 Train rows: 614
 Test rows: 154
 Learning rate: 0.01
 Iterations run: 1000
-Final loss: 11.37279327302463
+Final loss: 11.407839562064149
 Baseline MAE: 8.74185329328652
 Baseline RMSE: 9.666248182723116
 Baseline R2: -0.008408593861118474
-LR MAE: 2.3121746107296928
-LR RMSE: 3.2383151467731213
-LR R2: 0.8868228176714629
+LR MAE: 2.3206034853380126
+LR RMSE: 3.2412182996963437
+LR R2: 0.8866197997842009
+CV MAE_mean: 2.459863, MAE_std: 0.106399
+CV RMSE_mean: 3.390439, RMSE_std: 0.136686
+CV R2_mean: 0.871640, R2_std: 0.008170
 

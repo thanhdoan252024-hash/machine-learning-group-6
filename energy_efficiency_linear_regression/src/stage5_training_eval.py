@@ -13,7 +13,7 @@ TABLE_DIR = OUT_DIR / 'tables'
 sys.path.insert(0, str(PROJECT_ROOT / 'src'))
 
 from data_loader import load_dataset
-from preprocessing import preprocess_pipeline
+from preprocessing import preprocess_pipeline, make_kfold_splits
 from linear_regression import LinearRegressionScratch
 from metrics import rmse, mae, r2_score
 from visualization import plot_training_loss, plot_actual_vs_predicted, plot_residuals, plot_residual_distribution
@@ -48,13 +48,41 @@ def evaluate_target(df, target_col, label):
         },
     }
 
+    # 5-fold cross-validation on the same target using leakage-safe folds.
+    folds = make_kfold_splits(df, target_col=target_col, n_splits=5, random_seed=42)
+    cv_mae, cv_rmse, cv_r2 = [], [], []
+    for idx, (train_df, test_df) in enumerate(folds, start=1):
+        X_train_cv, X_test_cv, y_train_cv, y_test_cv, _, _ = preprocess_pipeline(
+            df=df,
+            target_col=target_col,
+            train_df=train_df,
+            test_df=test_df,
+            test_size=0.2,
+            random_seed=42,
+        )
+        model_cv = LinearRegressionScratch(learning_rate=0.01, n_iterations=1000, tolerance=1e-6)
+        model_cv.fit(X_train_cv.values, y_train_cv)
+        y_pred_cv = model_cv.predict(X_test_cv.values)
+        cv_mae.append(mae(y_test_cv, y_pred_cv))
+        cv_rmse.append(rmse(y_test_cv, y_pred_cv))
+        cv_r2.append(r2_score(y_test_cv, y_pred_cv))
+
+    cv = {
+        'MAE_mean': float(np.mean(cv_mae)),
+        'MAE_std': float(np.std(cv_mae)),
+        'RMSE_mean': float(np.mean(cv_rmse)),
+        'RMSE_std': float(np.std(cv_rmse)),
+        'R2_mean': float(np.mean(cv_r2)),
+        'R2_std': float(np.std(cv_r2)),
+    }
+
     # Write plot artifacts for this target.
     plot_training_loss(lr.loss_history, str(FIG_DIR / f'{label}_training_loss_curve.png'))
     plot_actual_vs_predicted(y_test, y_pred_lr, str(FIG_DIR / f'{label}_actual_vs_predicted.png'))
     plot_residuals(y_pred_lr, y_test, str(FIG_DIR / f'{label}_residual_plot.png'))
     plot_residual_distribution(y_test - y_pred_lr, str(FIG_DIR / f'{label}_residual_distribution.png'))
 
-    return metrics, lr, X_train, X_test, y_train, y_test
+    return metrics, lr, X_train, X_test, y_train, y_test, cv
 
 
 def main():
@@ -63,7 +91,6 @@ def main():
     FIG_DIR.mkdir(parents=True, exist_ok=True)
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    payload = []
     with open(TABLE_DIR / 'metrics_report.txt', 'w', encoding='utf-8') as f:
         f.write('Model,MAE,RMSE,R2\n')
 
@@ -78,13 +105,14 @@ def main():
         elif target_col == 'Y2' and 'Y1' in target_df.columns:
             target_df = target_df.drop(columns=['Y1'])
 
-        metrics, lr, X_train, X_test, y_train, y_test = evaluate_target(target_df, target_col, label)
+        metrics, lr, X_train, X_test, y_train, y_test, cv = evaluate_target(target_df, target_col, label)
         results[target_col] = {
             'metrics': metrics,
             'lr': lr,
             'X_train': X_train,
             'y_train': y_train,
             'y_test': y_test,
+            'cv': cv,
         }
 
         with open(TABLE_DIR / 'metrics_report.txt', 'a', encoding='utf-8') as f:
@@ -96,6 +124,8 @@ def main():
         f.write(f'Rows loaded: {df.shape[0]}\n')
         f.write('Targets trained: Y1 Heating Load and Y2 Cooling Load.\n')
         f.write('Leakage guard: the opposite target is excluded from X for each run.\n')
+        f.write('Multicollinearity guard: X2 has been removed because X2 = X3 + 2X4 in the data.\n')
+        f.write('Cross-validation guard: 5-fold CV is reported for each target with mean/std.\n')
         f.write('No sklearn LinearRegression used.\n\n')
 
         for target_col in ['Y1', 'Y2']:
@@ -105,6 +135,7 @@ def main():
             X_train = results[target_col]['X_train']
             y_train = results[target_col]['y_train']
             y_test = results[target_col]['y_test']
+            cv = results[target_col]['cv']
             f.write(f'=== Target {target_col}: {target_label} ===\n')
             f.write(f'Final feature matrix columns: {list(X_train.columns)}\n')
             f.write(f'Train rows: {len(y_train)}\n')
@@ -118,13 +149,18 @@ def main():
             f.write(f'LR MAE: {metrics["Linear Regression"]["MAE"]}\n')
             f.write(f'LR RMSE: {metrics["Linear Regression"]["RMSE"]}\n')
             f.write(f'LR R2: {metrics["Linear Regression"]["R2"]}\n')
+            f.write(f'CV MAE_mean: {cv["MAE_mean"]:.6f}, MAE_std: {cv["MAE_std"]:.6f}\n')
+            f.write(f'CV RMSE_mean: {cv["RMSE_mean"]:.6f}, RMSE_std: {cv["RMSE_std"]:.6f}\n')
+            f.write(f'CV R2_mean: {cv["R2_mean"]:.6f}, R2_std: {cv["R2_std"]:.6f}\n')
             f.write('\n')
 
     print('=== Stage 5 complete ===')
     for target_col in ['Y1', 'Y2']:
         metrics = results[target_col]['metrics']
+        cv = results[target_col]['cv']
         print(f'{target_col} Baseline MAE={metrics["Mean Baseline"]["MAE"]}; RMSE={metrics["Mean Baseline"]["RMSE"]}; R2={metrics["Mean Baseline"]["R2"]}')
         print(f'{target_col} LR MAE={metrics["Linear Regression"]["MAE"]}; RMSE={metrics["Linear Regression"]["RMSE"]}; R2={metrics["Linear Regression"]["R2"]}')
+        print(f'{target_col} CV MAE mean/std = {cv["MAE_mean"]:.6f}/{cv["MAE_std"]:.6f}; RMSE mean/std = {cv["RMSE_mean"]:.6f}/{cv["RMSE_std"]:.6f}; R2 mean/std = {cv["R2_mean"]:.6f}/{cv["R2_std"]:.6f}')
     print('Figures saved:', FIG_DIR)
     print('Metrics report saved:', TABLE_DIR / 'metrics_report.txt')
 

@@ -1,17 +1,19 @@
 # Final Report: Energy Efficiency Linear Regression
 
 ## Objective
-Predict the building Heating Load (Y1) from the architectural variables X1 through X8 using a custom Linear Regression from scratch implemented with NumPy and Gradient Descent, while preventing target leakage by excluding Y2 from the feature matrix used for Y1 training.
+Predict the building Heating Load (Y1) and Cooling Load (Y2) from the architectural variables X1 through X8 using a custom Linear Regression from scratch implemented with NumPy and Gradient Descent, while preventing target leakage by excluding the opposite target from the feature matrix used for each training run.
 
 ## Dataset
-The source dataset is the available file in the project data directory. The dataset contains the architectural variables X1..X8 and two target-like variables Y1 (Heating Load) and Y2 (Cooling Load). The custom model is implemented with NumPy and gradient descent only; no sklearn `LinearRegression` is used. Y2 remains out of X to avoid target leakage, and the report focuses on the Y1 heating-load prediction task.
+The source dataset is the available file in the project data directory. The dataset contains the architectural variables X1..X8 and two target-like variables Y1 (Heating Load) and Y2 (Cooling Load). The custom model is implemented with NumPy and gradient descent only; no sklearn `LinearRegression` is used. For the Y1 model, Y2 is excluded from X; for the Y2 model, Y1 is excluded from X to avoid target leakage.
 
 ## Metrics
 
 | Model | MAE | RMSE | R2 |
 |---|---:|---:|---:|
-| Mean Baseline | 9.272103 | 10.237590 | -0.005525 |
-| Linear Regression | 2.209380 | 3.072657 | 0.909421 |
+| Heating Load (Y1) Mean Baseline | 9.272103 | 10.237590 | -0.005525 |
+| Heating Load (Y1) Linear Regression | 2.225127 | 3.078797 | 0.909059 |
+| Cooling Load (Y2) Mean Baseline | 8.741853 | 9.666248 | -0.008409 |
+| Cooling Load (Y2) Linear Regression | 2.320603 | 3.241218 | 0.886620 |
 
 ## Interpretation
 The scratch linear model improves substantially over the mean baseline in MAE, RMSE and R2, confirming that the selected feature columns carry meaningful signal for Y1 prediction.

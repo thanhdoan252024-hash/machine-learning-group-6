@@ -4,8 +4,8 @@ Dataset columns: X1, X2, X3, X4, X5, X6, X7, X8, Y1, Y2
 Leakage check: Y2 dropped from X before modeling. PASS
 Preprocessing check: train/test arrays shape validated through preprocess_pipeline. PASS
 Model check: LinearRegressionScratch fit/predict executed. PASS
-Metrics: MAE=2.209380, RMSE=3.072657, R2=0.909421
+Metrics: MAE=2.225127, RMSE=3.078797, R2=0.909059
 Artifact check: PASS
 Pytest check: exit_code=0
-.                                                                        [100%]
-1 passed in 0.09s
+...                                                                      [100%]
+3 passed in 0.31s

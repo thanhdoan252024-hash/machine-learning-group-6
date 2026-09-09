@@ -2,11 +2,41 @@ import numpy as np
 import pandas as pd
 
 
-NUMERIC_COLS = ['X1', 'X2', 'X3', 'X4', 'X5', 'X7']
+NUMERIC_COLS = ['X1', 'X3', 'X4', 'X5', 'X7']
 CATEGORICAL_COLS = ['X6', 'X8']
 TARGET_COL = 'Y1'
 LEAKAGE_COL = 'Y2'
 RANDOM_SEED = 42
+
+
+def make_kfold_splits(df, target_col='Y1', n_splits=5, random_seed=42):
+    """
+    Create deterministic k-fold validation partitions while keeping the
+    target-leakage guard active. For each target, the opposite target is
+    removed before the split and both train/test frames remain consistent.
+    """
+    if n_splits < 2:
+        raise ValueError('n_splits must be >= 2')
+
+    work_df = df.copy()
+    if target_col == 'Y1' and 'Y2' in work_df.columns:
+        work_df = work_df.drop(columns=['Y2'])
+    elif target_col == 'Y2' and 'Y1' in work_df.columns:
+        work_df = work_df.drop(columns=['Y1'])
+
+    rng = np.random.RandomState(random_seed)
+    idx = rng.permutation(np.arange(len(work_df)))
+    folds = np.array_split(idx, n_splits)
+
+    splits = []
+    for fold in folds:
+        test_idx = set(fold.tolist())
+        train_idx = [i for i in range(len(work_df)) if i not in test_idx]
+        train_df = work_df.iloc[train_idx].reset_index(drop=True)
+        test_df = work_df.iloc[list(test_idx)].reset_index(drop=True)
+        splits.append((train_df, test_df))
+
+    return splits
 
 
 def custom_train_test_split(df, target_col='Y1', test_size=0.2, random_seed=42):
@@ -77,10 +107,13 @@ def onehot_encode_train_test(train_df, test_df, categorical_cols):
     return X_train_cat, X_test_cat
 
 
-def preprocess_pipeline(df, target_col='Y1', test_size=0.2, random_seed=42):
+def preprocess_pipeline(df, target_col='Y1', test_size=0.2, random_seed=42, train_df=None, test_df=None):
     """
     End-to-end preprocessing pipeline respecting train-only fit logic.
     Returns processed train/test frames and y arrays.
+
+    Supports either a normal split or an externally supplied train/test frame pair,
+    used by the cross-validation workflow and by the model evaluation stage.
 
     Leakage-safe rule:
       - when target_col='Y1', drop Y2 from the feature frame.
@@ -91,13 +124,24 @@ def preprocess_pipeline(df, target_col='Y1', test_size=0.2, random_seed=42):
     elif target_col == 'Y2' and 'Y1' in df.columns:
         df = df.drop(columns=['Y1'])
 
-    # Split first
-    train_df, test_df, y_train, y_test = custom_train_test_split(
-        df=df,
-        target_col=target_col,
-        test_size=test_size,
-        random_seed=random_seed,
-    )
+    # Option A: inherit externally supplied train/test partitions.
+    if train_df is not None and test_df is not None:
+        train_df = train_df.copy()
+        test_df = test_df.copy()
+        train_df = train_df.drop(columns=[c for c in ['Y1', 'Y2'] if c != target_col and c in train_df.columns], errors='ignore')
+        test_df = test_df.drop(columns=[c for c in ['Y1', 'Y2'] if c != target_col and c in test_df.columns], errors='ignore')
+        y_train = train_df[target_col].astype(float).to_numpy()
+        y_test = test_df[target_col].astype(float).to_numpy()
+        train_df = train_df.drop(columns=[target_col])
+        test_df = test_df.drop(columns=[target_col])
+    else:
+        # Option B: split first
+        train_df, test_df, y_train, y_test = custom_train_test_split(
+            df=df,
+            target_col=target_col,
+            test_size=test_size,
+            random_seed=random_seed,
+        )
 
     # Fit medians on train only
     medians = fit_numeric_medians(train_df, NUMERIC_COLS)
