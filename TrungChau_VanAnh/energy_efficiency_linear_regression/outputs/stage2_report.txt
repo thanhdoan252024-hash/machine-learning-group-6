@@ -1,9 +1,0 @@
-=== Stage 2: Cleaning + EDA Summary ===
-Rows loaded: 768
-Columns loaded: ['X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7', 'X8', 'Y1', 'Y2']
-Target Y1 valid rows: 768
-Target Y1 invalid rows: 0
-Target Y1 range: [6.01, 43.1]
-Leakage guard: Y2 must not enter X.
-Feature list declared: ['X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7', 'X8']
-X2 - X3 - 2X4 max abs residual: 0.0
