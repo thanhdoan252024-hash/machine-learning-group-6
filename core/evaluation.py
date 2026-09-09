@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from .tsne_numpy import TSNE
 
 
-def trustworthiness(X: np.ndarray, Y: np.ndarray, k: int = 5) -> float:
+def trustworthiness(X: np.ndarray, Y: np.ndarray, k: int = 50) -> float:
     """Tính Trustworthiness T(k) theo định nghĩa gốc (Venna & Kaski 2001).
 
     T(k) = 1 - 2/(n*k*(2n-3k-1)) * sum_{i=1}^n sum_{j in U_k(i)} (r(i,j) - k)
@@ -88,7 +88,7 @@ def run_evaluation(
         elapsed = time.perf_counter() - start
 
         kl = model.kl_divergence_
-        trust = trustworthiness(X, Y, k=5)
+        trust = trustworthiness(X, Y, k=50)
 
         records.append({
             "perplexity": perp,
@@ -160,7 +160,7 @@ def run_evaluation(
     fig, ax = plt.subplots(figsize=(6, 4))
     ax.plot(df["perplexity"], df["trustworthiness"], marker="^", color="tab:green")
     ax.set_xlabel("Perplexity")
-    ax.set_ylabel("Trustworthiness (k=5)")
+    ax.set_ylabel("Trustworthiness (k=50)")
     ax.set_title("Perplexity vs Trustworthiness")
     ax.grid(True, alpha=0.3)
     ax.set_ylim(0, 1.05)
