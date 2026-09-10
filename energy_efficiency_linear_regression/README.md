@@ -27,7 +27,20 @@ The workflow reports MAE, RMSE, and R2 for the baseline and Linear Regression mo
 The results are generated from the model training process and stored under the outputs directory.
 
 ## How to run
-Use the notebook or run the project scripts in the source directory. Ensure the Python dependencies in requirements.txt are installed.
+Install dependencies and run the stages in order from the project root:
+
+```bash
+python -m pip install -r requirements.txt
+python src/stage2_cleaning_eda.py
+python src/stage3_preprocessing.py
+python src/stage5_training_eval.py
+python src/stage6_report.py
+python src/stage7_final_artifacts.py
+python src/stage8_validation.py
+python -m pytest -q
+```
+
+Stage 8 checks the current Y1/Y2 metrics, all target-specific figures and coefficient tables, leakage rules, and the pytest exit code. It fails when any required artifact is missing or stale.
 
 ## Limitations
 The linear model may exhibit residual patterns and heteroscedasticity because building thermal behavior is nonlinear and influenced by complex heat transfer phenomena.

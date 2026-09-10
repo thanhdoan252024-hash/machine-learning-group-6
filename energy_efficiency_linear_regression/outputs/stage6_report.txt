@@ -8,33 +8,42 @@ Data shape: 768 rows, 9 columns after Y2 removal.
 Train rows: 614
 Test rows: 154
 Model learning_rate: 0.01
-Iterations run: 1000
-Final training loss: 8.602883
+Iterations run: 10000
+Final training loss: 7.711933
 
 Metric comparison
 Baseline Mean -- MAE: 9.272103, RMSE: 10.237590, R2: -0.005525
-Linear Regression Scratch -- MAE: 2.209380, RMSE: 3.072657, R2: 0.909421
+Linear Regression Scratch -- MAE: 2.107317, RMSE: 2.895139, R2: 0.919585
 
 Coefficient interpretation
 Feature coefficients are standardized by the preprocessing pipeline.
 Top 5 features by absolute coefficient magnitude:
-- X5: coefficient = 6.667911
-- X8_2: coefficient = 3.765914
-- X8_5: coefficient = 3.542273
-- X8_3: coefficient = 3.535259
-- X8_1: coefficient = 3.502795
+- X5: coefficient = 8.291851
+- X1: coefficient = -4.191614
+- X4: coefficient = -4.185441
+- X8_2: coefficient = 4.148777
+- X8_3: coefficient = 4.034861
 
 Largest positive coefficients:
-- X5: 6.667911
-- X8_2: 3.765914
-- X8_5: 3.542273
+- X5: 8.291851
+- X8_2: 4.148777
+- X8_3: 4.034861
 
 Largest negative coefficients:
-- X4: -2.086409
-- X1: -1.678629
-- X2: -1.144417
+- X1: -4.191614
+- X4: -4.185441
+- X6_5: -0.203831
 
 Business/technical interpretation:
 The model provides an interpretable linear approximation of heating load using the architectural predictors available in the dataset.
 Feature coefficients reveal relative directional strength. Positive coefficients indicate higher predicted Y1 as the standardized feature increases, while negative coefficients indicate the reverse relationship.
 The model is suitable as a baseline analytical model, though nonlinear physical building heat transfer effects may remain.
+
+=== Cooling Load (Y2) coefficient interpretation ===
+Leakage guard: Y1 is excluded from design matrix X.
+Top 5 features by absolute coefficient magnitude:
+- X5: coefficient = 8.362646
+- X1: coefficient = -4.732766
+- X4: coefficient = -4.297134
+- X8_2: coefficient = 2.294095
+- X8_1: coefficient = 2.191679

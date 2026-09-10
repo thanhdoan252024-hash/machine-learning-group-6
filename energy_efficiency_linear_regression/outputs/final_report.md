@@ -11,23 +11,33 @@ The source dataset is the available file in the project data directory. The data
 | Model | MAE | RMSE | R2 |
 |---|---:|---:|---:|
 | Heating Load (Y1) Mean Baseline | 9.272103 | 10.237590 | -0.005525 |
-| Heating Load (Y1) Linear Regression | 2.225127 | 3.078797 | 0.909059 |
+| Heating Load (Y1) Linear Regression | 2.107317 | 2.895139 | 0.919585 |
 | Cooling Load (Y2) Mean Baseline | 8.741853 | 9.666248 | -0.008409 |
-| Cooling Load (Y2) Linear Regression | 2.320603 | 3.241218 | 0.886620 |
+| Cooling Load (Y2) Linear Regression | 2.192949 | 3.116501 | 0.895177 |
 
 ## Interpretation
-The scratch linear model improves substantially over the mean baseline in MAE, RMSE and R2, confirming that the selected feature columns carry meaningful signal for Y1 prediction.
-The coefficients are stored in the coefficient table and are sorted by absolute coefficient magnitude to highlight the strongest feature effects.
+The scratch linear model improves substantially over the mean baseline in MAE, RMSE and R2 for both Y1 and Y2, confirming that the selected architectural features carry meaningful signal for both targets.
+The coefficient tables are stored separately for Heating Load (Y1) and Cooling Load (Y2), sorted by absolute coefficient magnitude.
 
 ## Top coefficients
 
 | feature | coefficient |
 |---|---:|
-| X5 | 6.667911 |
-| X8_2 | 3.765914 |
-| X8_5 | 3.542273 |
-| X8_3 | 3.535259 |
-| X8_1 | 3.502795 |
+| X5 | 8.291851 |
+| X1 | -4.191614 |
+| X4 | -4.185441 |
+| X8_2 | 4.148777 |
+| X8_3 | 4.034861 |
+
+## Top Cooling Load (Y2) coefficients
+
+| feature | coefficient |
+|---|---:|
+| X5 | 8.362646 |
+| X1 | -4.732766 |
+| X4 | -4.297134 |
+| X8_2 | 2.294095 |
+| X8_1 | 2.191679 |
 
 ## Chương 6. Prompting Logs và Quy trình xây dựng Source Code
 ### 6.1. Tổng quan quá trình phát triển mã nguồn
@@ -53,7 +63,7 @@ Câu lệnh prompt và source code tương ứng trong dự án như sau:
 | Trực quan hóa trực tiếp các điều cần kiểm tra | Visualization | `plot_training_loss()`, `plot_actual_vs_predicted()`, `plot_residuals()`, `plot_residual_distribution()` trong `visualization.py` |
 
 ### 6.5. Tiền xử lý và ràng buộc sớm
-Dữ liệu được đọc trực tiếp từ `energy_efficiency_building_heating_cooling_load_dataset.csv`. Trong quá trình preprocessing, Y2 được loại bỏ khỏi khung đặc trưng X để tránh hiện tượng data leakage. Tập train/test được tách trước khi imputation, one-hot và scaling áp dụng trên tập train; sau đó, các phép biến đổi được áp dụng thống nhất lên tập test. Đây là một quy trình an toàn dạng train-only fit và test-only transform, và chỉ mục tiêu Y1 được tối ưu hóa bởi mô hình.
+Dữ liệu được đọc trực tiếp từ `energy_efficiency_building_heating_cooling_load_dataset.csv`. Trong quá trình preprocessing, target đối nghịch được loại bỏ khỏi khung đặc trưng X để tránh data leakage. Tập train/test được tách trước khi imputation, one-hot và scaling áp dụng trên tập train; sau đó, các phép biến đổi được áp dụng thống nhất lên tập test cho cả Y1 và Y2.
 
 ### 6.8. Tiêu chí đánh giá chất lượng Prompting Logs
 Độ chuẩn xác kỹ thuật của prompt, khả năng kiểm soát kết quả, số lần phản hồi điều chỉnh, mức độ thấu hiểu code của người lập trình, đồng thời khả năng truy trace từ biểu thức toán học đến source code. Một prompt chất lượng tốt phải giúp con người kiểm tra mối nối giữa công thức học máy và mã nguồn được mô tả rõ ràng, có khả năng tái chạy được và chịu được thử nghiệm unit. Trong dự án này, chất lượng log được xác định qua việc nguồn dữ liệu rõ, mục tiêu Y1 rõ, Y2 bị loại ‘không cho vào X’, và mô hình custom NumPy được kiểm chứng bằng test.
@@ -80,5 +90,6 @@ Cấu trúc mã nguồn của thuật toán Linear Regression từ scratch theo 
 ## Outputs
 - Figures saved under `outputs/figures/`
 - Metrics report saved under `outputs/tables/metrics_report.txt`
-- Coefficient table saved under `outputs/tables/model_coefficients.csv`
+- Heating coefficient table saved under `outputs/tables/model_coefficients_y1.csv`
+- Cooling coefficient table saved under `outputs/tables/model_coefficients_y2.csv`
 - Narrative report saved under `outputs/stage6_report.txt`

@@ -31,7 +31,7 @@ def evaluate_target(df, target_col, label):
     y_train_mean = np.mean(y_train)
     y_pred_base = np.full(y_test.shape, y_train_mean)
 
-    lr = LinearRegressionScratch(learning_rate=0.01, n_iterations=1000, tolerance=1e-6)
+    lr = LinearRegressionScratch(learning_rate=0.01, n_iterations=10000, tolerance=1e-6)
     lr.fit(X_train.values, y_train)
     y_pred_lr = lr.predict(X_test.values)
 
@@ -60,7 +60,7 @@ def evaluate_target(df, target_col, label):
             test_size=0.2,
             random_seed=42,
         )
-        model_cv = LinearRegressionScratch(learning_rate=0.01, n_iterations=1000, tolerance=1e-6)
+        model_cv = LinearRegressionScratch(learning_rate=0.01, n_iterations=10000, tolerance=1e-6)
         model_cv.fit(X_train_cv.values, y_train_cv)
         y_pred_cv = model_cv.predict(X_test_cv.values)
         cv_mae.append(mae(y_test_cv, y_pred_cv))
@@ -77,10 +77,11 @@ def evaluate_target(df, target_col, label):
     }
 
     # Write plot artifacts for this target.
-    plot_training_loss(lr.loss_history, str(FIG_DIR / f'{label}_training_loss_curve.png'))
-    plot_actual_vs_predicted(y_test, y_pred_lr, str(FIG_DIR / f'{label}_actual_vs_predicted.png'))
-    plot_residuals(y_pred_lr, y_test, str(FIG_DIR / f'{label}_residual_plot.png'))
-    plot_residual_distribution(y_test - y_pred_lr, str(FIG_DIR / f'{label}_residual_distribution.png'))
+    target_name = 'Heating Load (Y1)' if target_col == 'Y1' else 'Cooling Load (Y2)'
+    plot_training_loss(lr.loss_history, str(FIG_DIR / f'{label}_training_loss_curve.png'), target_name)
+    plot_actual_vs_predicted(y_test, y_pred_lr, str(FIG_DIR / f'{label}_actual_vs_predicted.png'), target_name)
+    plot_residuals(y_pred_lr, y_test, str(FIG_DIR / f'{label}_residual_plot.png'), target_name)
+    plot_residual_distribution(y_test - y_pred_lr, str(FIG_DIR / f'{label}_residual_distribution.png'), target_name)
 
     return metrics, lr, X_train, X_test, y_train, y_test, cv
 
@@ -126,6 +127,7 @@ def main():
         f.write('Leakage guard: the opposite target is excluded from X for each run.\n')
         f.write('Multicollinearity guard: X2 has been removed because X2 = X3 + 2X4 in the data.\n')
         f.write('Cross-validation guard: 5-fold CV is reported for each target with mean/std.\n')
+        f.write('Convergence guard: maximum 10000 iterations with tolerance-based early stopping.\n')
         f.write('No sklearn LinearRegression used.\n\n')
 
         for target_col in ['Y1', 'Y2']:

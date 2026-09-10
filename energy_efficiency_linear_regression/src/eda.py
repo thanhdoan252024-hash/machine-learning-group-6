@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 
 
 TARGET = 'Y1'
@@ -23,52 +22,57 @@ def basic_eda(df):
     for col in [c for c in df.columns if c in ['X6', 'X8']]:
         print(col, 'unique=', df[col].nunique(dropna=True))
 
-    print("\nTarget Y1 summary:")
-    print(df[TARGET].describe())
-    print("Skewness:", float(df[TARGET].skew()))
-    print("Kurtosis:", float(df[TARGET].kurt()))
+    for target in ['Y1', 'Y2']:
+        print(f"\nTarget {target} summary:")
+        print(df[target].describe())
+        print("Skewness:", float(df[target].skew()))
+        print("Kurtosis:", float(df[target].kurt()))
 
-    print("\nCorrelation matrix with Y1:")
-    corr = df[[c for c in df.columns if c.startswith('X') or c == TARGET]].corr(numeric_only=True)
-    print(corr[[TARGET]].sort_values(TARGET, ascending=False).to_string())
+        print(f"\nCorrelation matrix with {target}:")
+        corr = df[[c for c in df.columns if c.startswith('X') or c == target]].corr(numeric_only=True)
+        print(corr[[target]].sort_values(target, ascending=False).to_string())
 
     print("\nFeature group cardinality summary:")
     for col in [f'X{i}' for i in range(1, 9)]:
         print(col, 'missing=', int(df[col].isna().sum()), 'unique=', int(df[col].nunique(dropna=True)))
 
 
-def plot_target_distribution(df, outdir):
+def plot_target_distribution(df, outdir, target='Y1'):
     """
-    Save the Y1 histogram and boxplot supporting the EDA section.
+    Save histogram and boxplot supporting the EDA section.
     """
     plt.figure(figsize=(8, 4))
-    plt.hist(df[TARGET], bins=30, color='steelblue', edgecolor='black')
-    plt.title('Y1 Heating Load Distribution')
-    plt.xlabel('Y1 Heating Load')
+    target_name = 'Heating Load (Y1)' if target == 'Y1' else 'Cooling Load (Y2)'
+    prefix = target.lower()
+    plt.hist(df[target], bins=30, color='steelblue', edgecolor='black')
+    plt.title(f'{target_name} Distribution')
+    plt.xlabel(target_name)
     plt.ylabel('Frequency')
     plt.tight_layout()
-    plt.savefig(f'{outdir}/y1_histogram.png', dpi=150)
+    plt.savefig(f'{outdir}/{prefix}_histogram.png', dpi=150)
     plt.close()
 
     plt.figure(figsize=(6, 4))
-    sns.boxplot(y=df[TARGET])
-    plt.title('Y1 Heating Load Boxplot')
-    plt.ylabel('Y1 Heating Load')
+    plt.boxplot(df[target], vert=True)
+    plt.title(f'{target_name} Boxplot')
+    plt.ylabel(target_name)
     plt.tight_layout()
-    plt.savefig(f'{outdir}/y1_boxplot.png', dpi=150)
+    plt.savefig(f'{outdir}/{prefix}_boxplot.png', dpi=150)
     plt.close()
 
 
-def plot_feature_scatter(df, outdir):
+def plot_feature_scatter(df, outdir, target='Y1'):
     """
-    Save scatter plots for important architectural variables versus Y1.
+    Save scatter plots for important architectural variables versus a target.
     """
+    target_name = 'Heating Load (Y1)' if target == 'Y1' else 'Cooling Load (Y2)'
+    prefix = target.lower()
     for col in ['X1', 'X2', 'X5']:
         plt.figure(figsize=(6, 4))
-        plt.scatter(df[col], df[TARGET], alpha=0.65)
-        plt.title(f'{col} vs Y1')
+        plt.scatter(df[col], df[target], alpha=0.65)
+        plt.title(f'{col} vs {target_name}')
         plt.xlabel(col)
-        plt.ylabel('Y1 Heating Load')
+        plt.ylabel(target_name)
         plt.tight_layout()
-        plt.savefig(f'{outdir}/{col}_vs_y1.png', dpi=150)
+        plt.savefig(f'{outdir}/{col}_vs_{prefix}.png', dpi=150)
         plt.close()

@@ -4,10 +4,10 @@ Dataset columns loaded: ['X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7', 'X8', 'Y1']
 Train rows: 614
 Test rows: 154
 Seed: 42
-Train features: 14
-Test features: 14
-Median imputation values: {'X1': 0.74, 'X2': 686.0, 'X3': 318.5, 'X4': 220.5, 'X5': 3.5, 'X7': 0.25}
-Scale info: {'X1': {'mu': np.float64(0.7616775244299675), 'sigma': np.float64(0.1053377702756247)}, 'X2': {'mu': np.float64(673.8298045602606), 'sigma': np.float64(88.08938738758552)}, 'X3': {'mu': np.float64(318.81921824104234), 'sigma': np.float64(43.3006483244442)}, 'X4': {'mu': np.float64(177.50529315960912), 'sigma': np.float64(44.92361043037086)}, 'X5': {'mu': np.float64(5.221498371335505), 'sigma': np.float64(1.7497678866533901)}, 'X7': {'mu': np.float64(0.23542345276872967), 'sigma': np.float64(0.13404287260994016)}}
+Train features: 13
+Test features: 13
+Median imputation values: {'X1': 0.74, 'X3': 318.5, 'X4': 220.5, 'X5': 3.5, 'X7': 0.25}
+Scale info: {'X1': {'mu': np.float64(0.7616775244299675), 'sigma': np.float64(0.1053377702756247)}, 'X3': {'mu': np.float64(318.81921824104234), 'sigma': np.float64(43.3006483244442)}, 'X4': {'mu': np.float64(177.50529315960912), 'sigma': np.float64(44.92361043037086)}, 'X5': {'mu': np.float64(5.221498371335505), 'sigma': np.float64(1.7497678866533901)}, 'X7': {'mu': np.float64(0.23542345276872967), 'sigma': np.float64(0.13404287260994016)}}
 Y2 leak guard: removed from X matrix before train/test split.
 Categorical encoding: X6 and X8 one-hot with drop_first=True.
 Numerical scale: z-score fit on train then applied to test.

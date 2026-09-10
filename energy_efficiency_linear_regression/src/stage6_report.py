@@ -37,7 +37,7 @@ def build_stage6_report():
         random_seed=42,
     )
 
-    model = LinearRegressionScratch(learning_rate=0.01, n_iterations=1000, tolerance=1e-6)
+    model = LinearRegressionScratch(learning_rate=0.01, n_iterations=10000, tolerance=1e-6)
     model.fit(X_train.values, y_train)
 
     y_pred = model.predict(X_test.values)
@@ -65,6 +65,7 @@ def build_stage6_report():
     })
     coeff_table = coeff_table.sort_values('absolute_coefficient', ascending=False)
     coeff_table.to_csv(TABLE_DIR / 'model_coefficients.csv', index=False)
+    coeff_table.to_csv(TABLE_DIR / 'model_coefficients_y1.csv', index=False)
 
     # Save a short, human-readable interpretation report.
     top_features = coeff_table.head(5)
@@ -110,8 +111,40 @@ def build_stage6_report():
         f.write('Feature coefficients reveal relative directional strength. Positive coefficients indicate higher predicted Y1 as the standardized feature increases, while negative coefficients indicate the reverse relationship.\n')
         f.write('The model is suitable as a baseline analytical model, though nonlinear physical building heat transfer effects may remain.\n')
 
+    # Generate the equivalent coefficient artifact for the Cooling Load target.
+    cooling_df = load_dataset(DATA_PATH)
+    if 'Y1' in cooling_df.columns:
+        cooling_df = cooling_df.drop(columns=['Y1'])
+    X_train_y2, X_test_y2, y_train_y2, y_test_y2, _, _ = preprocess_pipeline(
+        cooling_df,
+        target_col='Y2',
+        test_size=0.2,
+        random_seed=42,
+    )
+    cooling_model = LinearRegressionScratch(
+        learning_rate=0.01,
+        n_iterations=10000,
+        tolerance=1e-6,
+    )
+    cooling_model.fit(X_train_y2.values, y_train_y2)
+    cooling_coeff_table = pd.DataFrame({
+        'feature': X_train_y2.columns,
+        'coefficient': cooling_model.get_coefficients(),
+        'absolute_coefficient': np.abs(cooling_model.get_coefficients()),
+    }).sort_values('absolute_coefficient', ascending=False)
+    cooling_coeff_table.to_csv(TABLE_DIR / 'model_coefficients_y2.csv', index=False)
+
+    with open(OUT_DIR / 'stage6_report.txt', 'a', encoding='utf-8') as f:
+        f.write('\n=== Cooling Load (Y2) coefficient interpretation ===\n')
+        f.write('Leakage guard: Y1 is excluded from design matrix X.\n')
+        f.write('Top 5 features by absolute coefficient magnitude:\n')
+        for _, row in cooling_coeff_table.head(5).iterrows():
+            f.write('- {}: coefficient = {:.6f}\n'.format(row['feature'], row['coefficient']))
+
     print('Stage 6 artifacts generated:')
     print(TABLE_DIR / 'model_coefficients.csv')
+    print(TABLE_DIR / 'model_coefficients_y1.csv')
+    print(TABLE_DIR / 'model_coefficients_y2.csv')
     print(OUT_DIR / 'stage6_report.txt')
 
 

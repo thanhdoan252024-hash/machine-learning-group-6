@@ -1,11 +1,12 @@
 === Stage 8: Validation & Final Quality Check ===
 Dataset rows: 768
 Dataset columns: X1, X2, X3, X4, X5, X6, X7, X8, Y1, Y2
-Leakage check: Y2 dropped from X before modeling. PASS
-Preprocessing check: train/test arrays shape validated through preprocess_pipeline. PASS
-Model check: LinearRegressionScratch fit/predict executed. PASS
-Metrics: MAE=2.225127, RMSE=3.078797, R2=0.909059
+Y1 validation metrics: MAE=2.107317, RMSE=2.895139, R2=0.919585
+Y2 validation metrics: MAE=2.192949, RMSE=3.116501, R2=0.895177
+Leakage check: Y1/Y2 opposite targets excluded. PASS
+Metrics report check: PASS
 Artifact check: PASS
 Pytest check: exit_code=0
-...                                                                      [100%]
-3 passed in 0.31s
+.....                                                                    [100%]
+5 passed in 0.40s
+Overall validation: PASS

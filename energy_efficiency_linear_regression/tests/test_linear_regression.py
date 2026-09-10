@@ -29,6 +29,22 @@ def test_linear_regression_scratch_fit_predict_and_loss():
     assert model.loss_history[0] >= model.loss_history[-1]
 
 
+def test_linear_regression_recovers_known_linear_relationship():
+    X = np.linspace(0.0, 1.0, 21).reshape(-1, 1)
+    y = 2.0 * X.ravel() + 3.0
+
+    model = LinearRegressionScratch(
+        learning_rate=0.01,
+        n_iterations=10000,
+        tolerance=1e-10,
+    )
+    model.fit(X, y)
+
+    assert np.isclose(model.get_coefficients()[0], 2.0, atol=1e-3)
+    assert np.isclose(model.get_intercept(), 3.0, atol=1e-3)
+    assert np.allclose(model.predict(X), y, atol=1e-3)
+
+
 def test_preprocess_pipeline_excludes_opposite_target_for_y2_prediction():
     df = pd.DataFrame({
         'X1': [1.0, 2.0, 3.0, 4.0, 5.0, 6.0],
@@ -54,6 +70,32 @@ def test_preprocess_pipeline_excludes_opposite_target_for_y2_prediction():
     assert 'Y2' not in X_train.columns
     assert len(y_train) == 5
     assert len(y_test) == 1
+
+
+def test_preprocess_pipeline_excludes_opposite_target_for_y1_prediction():
+    df = pd.DataFrame({
+        'X1': np.arange(6, dtype=float),
+        'X2': np.arange(6, dtype=float),
+        'X3': np.arange(6, dtype=float),
+        'X4': np.arange(6, dtype=float),
+        'X5': np.arange(6, dtype=float),
+        'X6': ['A', 'B'] * 3,
+        'X7': np.arange(6, dtype=float),
+        'X8': ['C', 'D'] * 3,
+        'Y1': np.arange(10, 16, dtype=float),
+        'Y2': np.arange(20, 26, dtype=float),
+    })
+
+    X_train, X_test, *_ = preprocess_pipeline(
+        df=df,
+        target_col='Y1',
+        test_size=0.2,
+        random_seed=42,
+    )
+
+    assert 'Y1' not in X_train.columns
+    assert 'Y2' not in X_train.columns
+    assert list(X_train.columns) == list(X_test.columns)
 
 
 def test_make_kfold_splits_returns_five_safe_fold_slices():

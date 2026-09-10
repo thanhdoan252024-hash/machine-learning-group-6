@@ -32,7 +32,7 @@ def parse_coefficients(path):
     return df.sort_values('absolute_coefficient', ascending=False)
 
 
-def generate_final_markdown(metrics_df, coeff_df):
+def generate_final_markdown(metrics_df, coeff_df, coeff_df_y2=None):
     # Format a short final report in markdown.
     metrics_text = []
     for _, row in metrics_df.iterrows():
@@ -57,8 +57,8 @@ def generate_final_markdown(metrics_df, coeff_df):
     lines.extend([f'| {row["Model"]} | {row["MAE"]:.6f} | {row["RMSE"]:.6f} | {row["R2"]:.6f} |' for _, row in metrics_df.iterrows()])
     lines.append('')
     lines.append('## Interpretation')
-    lines.append('The scratch linear model improves substantially over the mean baseline in MAE, RMSE and R2, confirming that the selected feature columns carry meaningful signal for Y1 prediction.')
-    lines.append('The coefficients are stored in the coefficient table and are sorted by absolute coefficient magnitude to highlight the strongest feature effects.')
+    lines.append('The scratch linear model improves substantially over the mean baseline in MAE, RMSE and R2 for both Y1 and Y2, confirming that the selected architectural features carry meaningful signal for both targets.')
+    lines.append('The coefficient tables are stored separately for Heating Load (Y1) and Cooling Load (Y2), sorted by absolute coefficient magnitude.')
     lines.append('')
     lines.append('## Top coefficients')
     lines.append('')
@@ -66,6 +66,14 @@ def generate_final_markdown(metrics_df, coeff_df):
     lines.append('|---|---:|')
     for _, row in top_features.iterrows():
         lines.append(f"| {row['feature']} | {row['coefficient']:.6f} |")
+    if coeff_df_y2 is not None and not coeff_df_y2.empty:
+        lines.append('')
+        lines.append('## Top Cooling Load (Y2) coefficients')
+        lines.append('')
+        lines.append('| feature | coefficient |')
+        lines.append('|---|---:|')
+        for _, row in coeff_df_y2.head(5).iterrows():
+            lines.append(f"| {row['feature']} | {row['coefficient']:.6f} |")
     lines.append('')
     lines.append('## Chương 6. Prompting Logs và Quy trình xây dựng Source Code')
     lines.append('### 6.1. Tổng quan quá trình phát triển mã nguồn')
@@ -91,7 +99,7 @@ def generate_final_markdown(metrics_df, coeff_df):
     lines.append('| Trực quan hóa trực tiếp các điều cần kiểm tra | Visualization | `plot_training_loss()`, `plot_actual_vs_predicted()`, `plot_residuals()`, `plot_residual_distribution()` trong `visualization.py` |')
     lines.append('')
     lines.append('### 6.5. Tiền xử lý và ràng buộc sớm')
-    lines.append('Dữ liệu được đọc trực tiếp từ `energy_efficiency_building_heating_cooling_load_dataset.csv`. Trong quá trình preprocessing, Y2 được loại bỏ khỏi khung đặc trưng X để tránh hiện tượng data leakage. Tập train/test được tách trước khi imputation, one-hot và scaling áp dụng trên tập train; sau đó, các phép biến đổi được áp dụng thống nhất lên tập test. Đây là một quy trình an toàn dạng train-only fit và test-only transform, và chỉ mục tiêu Y1 được tối ưu hóa bởi mô hình.')
+    lines.append('Dữ liệu được đọc trực tiếp từ `energy_efficiency_building_heating_cooling_load_dataset.csv`. Trong quá trình preprocessing, target đối nghịch được loại bỏ khỏi khung đặc trưng X để tránh data leakage. Tập train/test được tách trước khi imputation, one-hot và scaling áp dụng trên tập train; sau đó, các phép biến đổi được áp dụng thống nhất lên tập test cho cả Y1 và Y2.')
     lines.append('')
     lines.append('### 6.8. Tiêu chí đánh giá chất lượng Prompting Logs')
     lines.append('Độ chuẩn xác kỹ thuật của prompt, khả năng kiểm soát kết quả, số lần phản hồi điều chỉnh, mức độ thấu hiểu code của người lập trình, đồng thời khả năng truy trace từ biểu thức toán học đến source code. Một prompt chất lượng tốt phải giúp con người kiểm tra mối nối giữa công thức học máy và mã nguồn được mô tả rõ ràng, có khả năng tái chạy được và chịu được thử nghiệm unit. Trong dự án này, chất lượng log được xác định qua việc nguồn dữ liệu rõ, mục tiêu Y1 rõ, Y2 bị loại ‘không cho vào X’, và mô hình custom NumPy được kiểm chứng bằng test.')
@@ -118,7 +126,8 @@ def generate_final_markdown(metrics_df, coeff_df):
     lines.append('## Outputs')
     lines.append('- Figures saved under `outputs/figures/`')
     lines.append('- Metrics report saved under `outputs/tables/metrics_report.txt`')
-    lines.append('- Coefficient table saved under `outputs/tables/model_coefficients.csv`')
+    lines.append('- Heating coefficient table saved under `outputs/tables/model_coefficients_y1.csv`')
+    lines.append('- Cooling coefficient table saved under `outputs/tables/model_coefficients_y2.csv`')
     lines.append('- Narrative report saved under `outputs/stage6_report.txt`')
     lines.append('')
 
@@ -127,56 +136,99 @@ def generate_final_markdown(metrics_df, coeff_df):
 
 
 def generate_notebook():
+    def markdown(text):
+        return {
+            'cell_type': 'markdown', 'metadata': {},
+            'source': [line + '\n' for line in text.splitlines()],
+        }
+
+    def code(text):
+        return {
+            'cell_type': 'code', 'execution_count': None, 'metadata': {},
+            'outputs': [], 'source': [line + '\n' for line in text.splitlines()],
+        }
+
     notebook = {
-        "cells": [
-            {
-                "cell_type": "markdown",
-                "metadata": {},
-                "source": [
-                    "# Energy Efficiency Linear Regression\n",
-                    "\n",
-                    "This notebook reproduces the Stage 5 training/evaluation workflow and the Stage 6 interpretation artifacts.\n"
-                ],
-            },
-            {
-                "cell_type": "code",
-                "execution_count": None,
-                "metadata": {},
-                "outputs": [],
-                "source": [
-                    "import sys\n",
-                    "from pathlib import Path\n",
-                    "import pandas as pd\n",
-                    "PROJECT_ROOT = Path.cwd()\n",
-                    "sys.path.insert(0, str(PROJECT_ROOT / 'src'))\n",
-                    "from data_loader import load_dataset\n",
-                    "from preprocessing import preprocess_pipeline\n",
-                    "from linear_regression import LinearRegressionScratch\n",
-                    "from metrics import mae, rmse, r2_score\n",
-                    "\n",
-                    "data_path = PROJECT_ROOT / 'data' / 'energy_efficiency_building_heating_cooling_load_dataset.csv'\n",
-                    "df = load_dataset(data_path)\n",
-                    "if 'Y2' in df.columns:\n",
-                    "    df = df.drop(columns=['Y2'])\n",
-                    "X_train, X_test, y_train, y_test, medians, scale_info = preprocess_pipeline(df, target_col='Y1', test_size=0.2, random_seed=42)\n",
-                    "model = LinearRegressionScratch(learning_rate=0.01, n_iterations=1000, tolerance=1e-6)\n",
-                    "model.fit(X_train.values, y_train)\n",
-                    "y_pred = model.predict(X_test.values)\n",
-                    "baseline_pred = pd.Series(y_train).mean()\n",
-                    "print('R2 scratch=', r2_score(y_test, y_pred))\n",
-                    "print('MAE scratch=', mae(y_test, y_pred))\n"
-                ],
-            },
-            {
-                "cell_type": "code",
-                "execution_count": None,
-                "metadata": {},
-                "outputs": [],
-                "source": [
-                    "metrics = pd.read_csv(PROJECT_ROOT / 'outputs' / 'tables' / 'metrics_report.txt', sep=',', header=None)\n",
-                    "metrics\n"
-                ],
-            },
+        'cells': [
+            markdown('# Energy Efficiency Linear Regression\n\nThis notebook presents the complete Y1/Y2 workflow, including EDA, leakage-safe preprocessing, scratch gradient descent, cross-validation, diagnostics, and limitations.'),
+            markdown('## 1. Load and audit the dataset'),
+            code("""import sys
+from pathlib import Path
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+PROJECT_ROOT = Path.cwd()
+sys.path.insert(0, str(PROJECT_ROOT / 'src'))
+from data_loader import load_dataset, print_schema
+from preprocessing import preprocess_pipeline, make_kfold_splits
+from linear_regression import LinearRegressionScratch
+from metrics import mae, rmse, r2_score
+
+data_path = PROJECT_ROOT / 'data' / 'energy_efficiency_building_heating_cooling_load_dataset.csv'
+df = load_dataset(data_path)
+print_schema(df)
+df.describe(include='all')"""),
+            markdown('## 2. EDA for Heating Load and Cooling Load'),
+            code("""fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+axes[0].hist(df['Y1'], bins=30, color='steelblue', edgecolor='white')
+axes[0].set_title('Heating Load (Y1)')
+axes[1].hist(df['Y2'], bins=30, color='darkorange', edgecolor='white')
+axes[1].set_title('Cooling Load (Y2)')
+plt.tight_layout()
+plt.show()
+
+df[[f'X{i}' for i in range(1, 9)] + ['Y1', 'Y2']].corr(numeric_only=True)[['Y1', 'Y2']]"""),
+            markdown('## 3. Multicollinearity and leakage controls\n\nX2 is excluded because the dataset satisfies X2 = X3 + 2X4. The opposite target is removed separately for each target run.'),
+            code("""print('X2 - X3 - 2*X4 max residual:', np.abs(df['X2'] - df['X3'] - 2 * df['X4']).max())
+print('Y1 run excludes Y2; Y2 run excludes Y1.')"""),
+            markdown('## 4. Linear Regression and Gradient Descent\n\nThe scratch model uses y_hat = Xw + b and minimizes mean squared error with batch gradient descent and tolerance-based early stopping.'),
+            markdown('## 5. Train and evaluate both targets'),
+            code("""def train_target(target_col):
+    target_df = df.drop(columns=['Y2' if target_col == 'Y1' else 'Y1'])
+    X_train, X_test, y_train, y_test, _, _ = preprocess_pipeline(
+        target_df, target_col=target_col, test_size=0.2, random_seed=42
+    )
+    model = LinearRegressionScratch(learning_rate=0.01, n_iterations=10000, tolerance=1e-6)
+    model.fit(X_train.values, y_train)
+    prediction = model.predict(X_test.values)
+    baseline = np.full(y_test.shape, np.mean(y_train))
+    return {
+        'model': model, 'y_test': y_test, 'prediction': prediction,
+        'baseline': baseline, 'columns': X_train.columns,
+    }
+
+results = {target: train_target(target) for target in ['Y1', 'Y2']}
+for target, result in results.items():
+    print(target, 'MAE=', mae(result['y_test'], result['prediction']))
+    print(target, 'RMSE=', rmse(result['y_test'], result['prediction']))
+    print(target, 'R2=', r2_score(result['y_test'], result['prediction']))
+    print(target, 'iterations=', result['model'].iterations_run)"""),
+            markdown('## 6. Diagnostics and 5-fold cross-validation'),
+            code("""for target, result in results.items():
+    residuals = result['y_test'] - result['prediction']
+    fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+    axes[0].scatter(result['y_test'], result['prediction'], alpha=0.5)
+    axes[0].set_title(f'{target}: actual vs predicted')
+    axes[1].hist(residuals, bins=30, color='slateblue', edgecolor='white')
+    axes[1].set_title(f'{target}: residual distribution')
+    plt.tight_layout()
+    plt.show()
+
+for target in ['Y1', 'Y2']:
+    target_df = df.drop(columns=['Y2' if target == 'Y1' else 'Y1'])
+    folds = make_kfold_splits(target_df, target_col=target, n_splits=5, random_seed=42)
+    fold_scores = []
+    for train_df, test_df in folds:
+        X_train, X_test, y_train, y_test, _, _ = preprocess_pipeline(
+            target_df, target_col=target, train_df=train_df, test_df=test_df,
+            test_size=0.2, random_seed=42
+        )
+        model = LinearRegressionScratch(learning_rate=0.01, n_iterations=10000, tolerance=1e-6)
+        model.fit(X_train.values, y_train)
+        fold_scores.append(r2_score(y_test, model.predict(X_test.values)))
+    print(target, 'CV R2 mean/std=', np.mean(fold_scores), np.std(fold_scores))"""),
+            markdown('## 7. Conclusion and limitations\n\nThe model is a strong interpretable baseline for both targets. It does not capture all nonlinear heat-transfer effects, so residual patterns and generalization should be considered before production use.'),
         ],
         "metadata": {
             "kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"},
@@ -195,8 +247,9 @@ def main():
     NOTEBOOK_DIR.mkdir(parents=True, exist_ok=True)
 
     metrics_df = parse_metrics_report(TABLE_DIR / 'metrics_report.txt')
-    coeff_df = parse_coefficients(TABLE_DIR / 'model_coefficients.csv')
-    final_md = generate_final_markdown(metrics_df, coeff_df)
+    coeff_df = parse_coefficients(TABLE_DIR / 'model_coefficients_y1.csv')
+    coeff_df_y2 = parse_coefficients(TABLE_DIR / 'model_coefficients_y2.csv')
+    final_md = generate_final_markdown(metrics_df, coeff_df, coeff_df_y2)
 
     # Write final markdown report.
     (OUT_DIR / 'final_report.md').write_text(final_md, encoding='utf-8')
