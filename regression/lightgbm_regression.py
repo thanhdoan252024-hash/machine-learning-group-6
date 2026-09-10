@@ -19,6 +19,7 @@ class LightGBMRegression:
         reg_alpha=0.0,
         reg_lambda=1.0,
         min_gain_to_split=0.0,
+        min_data_in_leaf=1,
     ):
         self.n_estimators = n_estimators
         self.learning_rate = learning_rate
@@ -31,6 +32,7 @@ class LightGBMRegression:
         self.reg_alpha = reg_alpha
         self.reg_lambda = reg_lambda
         self.min_gain_to_split = min_gain_to_split
+        self.min_data_in_leaf = max(1, int(min_data_in_leaf))
         self.base_prediction = 0.0
         self.trees = []
         self.feature_bins = None
@@ -39,6 +41,18 @@ class LightGBMRegression:
         self.efb_bundles = []
         self.efb_applied = False
         self.efb_offsets = {}
+
+    @staticmethod
+    def _compute_gradient_hessian(y_true, predictions):
+        """Tính gradient và hessian cho regression loss 0.5 * (pred - y)^2.
+
+        Với loss bình phương, gradient = pred - y và hessian = 1.
+        """
+        y_true = np.asarray(y_true, dtype=float).reshape(-1)
+        predictions = np.asarray(predictions, dtype=float).reshape(-1)
+        gradients = predictions - y_true
+        hessians = np.ones_like(gradients)
+        return gradients, hessians
 
     def _prepare_bins(self, X):
         self.bin_thresholds = []
@@ -183,6 +197,10 @@ class LightGBMRegression:
         return row_indices[goes_left], row_indices[~goes_left]
 
     def _best_first_tree(self, rows, gradients, hessians):
+        if self.feature_importances_ is None:
+            self.feature_importances_ = np.zeros(
+                self.feature_bins.shape[1], dtype=float
+            )
         root_histogram = self._histogram(rows, gradients, hessians)
         root_gradient = gradients[rows].sum()
         root_hessian = hessians[rows].sum()
@@ -202,6 +220,8 @@ class LightGBMRegression:
             nonlocal counter
             if self.max_depth != -1 and leaf["depth"] >= self.max_depth:
                 return
+            if leaf["rows"].size < self.min_data_in_leaf:
+                return
             split = self._best_split(
                 leaf["histogram"], leaf["gradient_sum"], leaf["hessian_sum"]
             )
@@ -216,6 +236,11 @@ class LightGBMRegression:
                 continue
             left_rows, right_rows = self._split_rows(leaf["rows"], split)
             if left_rows.size == 0 or right_rows.size == 0:
+                continue
+            if (
+                left_rows.size < self.min_data_in_leaf
+                or right_rows.size < self.min_data_in_leaf
+            ):
                 continue
 
             if left_rows.size <= right_rows.size:
@@ -310,6 +335,8 @@ class LightGBMRegression:
             raise ValueError("top_rate + other_rate không được vượt quá 1.")
         if self.reg_alpha < 0 or self.reg_lambda < 0:
             raise ValueError("reg_alpha và reg_lambda không được âm.")
+        if self.min_data_in_leaf < 1:
+            raise ValueError("min_data_in_leaf phải lớn hơn hoặc bằng 1.")
         self._prepare_bins(X)
         self.base_prediction = float(y.mean())
         predictions = np.full(y.shape, self.base_prediction, dtype=float)
@@ -317,8 +344,7 @@ class LightGBMRegression:
         self.feature_importances_ = np.zeros(X.shape[1], dtype=float)
 
         for estimator_index in range(self.n_estimators):
-            gradients = predictions - y
-            hessians = np.ones_like(gradients)
+            gradients, hessians = self._compute_gradient_hessian(y, predictions)
             selected_rows, weights = self._goss_sample(gradients, estimator_index)
             sampled_gradients = np.zeros_like(gradients)
             sampled_hessians = np.zeros_like(hessians)
