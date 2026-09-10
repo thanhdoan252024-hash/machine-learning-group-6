@@ -28,7 +28,7 @@ regression/
 │
 ├── utils/
 │   ├── __init__.py
-│   └── validation.py   <--- Kiểm tra điều kiện dữ liệu đầu vào y_true, y_predict 
+│   └── validation.py
 │
 ├── outputs/
 │   ├── result/
