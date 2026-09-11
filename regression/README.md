@@ -126,12 +126,6 @@ Phân phối sai số test cũng tập trung gần 0 và gần giống train, ph
 
 MAE và MSE test cao hơn train, còn R² thấp hơn nhẹ. Chênh lệch không lớn nên không biểu hiện overfitting mạnh; riêng khoảng cách MSE đáng chú ý hơn vì metric này nhạy với ngoại lệ. Ba metric có thang đo khác nhau, vì vậy chỉ nên so train với test trong từng metric.
 
-### Feature Importance
-
-![Feature Importance](outputs/figures/feature_importance.png)
-
-`questions_correct` chiếm gần như toàn bộ tổng split gain, tiếp theo là `questions_attempted`; các feature khác đóng góp rất nhỏ trên thang đo hiện tại. Điều này hợp lý vì số câu đúng liên hệ trực tiếp với điểm thi, nhưng cũng cho thấy mô hình phụ thuộc mạnh vào thông tin chỉ có trong hoặc ngay sau kỳ thi. Nếu mục tiêu là cảnh báo sớm trước khi thi, cần loại hoặc thay thế các biến này để tránh một **proxy quá gần target**, rồi đánh giá lại. Importance theo gain phản ánh mức độ mô hình sử dụng biến, không chứng minh quan hệ nhân quả; có thể kết hợp permutation importance hoặc SHAP khi cần diễn giải sâu hơn.
-
 ## Ý nghĩa và giới hạn của dự đoán
 
 Với MAE test khoảng 1,51, dự đoán phù hợp để ước lượng xu hướng hoặc sàng lọc trường hợp cần hỗ trợ, nhưng một dự đoán đơn lẻ vẫn có thể sai nhiều hơn mức trung bình. Độ chính xác rất cao phần lớn gắn với `questions_correct`, nên giá trị sử dụng phụ thuộc vào thời điểm feature này có sẵn. Khi triển khai cần xác định rõ thời điểm dự báo, giám sát sai số theo nhóm sinh viên và không diễn giải feature importance như tác động nhân quả.
