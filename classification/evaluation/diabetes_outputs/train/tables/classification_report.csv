@@ -1,6 +1,0 @@
-label,row_type,precision,recall,f1_score,support
-Không bị tiểu đường,class,0.906105,0.937924,0.921740,139733
-Tiểu đường,class,0.510358,0.399655,0.448273,22622
-accuracy,summary,,,0.862924,162355
-macro avg,summary,0.708232,0.668790,0.685007,162355
-weighted avg,summary,0.850963,0.862924,0.855769,162355
