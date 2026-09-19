@@ -166,13 +166,4 @@ Thông qua project, nhóm hướng tới việc:
 
 ---
 
-# 👥 Thành viên
 
-| Thành viên             | Vai trò |
-| ---------------------- | ------- |
-| Thành Đoàn             | Leader  |
-| Hà Thị Trâm Anh        | Member  |
-| Nguyễn Thị Vân Anh     | Member  |
-| Trần Trung Châu        | Member  |
-| Dương Ngọc Khánh Giang | Member  |
-| Trần Nghĩa Nhân        | Member  |
