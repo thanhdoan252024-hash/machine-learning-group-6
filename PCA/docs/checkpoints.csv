@@ -1,0 +1,11 @@
+﻿Checkpoint,Phase,Pass criteria
+CP1,1,561 features; labels align; finite
+CP2,2,train mean≈0; std≈1; finite
+CP3,4,covariance symmetric; eigenvectors orthogonal; EVR≈1
+CP4,5,CEV monotonic; k80/k90/k95/k99
+CP5,6,2D/3D plots; PC variance order
+CP6,7,MSE finite/non-increasing; full-PC MSE≈0
+CP7,8,loading norm≈1
+CP8,9,PCA95 primary; PCA90 alternative; no overclaim
+CP9,10,arrays valid; PCA90 prefix PCA95
+CP10,11,all artifacts exist

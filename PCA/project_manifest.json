@@ -1,0 +1,98 @@
+{
+  "project": "UCI HAR PCA From Scratch",
+  "status": "PCA complete",
+  "constraints": {
+    "use_sklearn_scaler": false,
+    "use_sklearn_pca": false,
+    "scaler_fit": "train_only",
+    "pca_fit": "train_only",
+    "test": "transform_only"
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "Dataset preparation",
+      "prompt": "P01",
+      "checkpoint": "CP1",
+      "status": "complete"
+    },
+    {
+      "phase": 2,
+      "name": "Standardization",
+      "prompt": "P02",
+      "checkpoint": "CP2",
+      "status": "complete"
+    },
+    {
+      "phase": 3,
+      "name": "PCA from scratch",
+      "prompt": "P03",
+      "checkpoint": null,
+      "status": "complete"
+    },
+    {
+      "phase": 4,
+      "name": "Mathematical and API validation",
+      "prompt": "P04/P05",
+      "checkpoint": "CP3",
+      "status": "complete"
+    },
+    {
+      "phase": 5,
+      "name": "Explained variance",
+      "prompt": "P06",
+      "checkpoint": "CP4",
+      "status": "complete"
+    },
+    {
+      "phase": 6,
+      "name": "Visualization",
+      "prompt": "P07",
+      "checkpoint": "CP5",
+      "status": "complete"
+    },
+    {
+      "phase": 7,
+      "name": "Reconstruction",
+      "prompt": "P08",
+      "checkpoint": "CP6",
+      "status": "complete"
+    },
+    {
+      "phase": 8,
+      "name": "Loadings",
+      "prompt": "P09",
+      "checkpoint": "CP7",
+      "status": "complete"
+    },
+    {
+      "phase": 9,
+      "name": "Candidate selection",
+      "prompt": "P10",
+      "checkpoint": "CP8",
+      "status": "complete"
+    },
+    {
+      "phase": 10,
+      "name": "Final datasets",
+      "prompt": "P11",
+      "checkpoint": "CP9",
+      "status": "complete"
+    },
+    {
+      "phase": 11,
+      "name": "Export and reload validation",
+      "prompt": "P12",
+      "checkpoint": "CP10",
+      "status": "complete"
+    }
+  ],
+  "final_representations": [
+    "Original standardized",
+    "PCA90",
+    "PCA95"
+  ],
+  "next_stage": "classification",
+  "latest_verified_run": "runs/run_20260910T081200Z",
+  "source_notebook": "notebook/PCA_From_Scratch_UCI_HAR_Phase1_11_With_AI_Prompting_Log.ipynb"
+}

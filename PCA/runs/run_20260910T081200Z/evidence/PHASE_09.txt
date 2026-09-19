@@ -1,0 +1,27 @@
+CELL 44
+  Configuration  Target variance    k  Actual retained variance  \
+0         PCA80             0.80   26                  0.801805   
+1         PCA90             0.90   63                  0.900535   
+2         PCA95             0.95  102                  0.950756   
+3         PCA99             0.99  179                  0.990193   
+
+   Dimensions reduced  Reduction ratio  Train reconstruction MSE  \
+0                 535         0.953654                  0.198195   
+1                 498         0.887701                  0.099465   
+2                 459         0.818182                  0.049244   
+3                 382         0.680927                  0.009807   
+
+   Test reconstruction MSE  
+0                 0.201124  
+1                 0.108264  
+2                 0.055832  
+3                 0.012422  
+Primary configuration    : PCA95 (k=102)
+Alternative configuration: PCA90 (k=63)
+
+Interpretation:
+- PCA95 ưu tiên bảo toàn thông tin trước classification.
+- PCA90 ưu tiên giảm chiều mạnh hơn.
+- Chưa gọi cấu hình nào là tối ưu tuyệt đối trước downstream evaluation.
+
+CHECKPOINT 8 — Candidate Selection: PASS ✅

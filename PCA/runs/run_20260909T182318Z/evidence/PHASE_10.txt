@@ -1,0 +1,23 @@
+CELL 47
+Original train: (7352, 561)
+PCA90 train   : (7352, 63)
+PCA95 train   : (7352, 102)
+
+Original test : (2947, 561)
+PCA90 test    : (2947, 63)
+PCA95 test    : (2947, 102)
+
+CELL 48
+Max nested-basis error — train: 4.440892098500626e-15
+Max nested-basis error — test : 5.329070518200751e-15
+
+CHECKPOINT 9 — PCA Dataset Validation: PASS ✅
+
+CELL 49
+  Dataset representation  Dimensions  Retained variance  Reduction ratio
+0  Original standardized         561           1.000000         0.000000
+1                  PCA90          63           0.900535         0.887701
+2                  PCA95         102           0.950756         0.818182
+Primary candidate    : PCA95
+Alternative candidate: PCA90
+Baseline             : Original 561 standardized features

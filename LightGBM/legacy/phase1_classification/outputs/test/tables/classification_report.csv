@@ -1,0 +1,6 @@
+label,row_type,precision,recall,f1_score,support
+Không hỏng máy,class,0.989728,0.997412,0.993555,1932
+Hỏng máy,class,0.905660,0.705882,0.793388,68
+accuracy,summary,,,0.987500,2000
+macro avg,summary,0.947694,0.851647,0.893472,2000
+weighted avg,summary,0.986869,0.987500,0.986749,2000

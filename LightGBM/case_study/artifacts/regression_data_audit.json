@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "dataset": "regression/data/raw/student_exam_performance.csv",
+  "n_rows": 100000,
+  "n_columns": 44,
+  "target": "exam_score",
+  "target_derived_columns_to_exclude": [
+    "performance_grade",
+    "pass_status",
+    "performance_level"
+  ],
+  "post_exam_columns_excluded_in_primary_scenario": [
+    "questions_attempted",
+    "questions_correct"
+  ],
+  "missing_values": {
+    "parent_education": 6526,
+    "previous_gpa": 7793,
+    "attendance_percentage": 9863,
+    "notes_quality": 8407,
+    "sleep_quality": 6994,
+    "device_availability": 2965,
+    "time_management_score": 9613
+  },
+  "duplicate_rows": 0,
+  "numeric_feature_abs_correlation_with_target_top10": {
+    "questions_correct": 0.9753096083870587,
+    "previous_exam_score": 0.49443836649598194,
+    "previous_gpa": 0.46776337726104106,
+    "study_hours_per_day": 0.3632430905338282,
+    "self_study_hours": 0.3429554662538076,
+    "practice_tests_completed": 0.31647530926954426,
+    "assignment_completion_rate": 0.2211175725429762,
+    "exam_preparation_days": 0.19857742384126661,
+    "sleep_hours": 0.17060025161406256,
+    "attendance_percentage": 0.1691383035196545
+  },
+  "questions_correct_abs_correlation": 0.9753096083870587
+}

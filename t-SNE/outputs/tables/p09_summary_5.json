@@ -1,0 +1,15 @@
+{
+  "Perplexity": 5,
+  "Samples": 1000,
+  "Initial KL": 5.082606806946682,
+  "Best KL": 0.9038948483823853,
+  "Final Restored KL": 0.9038948483823853,
+  "Best Iteration": 750,
+  "Actual Iterations": 750,
+  "Stopped Early": false,
+  "Runtime Seconds": 18.561123024999972,
+  "Achieved Perplexity Min": 4.999950022557697,
+  "Achieved Perplexity Mean": 5.0000019861066916,
+  "Achieved Perplexity Max": 5.000049926521772,
+  "Max Perplexity Abs Error": 4.997744230283985e-05
+}

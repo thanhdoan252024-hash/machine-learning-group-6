@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "all_pass": true,
+  "checks": {
+    "regression_gradient_max_abs_error": {
+      "value": 0.0,
+      "threshold": 1e-12,
+      "pass": true
+    },
+    "regression_hessian_all_one": {
+      "value": true,
+      "pass": true
+    },
+    "binary_gradient_finite_difference_max_abs_error": {
+      "value": 2.8178104294340756e-10,
+      "threshold": 1e-05,
+      "pass": true
+    },
+    "binary_hessian_positive": {
+      "value": true,
+      "pass": true
+    },
+    "efb_applied_on_mutually_exclusive_features": {
+      "value": true,
+      "pass": true
+    },
+    "efb_histogram_equivalence_max_abs_error": {
+      "value": 4.440892098500626e-16,
+      "threshold": 1e-12,
+      "pass": true
+    }
+  }
+}

@@ -1,0 +1,355 @@
+CELL 4
+Working directory: C:\Users\LENOVO\Desktop\ML_KG
+Run directory: C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z
+
+CELL 5
+Dataset đã sẵn sàng: C:\Users\LENOVO\Desktop\ML_KG\UCI HAR Dataset
+
+DATASET_DIR cuối cùng: C:\Users\LENOVO\Desktop\ML_KG\UCI HAR Dataset
+
+CELL 6
+X_train: (7352, 561)
+X_test : (2947, 561)
+y_train: (7352,)
+y_test : (2947,)
+Số feature names: 561
+Activities: {1: 'WALKING', 2: 'WALKING_UPSTAIRS', 3: 'WALKING_DOWNSTAIRS', 4: 'SITTING', 5: 'STANDING', 6: 'LAYING'}
+
+CELL 7
+=== DATASET AUDIT ===
+Train samples : 7352
+Test samples  : 2947
+Features      : 561
+Classes       : 6
+
+NaN / Inf:
+X_train NaN: 0
+X_train Inf: 0
+X_test  NaN: 0
+X_test  Inf: 0
+
+Feature variance:
+Min variance: 0.0016652723790956574
+Max variance: 0.5650254817385447
+Số feature variance < 1e-12: 0
+
+Class distribution — train:
+1: WALKING              1226
+2: WALKING_UPSTAIRS     1073
+3: WALKING_DOWNSTAIRS   986
+4: SITTING              1286
+5: STANDING             1374
+6: LAYING               1407
+
+Class distribution — test:
+1: WALKING              496
+2: WALKING_UPSTAIRS     471
+3: WALKING_DOWNSTAIRS   420
+4: SITTING              491
+5: STANDING             532
+6: LAYING               537
+
+CHECKPOINT 1: PASS ✅
+
+CELL 10
+X_train_scaled: (7352, 561)
+X_test_scaled : (2947, 561)
+
+CELL 11
+=== STANDARDIZATION CHECK ===
+Max |mean| trên train scaled: 3.1128051525275424e-13
+Max |std - 1| (non-constant features): 5.440092820663267e-14
+Zero/near-zero variance features: 0
+Train finite: True
+Test finite : True
+
+CHECKPOINT 2: PASS ✅
+
+CELL 14
+Covariance shape: (561, 561)
+Eigenvalues shape: (561,)
+Eigenvectors shape: (561, 561)
+Components retained: 561
+
+CELL 17
+=== PCA MATHEMATICAL VALIDATION ===
+1) Max covariance symmetry error: 0.0
+2) Minimum eigenvalue: 0.0
+3) Max eigenvector orthogonality error: 3.552713678800501e-15
+4) Sum explained variance ratio: 0.9999999999999999
+5) Eigenvalues descending: True
+   Max order violation: 0.0
+6) Max |off-diagonal| of PCA-score covariance: 1.0692841735916926e-13
+7) Max |diag(cov_Z) - eigenvalue|: 1.7053025658242404e-13
+
+CHECKPOINT 3: PASS ✅
+
+CELL 19
+=== PCA FUNCTIONAL TEST ===
+k_test: 10
+Train original: (7352, 561)
+Train PCA     : (7352, 10)
+Test original : (2947, 561)
+Test PCA      : (2947, 10)
+Reconstruction MSE (k=10): 0.2918443124130924
+
+FUNCTIONAL TEST: PASS ✅
+
+CELL 23
+Số principal components: 561
+Tổng EVR: 0.9999999999999999
+Cumulative variance cuối: 1.000000000000001
+Explained variance checks: PASS ✅
+
+CELL 24
+<Figure size 1100x500 with 1 Axes>
+<Figure size 1100x500 with 1 Axes>
+
+CELL 25
+<Figure size 1100x500 with 1 Axes>
+
+CELL 26
+   Target variance  Components (k)  Actual retained variance  \
+0             0.80              26                  0.801805   
+1             0.90              63                  0.900535   
+2             0.95             102                  0.950756   
+3             0.99             179                  0.990193   
+
+   Dimensions reduced  Reduction ratio  
+0                 535         0.953654  
+1                 498         0.887701  
+2                 459         0.818182  
+3                 382         0.680927  
+
+Selected candidate k values:
+80% variance -> k = 26
+90% variance -> k = 63
+95% variance -> k = 102
+99% variance -> k = 179
+
+CHECKPOINT 4 — Explained Variance: PASS ✅
+
+CELL 29
+Z_train_3d shape: (7352, 3)
+Variance PC1-PC3: [284.921131  36.922638  15.746252]
+PCA visualization preparation: PASS ✅
+
+CELL 30
+<Figure size 900x700 with 1 Axes>
+<Figure size 900x700 with 1 Axes>
+<Figure size 900x700 with 1 Axes>
+
+CELL 31
+<Figure size 1000x800 with 1 Axes>
+CHECKPOINT 5 — PCA Visualization: PASS ✅
+
+CELL 34
+
+CELL 35
+      k     Train MSE      Test MSE  Train retained variance  Reduction ratio
+0     1  4.921883e-01  4.363483e-01                 0.507812         0.998217
+1     2  4.263815e-01  3.916858e-01                 0.573619         0.996435
+2     3  3.983171e-01  3.735786e-01                 0.601683         0.994652
+3     5  3.543947e-01  3.387090e-01                 0.645605         0.991087
+4    10  2.918443e-01  2.880430e-01                 0.708156         0.982175
+5    20  2.262535e-01  2.266891e-01                 0.773746         0.964349
+6    26  1.981950e-01  2.011244e-01                 0.801805         0.953654
+7    30  1.822040e-01  1.866055e-01                 0.817796         0.946524
+8    50  1.248164e-01  1.324480e-01                 0.875184         0.910873
+9    63  9.946549e-02  1.082636e-01                 0.900535         0.887701
+10   75  8.045218e-02  8.920970e-02                 0.919548         0.866310
+11  100  5.108496e-02  5.783615e-02                 0.948915         0.821747
+12  102  4.924418e-02  5.583215e-02                 0.950756         0.818182
+13  150  1.894627e-02  2.306077e-02                 0.981054         0.732620
+14  179  9.807321e-03  1.242173e-02                 0.990193         0.680927
+15  200  6.363887e-03  8.047198e-03                 0.993636         0.643494
+16  300  9.012385e-04  1.215097e-03                 0.999099         0.465241
+17  400  2.653673e-05  4.680661e-05                 0.999973         0.286988
+18  500  2.674189e-17  3.125249e-17                 1.000000         0.108734
+19  561  2.571551e-30  2.267485e-30                 1.000000         0.000000
+
+CELL 36
+<Figure size 1100x600 with 1 Axes>
+Train MSE with all PCs: 2.5715506145949157e-30
+Test MSE with all PCs : 2.2674851405482472e-30
+
+CHECKPOINT 6 — Reconstruction Analysis: PASS ✅
+
+CELL 39
+
+===== TOP LOADINGS — PC1 =====
+    PC  Feature index                Feature name   Loading  |Loading|
+0  PC1            280              fBodyAcc-sma()  0.058571   0.058571
+1  PC1            359          fBodyAccJerk-sma()  0.058568   0.058568
+2  PC1             95          tBodyAccJerk-sma()  0.058538   0.058538
+3  PC1            438             fBodyGyro-sma()  0.058531   0.058531
+4  PC1            226      tBodyAccJerkMag-mean()  0.058493   0.058493
+5  PC1            231       tBodyAccJerkMag-sma()  0.058493   0.058493
+6  PC1            515  fBodyBodyAccJerkMag-mean()  0.058128   0.058128
+7  PC1            520   fBodyBodyAccJerkMag-sma()  0.058128   0.058128
+8  PC1            228       tBodyAccJerkMag-mad()  0.058017   0.058017
+9  PC1            227       tBodyAccJerkMag-std()  0.057985   0.057985
+Sum of squared loadings PC1: 0.9999999999999989
+
+===== TOP LOADINGS — PC2 =====
+    PC  Feature index               Feature name   Loading  |Loading|
+0  PC2            295      fBodyAcc-meanFreq()-Z  0.122385   0.122385
+1  PC2            248    tBodyGyroMag-arCoeff()1  0.119783   0.119783
+2  PC2            222  tGravityAccMag-arCoeff()1  0.118162   0.118162
+3  PC2            209     tBodyAccMag-arCoeff()1  0.118162   0.118162
+4  PC2            512     fBodyAccMag-meanFreq()  0.117854   0.117854
+5  PC2             73  tGravityAcc-arCoeff()-Z,1  0.117561   0.117561
+6  PC2             74  tGravityAcc-arCoeff()-Z,2 -0.117093   0.117093
+7  PC2             75  tGravityAcc-arCoeff()-Z,3  0.115289   0.115289
+8  PC2             76  tGravityAcc-arCoeff()-Z,4 -0.112013   0.112013
+9  PC2            249    tBodyGyroMag-arCoeff()2 -0.111867   0.111867
+Sum of squared loadings PC2: 0.9999999999999988
+
+===== TOP LOADINGS — PC3 =====
+    PC  Feature index               Feature name   Loading  |Loading|
+0  PC3             56     tGravityAcc-energy()-X -0.110061   0.110061
+1  PC3             65  tGravityAcc-arCoeff()-X,1 -0.109915   0.109915
+2  PC3             63    tGravityAcc-entropy()-Y  0.109555   0.109555
+3  PC3             58     tGravityAcc-energy()-Z  0.109078   0.109078
+4  PC3             52        tGravityAcc-min()-X -0.108219   0.108219
+5  PC3            558       angle(X,gravityMean)  0.107508   0.107508
+6  PC3             43        tGravityAcc-std()-X  0.104384   0.104384
+7  PC3             40       tGravityAcc-mean()-X -0.104127   0.104127
+8  PC3             46        tGravityAcc-mad()-X  0.104113   0.104113
+9  PC3             59        tGravityAcc-iqr()-X  0.102008   0.102008
+Sum of squared loadings PC3: 1.0000000000000004
+
+===== TOP LOADINGS — PC4 =====
+    PC  Feature index            Feature name   Loading  |Loading|
+0  PC4             51     tGravityAcc-max()-Z -0.143971   0.143971
+1  PC4             42    tGravityAcc-mean()-Z -0.141018   0.141018
+2  PC4            560    angle(Z,gravityMean)  0.139935   0.139935
+3  PC4             54     tGravityAcc-min()-Z -0.136219   0.136219
+4  PC4             52     tGravityAcc-min()-X  0.127389   0.127389
+5  PC4             40    tGravityAcc-mean()-X  0.124531   0.124531
+6  PC4            296   fBodyAcc-skewness()-X -0.123724   0.123724
+7  PC4            297   fBodyAcc-kurtosis()-X -0.122033   0.122033
+8  PC4             56  tGravityAcc-energy()-X  0.121121   0.121121
+9  PC4             49     tGravityAcc-max()-X  0.120072   0.120072
+Sum of squared loadings PC4: 1.0000000000000004
+
+===== TOP LOADINGS — PC5 =====
+    PC  Feature index               Feature name   Loading  |Loading|
+0  PC5            558       angle(X,gravityMean)  0.167569   0.167569
+1  PC5             56     tGravityAcc-energy()-X -0.165242   0.165242
+2  PC5             49        tGravityAcc-max()-X -0.162362   0.162362
+3  PC5             40       tGravityAcc-mean()-X -0.160478   0.160478
+4  PC5             52        tGravityAcc-min()-X -0.158584   0.158584
+5  PC5             57     tGravityAcc-energy()-Y  0.148915   0.148915
+6  PC5             71  tGravityAcc-arCoeff()-Y,3  0.140883   0.140883
+7  PC5             70  tGravityAcc-arCoeff()-Y,2 -0.140379   0.140379
+8  PC5             72  tGravityAcc-arCoeff()-Y,4 -0.138324   0.138324
+9  PC5             69  tGravityAcc-arCoeff()-Y,1  0.137638   0.137638
+Sum of squared loadings PC5: 0.9999999999999989
+
+Loading normalization checks: PASS ✅
+
+CELL 40
+<Figure size 1000x600 with 1 Axes>
+<Figure size 1000x600 with 1 Axes>
+<Figure size 1000x600 with 1 Axes>
+<Figure size 1000x600 with 1 Axes>
+<Figure size 1000x600 with 1 Axes>
+CHECKPOINT 7 — Loading Analysis: PASS ✅
+
+CELL 44
+  Configuration  Target variance    k  Actual retained variance  \
+0         PCA80             0.80   26                  0.801805   
+1         PCA90             0.90   63                  0.900535   
+2         PCA95             0.95  102                  0.950756   
+3         PCA99             0.99  179                  0.990193   
+
+   Dimensions reduced  Reduction ratio  Train reconstruction MSE  \
+0                 535         0.953654                  0.198195   
+1                 498         0.887701                  0.099465   
+2                 459         0.818182                  0.049244   
+3                 382         0.680927                  0.009807   
+
+   Test reconstruction MSE  
+0                 0.201124  
+1                 0.108264  
+2                 0.055832  
+3                 0.012422  
+Primary configuration    : PCA95 (k=102)
+Alternative configuration: PCA90 (k=63)
+
+Interpretation:
+- PCA95 ưu tiên bảo toàn thông tin trước classification.
+- PCA90 ưu tiên giảm chiều mạnh hơn.
+- Chưa gọi cấu hình nào là tối ưu tuyệt đối trước downstream evaluation.
+
+CHECKPOINT 8 — Candidate Selection: PASS ✅
+
+CELL 47
+Original train: (7352, 561)
+PCA90 train   : (7352, 63)
+PCA95 train   : (7352, 102)
+
+Original test : (2947, 561)
+PCA90 test    : (2947, 63)
+PCA95 test    : (2947, 102)
+
+CELL 48
+Max nested-basis error — train: 4.440892098500626e-15
+Max nested-basis error — test : 5.329070518200751e-15
+
+CHECKPOINT 9 — PCA Dataset Validation: PASS ✅
+
+CELL 49
+  Dataset representation  Dimensions  Retained variance  Reduction ratio
+0  Original standardized         561           1.000000         0.000000
+1                  PCA90          63           0.900535         0.887701
+2                  PCA95         102           0.950756         0.818182
+Primary candidate    : PCA95
+Alternative candidate: PCA90
+Baseline             : Original 561 standardized features
+
+CELL 52
+Exported files:
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\pca_candidate_comparison.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\pca_final_summary.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\pca_from_scratch_parameters.npz
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\pca_reconstruction_analysis.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\README.txt
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_test_pca90.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_test_pca95.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_test_scaled.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_train_pca90.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_train_pca95.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_train_scaled.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\y_test.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\y_train.npy
+All exported files:
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_train_scaled.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_test_scaled.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_train_pca90.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_test_pca90.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_train_pca95.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_test_pca95.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\y_train.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\y_test.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\pca_from_scratch_parameters.npz
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\pca_candidate_comparison.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\pca_final_summary.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\pca_reconstruction_analysis.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\README.txt
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\CP04_variance_summary.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\CP04_eigenvalue_spectrum.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\feature_names.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\activity_labels.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\CP07_all_loadings.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\CP07_top_loadings_pc1.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\CP07_top_loadings_pc2.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\CP07_top_loadings_pc3.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\CP07_top_loadings_pc4.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\CP07_top_loadings_pc5.csv
+Saved figures: 13 in C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\figures
+Numerical evidence: C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\evidence\run_metrics.json
+Disk reload and raw-input projection checks: PASS
+
+CHECKPOINT 10 — Export: PASS ✅

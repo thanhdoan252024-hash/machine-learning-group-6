@@ -1,0 +1,37 @@
+# Environment record
+
+```json
+{
+  "started_at_utc": "2026-09-10T08:12:00.658952+00:00",
+  "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 16:37:03) [MSC v.1929 64 bit (AMD64)]",
+  "python_executable": "C:\\Users\\LENOVO\\anaconda3\\python.exe",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "cpu": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "logical_cpus": 12,
+  "ram_bytes": 16873545728,
+  "packages": {
+    "numpy": "2.1.3",
+    "pandas": "2.2.3",
+    "matplotlib": "3.10.0",
+    "nbformat": "5.10.4",
+    "nbclient": "0.10.2",
+    "nbconvert": "7.16.6",
+    "ipykernel": "6.29.5",
+    "jupyter-client": "8.6.3",
+    "ipython": "8.30.0",
+    "psutil": "5.9.0"
+  },
+  "dataset_dir": "C:\\Users\\LENOVO\\Desktop\\ML_KG\\data\\raw\\UCI HAR Dataset",
+  "run_dir": "C:\\Users\\LENOVO\\Desktop\\ML_KG\\runs\\run_20260910T081200Z",
+  "runtime": "local Jupyter kernel",
+  "thread_limits": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1"
+  }
+}
+```
+
+NumPy BLAS/LAPACK configuration: ../evidence/numpy_config.txt
+
+Dataset file hashes and provenance: ../dataset_manifest.json

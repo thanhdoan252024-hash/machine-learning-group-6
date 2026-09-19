@@ -1,0 +1,52 @@
+# Package contents
+
+???ng d?n b?n d??i t?nh t? th? m?c g?c project. K?t qu? th?c thi ???c li?t k? ri?ng trong t?ng runs/<run>/artifact_manifest.json.
+
+- `docs/00_README_START_HERE.md`
+- `docs/01_RESEARCH_IDEA_AND_SCOPE.md`
+- `docs/02_PCA_THEORY_KNOWLEDGE.md`
+- `docs/03_IMPLEMENTATION_ROADMAP.md`
+- `docs/04_STAGE_GATES_AND_QA.md`
+- `docs/05_AI_PROMPTING_LOG_MASTER.md`
+- `docs/06_ENVIRONMENT_AND_DATA_GUIDE.md`
+- `docs/07_MULTI_AGENT_WORK_BREAKDOWN.md`
+- `docs/08_REPRODUCIBILITY_AND_HANDOFF.md`
+- `docs/09_CLASSIFICATION_HANDOFF.md`
+- `docs/10_REFERENCES.md`
+- `docs/11_RUN_ORDER_QUICK_GUIDE.md`
+- `docs/12_RESULTS_AND_EVIDENCE_GUIDE.md`
+- `docs/18_EXECUTION_CHECKLIST.md`
+- `docs/19_EXPECTED_ARTIFACTS_CONTRACT.md`
+- `docs/checkpoints.csv`
+- `docs/PACKAGE_CONTENTS.md`
+- `docs/prompts/P00_Thi_t_k_pipeline_t_ng_th.md`
+- `docs/prompts/P01_Load_v_audit_UCI_HAR.md`
+- `docs/prompts/P02_Manual_Standardization_kh_ng_leakage.md`
+- `docs/prompts/P03_PCAFromScratch_b_ng_covariance_eigendecomposition.md`
+- `docs/prompts/P04_Mathematical_validation_cho_PCA_t_x_y_d_ng.md`
+- `docs/prompts/P05_Ki_m_tra_transform_v_inverse-transform.md`
+- `docs/prompts/P06_Explained_Variance_threshold_selection.md`
+- `docs/prompts/P07_PCA_2D_3D_visualization.md`
+- `docs/prompts/P08_Reconstruction_error_curve.md`
+- `docs/prompts/P09_Feature_loading_analysis.md`
+- `docs/prompts/P10_Final_PCA_candidate_selection.md`
+- `docs/prompts/P11_Build_PCA90_PCA95_datasets_and_validate.md`
+- `docs/prompts/P12_Export_reproducible_PCA_artifacts.md`
+- `docs/references/PCA_Colab_previous_run.pdf`
+- `docs/templates/AGENT_HANDOFF_TEMPLATE.md`
+- `docs/templates/DECISION_LOG_TEMPLATE.md`
+- `docs/templates/ENVIRONMENT_RECORD_TEMPLATE.md`
+- `docs/templates/FINAL_PCA_REPORT_TEMPLATE.md`
+- `docs/templates/ISSUE_LOG_TEMPLATE.md`
+- `docs/templates/PHASE_REPORT_TEMPLATE.md`
+- `docs/templates/RESULTS_TEMPLATE.md`
+- `notebook/PCA_From_Scratch_UCI_HAR_Phase1_11_With_AI_Prompting_Log.ipynb`
+- `scripts/run_pca.py`
+- `scripts/verify_pca_artifacts.py`
+- `README.md`
+- `project_manifest.json`
+- `requirements-repro.txt`
+- `data/README.md`
+- `data/dataset_provenance.json`
+- `runs/README.md`
+- `runs/latest.json`

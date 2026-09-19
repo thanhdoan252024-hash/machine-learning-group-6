@@ -1,0 +1,675 @@
+{
+  "passed": true,
+  "run_dir": "C:\\Users\\LENOVO\\Desktop\\ML_KG\\runs\\run_20260909T182318Z",
+  "manifest_checked": false,
+  "raw_dataset_checked": true,
+  "checks_total": 166,
+  "checks_failed": 0,
+  "failures": [],
+  "checks": [
+    {
+      "check": "file: outputs/X_train_scaled.npy",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/X_train_pca90.npy",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/X_train_pca95.npy",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/X_test_scaled.npy",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/X_test_pca90.npy",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/X_test_pca95.npy",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/y_train.npy",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/y_test.npy",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/pca_from_scratch_parameters.npz",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/pca_candidate_comparison.csv",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/pca_final_summary.csv",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/pca_reconstruction_analysis.csv",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/README.txt",
+      "passed": true
+    },
+    {
+      "check": "required arrays and parameters loaded",
+      "passed": true
+    },
+    {
+      "check": "finite parameter: cumulative_variance",
+      "passed": true
+    },
+    {
+      "check": "finite parameter: train_mean",
+      "passed": true
+    },
+    {
+      "check": "finite parameter: eigenvalues",
+      "passed": true
+    },
+    {
+      "check": "finite parameter: eigenvectors",
+      "passed": true
+    },
+    {
+      "check": "finite parameter: explained_variance_ratio",
+      "passed": true
+    },
+    {
+      "check": "finite parameter: k95",
+      "passed": true
+    },
+    {
+      "check": "finite parameter: train_scale",
+      "passed": true
+    },
+    {
+      "check": "finite parameter: zero_variance_mask",
+      "passed": true
+    },
+    {
+      "check": "finite parameter: k90",
+      "passed": true
+    },
+    {
+      "check": "parameter shape: cumulative_variance",
+      "passed": true
+    },
+    {
+      "check": "parameter shape: train_mean",
+      "passed": true
+    },
+    {
+      "check": "parameter shape: zero_variance_mask",
+      "passed": true
+    },
+    {
+      "check": "parameter shape: explained_variance_ratio",
+      "passed": true
+    },
+    {
+      "check": "parameter shape: train_scale",
+      "passed": true
+    },
+    {
+      "check": "parameter shape: eigenvalues",
+      "passed": true
+    },
+    {
+      "check": "eigenvector shape",
+      "passed": true
+    },
+    {
+      "check": "integer scalar: k90",
+      "passed": true
+    },
+    {
+      "check": "integer scalar: k95",
+      "passed": true
+    },
+    {
+      "check": "component counts valid",
+      "passed": true
+    },
+    {
+      "check": "positive total variance and nonnegative spectrum",
+      "passed": true
+    },
+    {
+      "check": "descending eigenvalues",
+      "passed": true
+    },
+    {
+      "check": "explained variance ratio",
+      "passed": true
+    },
+    {
+      "check": "cumulative variance",
+      "passed": true
+    },
+    {
+      "check": "orthonormal eigenbasis",
+      "passed": true
+    },
+    {
+      "check": "minimal k for threshold 0.9",
+      "passed": true
+    },
+    {
+      "check": "minimal k for threshold 0.95",
+      "passed": true
+    },
+    {
+      "check": "positive train scales",
+      "passed": true
+    },
+    {
+      "check": "boolean zero-variance mask",
+      "passed": true
+    },
+    {
+      "check": "shape: train scaled",
+      "passed": true
+    },
+    {
+      "check": "finite: train scaled",
+      "passed": true
+    },
+    {
+      "check": "shape: train pca90",
+      "passed": true
+    },
+    {
+      "check": "finite: train pca90",
+      "passed": true
+    },
+    {
+      "check": "shape: train pca95",
+      "passed": true
+    },
+    {
+      "check": "finite: train pca95",
+      "passed": true
+    },
+    {
+      "check": "labels: train",
+      "passed": true
+    },
+    {
+      "check": "nested PCA basis: train",
+      "passed": true
+    },
+    {
+      "check": "persisted projection PCA95: train",
+      "passed": true
+    },
+    {
+      "check": "persisted projection PCA90: train",
+      "passed": true
+    },
+    {
+      "check": "shape: test scaled",
+      "passed": true
+    },
+    {
+      "check": "finite: test scaled",
+      "passed": true
+    },
+    {
+      "check": "shape: test pca90",
+      "passed": true
+    },
+    {
+      "check": "finite: test pca90",
+      "passed": true
+    },
+    {
+      "check": "shape: test pca95",
+      "passed": true
+    },
+    {
+      "check": "finite: test pca95",
+      "passed": true
+    },
+    {
+      "check": "labels: test",
+      "passed": true
+    },
+    {
+      "check": "nested PCA basis: test",
+      "passed": true
+    },
+    {
+      "check": "persisted projection PCA95: test",
+      "passed": true
+    },
+    {
+      "check": "persisted projection PCA90: test",
+      "passed": true
+    },
+    {
+      "check": "train is centered",
+      "passed": true
+    },
+    {
+      "check": "train unit standard deviation",
+      "passed": true
+    },
+    {
+      "check": "constant features have zero variance",
+      "passed": true
+    },
+    {
+      "check": "saved eigensystem matches independent train covariance",
+      "passed": true
+    },
+    {
+      "check": "total eigenvalue sum matches train covariance trace",
+      "passed": true
+    },
+    {
+      "check": "raw dataset scaling: train",
+      "passed": true
+    },
+    {
+      "check": "raw labels unchanged: train",
+      "passed": true
+    },
+    {
+      "check": "train-only scaler mean",
+      "passed": true
+    },
+    {
+      "check": "train-only scaler scale",
+      "passed": true
+    },
+    {
+      "check": "train-only zero-variance mask",
+      "passed": true
+    },
+    {
+      "check": "raw dataset scaling: test",
+      "passed": true
+    },
+    {
+      "check": "raw labels unchanged: test",
+      "passed": true
+    },
+    {
+      "check": "all CSV tables loaded",
+      "passed": true
+    },
+    {
+      "check": "reconstruction rows ordered and unique",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 1",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=1",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 2",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=2",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 3",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=3",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 5",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=5",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 10",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=10",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 20",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=20",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 26",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=26",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 30",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=30",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 50",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=50",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 63",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=63",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 75",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=75",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 100",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=100",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 102",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=102",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 150",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=150",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 179",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=179",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 200",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=200",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 300",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=300",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 400",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=400",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 500",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=500",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 561",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=561",
+      "passed": true
+    },
+    {
+      "check": "full-basis reconstruction row exists",
+      "passed": true
+    },
+    {
+      "check": "four candidate configurations",
+      "passed": true
+    },
+    {
+      "check": "candidate selection: PCA80",
+      "passed": true
+    },
+    {
+      "check": "candidate metrics: PCA80",
+      "passed": true
+    },
+    {
+      "check": "candidate selection: PCA90",
+      "passed": true
+    },
+    {
+      "check": "candidate metrics: PCA90",
+      "passed": true
+    },
+    {
+      "check": "candidate selection: PCA95",
+      "passed": true
+    },
+    {
+      "check": "candidate metrics: PCA95",
+      "passed": true
+    },
+    {
+      "check": "candidate selection: PCA99",
+      "passed": true
+    },
+    {
+      "check": "candidate metrics: PCA99",
+      "passed": true
+    },
+    {
+      "check": "three final representations",
+      "passed": true
+    },
+    {
+      "check": "final summary: Original standardized",
+      "passed": true
+    },
+    {
+      "check": "final summary: PCA90",
+      "passed": true
+    },
+    {
+      "check": "final summary: PCA95",
+      "passed": true
+    },
+    {
+      "check": "file: notebook.executed.ipynb",
+      "passed": true
+    },
+    {
+      "check": "JSON content: notebook.executed.ipynb",
+      "passed": true
+    },
+    {
+      "check": "all 26 code cells executed",
+      "passed": true
+    },
+    {
+      "check": "notebook has no error outputs",
+      "passed": true
+    },
+    {
+      "check": "notebook checkpoints 1 through 10 passed",
+      "passed": true
+    },
+    {
+      "check": "13 exported PNG figures",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP04_cumulative_variance.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP04_cumulative_variance.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP04_scree_first100.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP04_scree_first100.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP04_scree_plot.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP04_scree_plot.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP05_pc1_pc2.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP05_pc1_pc2.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP05_pc1_pc2_pc3_3d.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP05_pc1_pc2_pc3_3d.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP05_pc1_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP05_pc1_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP05_pc2_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP05_pc2_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP06_reconstruction_curve.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP06_reconstruction_curve.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP07_loadings_pc1.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP07_loadings_pc1.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP07_loadings_pc2.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP07_loadings_pc2.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP07_loadings_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP07_loadings_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP07_loadings_pc4.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP07_loadings_pc4.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP07_loadings_pc5.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP07_loadings_pc5.png",
+      "passed": true
+    },
+    {
+      "check": "file: evidence/run_metrics.json",
+      "passed": true
+    },
+    {
+      "check": "JSON content: evidence/run_metrics.json",
+      "passed": true
+    },
+    {
+      "check": "file: evidence/checkpoints.json",
+      "passed": true
+    },
+    {
+      "check": "JSON content: evidence/checkpoints.json",
+      "passed": true
+    }
+  ]
+}

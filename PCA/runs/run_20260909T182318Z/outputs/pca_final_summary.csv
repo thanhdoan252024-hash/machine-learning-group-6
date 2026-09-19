@@ -1,0 +1,4 @@
+Dataset representation,Dimensions,Retained variance,Reduction ratio
+Original standardized,561,1.0,0.0
+PCA90,63,0.9005345066145933,0.8877005347593583
+PCA95,102,0.9507558220254131,0.8181818181818181

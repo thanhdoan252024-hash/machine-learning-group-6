@@ -1,0 +1,81 @@
+CELL 39
+
+===== TOP LOADINGS — PC1 =====
+    PC  Feature index                Feature name   Loading  |Loading|
+0  PC1            280              fBodyAcc-sma()  0.058571   0.058571
+1  PC1            359          fBodyAccJerk-sma()  0.058568   0.058568
+2  PC1             95          tBodyAccJerk-sma()  0.058538   0.058538
+3  PC1            438             fBodyGyro-sma()  0.058531   0.058531
+4  PC1            226      tBodyAccJerkMag-mean()  0.058493   0.058493
+5  PC1            231       tBodyAccJerkMag-sma()  0.058493   0.058493
+6  PC1            515  fBodyBodyAccJerkMag-mean()  0.058128   0.058128
+7  PC1            520   fBodyBodyAccJerkMag-sma()  0.058128   0.058128
+8  PC1            228       tBodyAccJerkMag-mad()  0.058017   0.058017
+9  PC1            227       tBodyAccJerkMag-std()  0.057985   0.057985
+Sum of squared loadings PC1: 0.9999999999999989
+
+===== TOP LOADINGS — PC2 =====
+    PC  Feature index               Feature name   Loading  |Loading|
+0  PC2            295      fBodyAcc-meanFreq()-Z  0.122385   0.122385
+1  PC2            248    tBodyGyroMag-arCoeff()1  0.119783   0.119783
+2  PC2            222  tGravityAccMag-arCoeff()1  0.118162   0.118162
+3  PC2            209     tBodyAccMag-arCoeff()1  0.118162   0.118162
+4  PC2            512     fBodyAccMag-meanFreq()  0.117854   0.117854
+5  PC2             73  tGravityAcc-arCoeff()-Z,1  0.117561   0.117561
+6  PC2             74  tGravityAcc-arCoeff()-Z,2 -0.117093   0.117093
+7  PC2             75  tGravityAcc-arCoeff()-Z,3  0.115289   0.115289
+8  PC2             76  tGravityAcc-arCoeff()-Z,4 -0.112013   0.112013
+9  PC2            249    tBodyGyroMag-arCoeff()2 -0.111867   0.111867
+Sum of squared loadings PC2: 0.9999999999999988
+
+===== TOP LOADINGS — PC3 =====
+    PC  Feature index               Feature name   Loading  |Loading|
+0  PC3             56     tGravityAcc-energy()-X -0.110061   0.110061
+1  PC3             65  tGravityAcc-arCoeff()-X,1 -0.109915   0.109915
+2  PC3             63    tGravityAcc-entropy()-Y  0.109555   0.109555
+3  PC3             58     tGravityAcc-energy()-Z  0.109078   0.109078
+4  PC3             52        tGravityAcc-min()-X -0.108219   0.108219
+5  PC3            558       angle(X,gravityMean)  0.107508   0.107508
+6  PC3             43        tGravityAcc-std()-X  0.104384   0.104384
+7  PC3             40       tGravityAcc-mean()-X -0.104127   0.104127
+8  PC3             46        tGravityAcc-mad()-X  0.104113   0.104113
+9  PC3             59        tGravityAcc-iqr()-X  0.102008   0.102008
+Sum of squared loadings PC3: 1.0000000000000004
+
+===== TOP LOADINGS — PC4 =====
+    PC  Feature index            Feature name   Loading  |Loading|
+0  PC4             51     tGravityAcc-max()-Z -0.143971   0.143971
+1  PC4             42    tGravityAcc-mean()-Z -0.141018   0.141018
+2  PC4            560    angle(Z,gravityMean)  0.139935   0.139935
+3  PC4             54     tGravityAcc-min()-Z -0.136219   0.136219
+4  PC4             52     tGravityAcc-min()-X  0.127389   0.127389
+5  PC4             40    tGravityAcc-mean()-X  0.124531   0.124531
+6  PC4            296   fBodyAcc-skewness()-X -0.123724   0.123724
+7  PC4            297   fBodyAcc-kurtosis()-X -0.122033   0.122033
+8  PC4             56  tGravityAcc-energy()-X  0.121121   0.121121
+9  PC4             49     tGravityAcc-max()-X  0.120072   0.120072
+Sum of squared loadings PC4: 1.0000000000000004
+
+===== TOP LOADINGS — PC5 =====
+    PC  Feature index               Feature name   Loading  |Loading|
+0  PC5            558       angle(X,gravityMean)  0.167569   0.167569
+1  PC5             56     tGravityAcc-energy()-X -0.165242   0.165242
+2  PC5             49        tGravityAcc-max()-X -0.162362   0.162362
+3  PC5             40       tGravityAcc-mean()-X -0.160478   0.160478
+4  PC5             52        tGravityAcc-min()-X -0.158584   0.158584
+5  PC5             57     tGravityAcc-energy()-Y  0.148915   0.148915
+6  PC5             71  tGravityAcc-arCoeff()-Y,3  0.140883   0.140883
+7  PC5             70  tGravityAcc-arCoeff()-Y,2 -0.140379   0.140379
+8  PC5             72  tGravityAcc-arCoeff()-Y,4 -0.138324   0.138324
+9  PC5             69  tGravityAcc-arCoeff()-Y,1  0.137638   0.137638
+Sum of squared loadings PC5: 0.9999999999999989
+
+Loading normalization checks: PASS ✅
+
+CELL 40
+<Figure size 1000x600 with 1 Axes>
+<Figure size 1000x600 with 1 Axes>
+<Figure size 1000x600 with 1 Axes>
+<Figure size 1000x600 with 1 Axes>
+<Figure size 1000x600 with 1 Axes>
+CHECKPOINT 7 — Loading Analysis: PASS ✅

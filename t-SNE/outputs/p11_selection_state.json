@@ -1,0 +1,14 @@
+{
+  "PRIMARY_PERPLEXITY": 40,
+  "ALTERNATIVE_PERPLEXITY": 30,
+  "candidates": [
+    20,
+    30,
+    40
+  ],
+  "seeds": [
+    0,
+    42,
+    123
+  ]
+}
