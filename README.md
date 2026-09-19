@@ -97,36 +97,20 @@ Nhóm thực nghiệm với nhiều giá trị **Perplexity** để phân tích 
 ```text
 machine-learning-group-6/
 │
-├── core/
-│   └── Các module triển khai thuật toán
+├── linear-regression/
+│   └── Triển khai và thực nghiệm thuật toán Linear Regression
 │
-├── data/
-│   └── Dataset và dữ liệu xử lý
+├── lightgbm/
+│   └── Triển khai và thực nghiệm thuật toán LightGBM
 │
-├── outputs/
-│   └── Kết quả thực nghiệm và hình ảnh
+├── pca/
+│   └── Triển khai và thực nghiệm phương pháp PCA
 │
-├── tests/
-│   └── Các test kiểm tra chương trình
+├── tsne/
+│   └── Triển khai và thực nghiệm phương pháp t-SNE
 │
 └── README.md
 ```
-
-### `core/`
-
-Chứa các module code chính dùng để triển khai các thuật toán.
-
-### `data/`
-
-Chứa dataset và dữ liệu được sử dụng trong quá trình thực nghiệm.
-
-### `outputs/`
-
-Chứa kết quả thực nghiệm, biểu đồ và các file output được tạo ra trong quá trình chạy chương trình.
-
-### `tests/`
-
-Chứa các chương trình kiểm tra nhằm đảm bảo những thành phần chính của project hoạt động đúng.
 
 ---
 
