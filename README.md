@@ -97,16 +97,16 @@ Nhóm thực nghiệm với nhiều giá trị **Perplexity** để phân tích 
 ```text
 machine-learning-group-6/
 │
-├── linear-regression/
+├── Linear-Regression/
 │   └── Triển khai và thực nghiệm thuật toán Linear Regression
 │
-├── lightgbm/
+├── LightGBM/
 │   └── Triển khai và thực nghiệm thuật toán LightGBM
 │
-├── pca/
+├── PCA/
 │   └── Triển khai và thực nghiệm phương pháp PCA
 │
-├── tsne/
+├── t-SNE/
 │   └── Triển khai và thực nghiệm phương pháp t-SNE
 │
 └── README.md
