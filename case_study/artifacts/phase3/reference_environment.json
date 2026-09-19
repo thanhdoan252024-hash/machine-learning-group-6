@@ -1,0 +1,9 @@
+{
+  "python": "3.13.5",
+  "numpy": "2.3.5",
+  "pandas": "2.2.3",
+  "scikit_learn": "1.8.0",
+  "lightgbm_reference_only": "4.6.0",
+  "matplotlib": "3.10.8",
+  "note": "The lightgbm package is used only for the reference comparison, not by the from-scratch estimator."
+}

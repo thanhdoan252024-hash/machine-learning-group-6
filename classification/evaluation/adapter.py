@@ -60,7 +60,7 @@ def evaluate_classification_outputs(
         y_pred: Nhãn dự đoán một chiều do ``model.predict`` trả về.
         y_proba: Ma trận xác suất do ``model.predict_proba`` trả về.
         output_dir: Thư mục output của đúng một split, ví dụ
-            ``<repo>/classification/evaluation/outputs/train`` hoặc ``test``.
+            ``<repo>/legacy/phase1_classification/outputs/train`` hoặc ``test``.
             Aggregate root ``.../outputs`` được dành cho orchestration
             train/test và manifest schema v2.
         save_dpi: Độ phân giải của các hình PNG.
@@ -100,7 +100,7 @@ def evaluate_fitted_classifier(
     Hàm này phù hợp khi chỉ đánh giá một split và ``output_dir`` trỏ tới thư mục
     của split đó. Để đánh giá đồng bộ cả train và test, dùng helper public
     ``evaluate_machine_failure_splits`` trong module
-    ``run_machine_failure_evaluation``; helper này quản lý hai child output và
+    the archived Phase-1 ``run_machine_failure_evaluation``; helper này quản lý hai child output và
     aggregate manifest schema v2.
     """
 

@@ -1,0 +1,210 @@
+{
+  "schema_version": 1,
+  "phase": "Phase 3 - controlled tuning, ablation, reference comparison",
+  "selection_integrity": {
+    "hyperparameter_selection": "validation only",
+    "threshold_selection": "validation only",
+    "test_role": "final reporting and pre-specified reference comparison only"
+  },
+  "regression": {
+    "scenario": "pre_exam_prediction",
+    "final_params": {
+      "n_estimators": 240,
+      "learning_rate": 0.08,
+      "num_leaves": 15,
+      "max_depth": -1,
+      "max_bins": 32,
+      "min_data_in_leaf": 30,
+      "reg_alpha": 0.0,
+      "reg_lambda": 1.0,
+      "feature_fraction": 0.8,
+      "top_rate": 0.2,
+      "other_rate": 0.1,
+      "use_goss": true,
+      "use_efb": true,
+      "random_state": 42
+    },
+    "best_iteration": 125,
+    "metrics": {
+      "train": {
+        "mae": 7.289609654051069,
+        "mse": 83.11513296458736,
+        "rmse": 9.116750131740332,
+        "r2": 0.6707904280936191
+      },
+      "validation": {
+        "mae": 7.4179131671767475,
+        "mse": 85.81464202574291,
+        "rmse": 9.263619272495115,
+        "r2": 0.6601396428809597
+      },
+      "test": {
+        "mae": 7.342514690788344,
+        "mse": 84.81681215342157,
+        "rmse": 9.20960434293578,
+        "r2": 0.6565858345205204
+      }
+    },
+    "phase2_to_phase3": {
+      "test_rmse_before": 9.481550946575544,
+      "test_rmse_after": 9.20960434293578,
+      "rmse_reduction_percent": 2.868165821942694,
+      "test_r2_before": 0.6360053286806286,
+      "test_r2_after": 0.6565858345205204,
+      "r2_absolute_gain": 0.020580505839891794
+    },
+    "official_lightgbm_gap": {
+      "scratch_rmse": 9.20960434293578,
+      "official_rmse": 9.209464708876514,
+      "absolute_rmse_gap": 0.00013963405926631367,
+      "scratch_train_seconds": 31.992354463000083,
+      "official_train_seconds": 0.7810476949998701,
+      "official_speedup_over_scratch": 40.9608205335084
+    }
+  },
+  "classification": {
+    "scenario": "predictive_maintenance_machine_failure",
+    "final_params": {
+      "n_estimators": 450,
+      "learning_rate": 0.05,
+      "num_leaves": 15,
+      "max_depth": 5,
+      "max_bins": 127,
+      "min_child_samples": 20,
+      "reg_alpha": 0.0,
+      "reg_lambda": 1.0,
+      "top_rate": 0.2,
+      "other_rate": 0.1,
+      "feature_fraction": 1.0,
+      "scale_pos_weight": 1.0,
+      "use_goss": true,
+      "use_efb": true,
+      "random_state": 42
+    },
+    "best_iteration": 195,
+    "selected_threshold": 0.21999999999999997,
+    "metrics": {
+      "train": {
+        "threshold": 0.21999999999999997,
+        "accuracy": 0.9888571428571429,
+        "precision": 0.7829181494661922,
+        "recall": 0.9282700421940928,
+        "f1": 0.8494208494208495,
+        "specificity": 0.9909803341712258,
+        "balanced_accuracy": 0.9596251881826593,
+        "roc_auc": 0.9966309610932179,
+        "pr_auc_average_precision": 0.956693955547201,
+        "tn": 6702,
+        "fp": 61,
+        "fn": 17,
+        "tp": 220
+      },
+      "validation": {
+        "threshold": 0.21999999999999997,
+        "accuracy": 0.9766666666666667,
+        "precision": 0.6142857142857143,
+        "recall": 0.8431372549019608,
+        "f1": 0.7107438016528925,
+        "specificity": 0.9813664596273292,
+        "balanced_accuracy": 0.912251857264645,
+        "roc_auc": 0.9842555379639761,
+        "pr_auc_average_precision": 0.7807439611753059,
+        "tn": 1422,
+        "fp": 27,
+        "fn": 8,
+        "tp": 43
+      },
+      "test": {
+        "threshold": 0.21999999999999997,
+        "accuracy": 0.9753333333333334,
+        "precision": 0.6129032258064516,
+        "recall": 0.7450980392156863,
+        "f1": 0.672566371681416,
+        "specificity": 0.9834368530020704,
+        "balanced_accuracy": 0.8642674461088784,
+        "roc_auc": 0.9637342859849116,
+        "pr_auc_average_precision": 0.782528053333481,
+        "tn": 1425,
+        "fp": 24,
+        "fn": 13,
+        "tp": 38
+      }
+    },
+    "phase2_to_phase3": {
+      "test_pr_auc_before": 0.7348935694098351,
+      "test_pr_auc_after": 0.782528053333481,
+      "pr_auc_absolute_gain": 0.04763448392364589,
+      "test_recall_before": 0.5686274509803921,
+      "test_recall_after": 0.7450980392156863,
+      "recall_absolute_gain": 0.17647058823529416,
+      "false_negatives_before": 22,
+      "false_negatives_after": 13
+    },
+    "official_lightgbm_gap": {
+      "scratch_pr_auc": 0.782528053333481,
+      "official_pr_auc": 0.8000875049517123,
+      "absolute_pr_auc_gap": 0.01755945161823136,
+      "scratch_train_seconds": 14.956360210000184,
+      "official_train_seconds": 0.1660083269998722,
+      "official_speedup_over_scratch": 90.09403612634262
+    }
+  },
+  "efb_sparse_microbenchmark": {
+    "n_rows": 30000,
+    "n_features": 40,
+    "n_bundles": 1,
+    "compression_ratio_features_per_bundle": 40.0,
+    "direct_histogram_seconds_median": 0.015718086999186198,
+    "efb_histogram_seconds_median": 0.003685357999529515,
+    "speedup_direct_over_efb": 4.265009532640471,
+    "max_histogram_absolute_error": 3.637978807091713e-11,
+    "exact_equivalence": true
+  },
+  "tests": {
+    "passed": 173,
+    "subtests_passed": 2,
+    "failed": 0
+  },
+  "protocol_clarifications": {
+    "library_boundary": {
+      "from_scratch_core": "NumPy/Python implementation; no sklearn estimator and no official lightgbm estimator",
+      "sklearn_split_only": "train_test_split is used for dataset splitting",
+      "reference_only": [
+        "DummyRegressor",
+        "RandomForestRegressor",
+        "RandomForestClassifier",
+        "LogisticRegression",
+        "StandardScaler",
+        "official lightgbm"
+      ]
+    },
+    "regression_screening": {
+      "screen_train_rows": 5000,
+      "screen_validation_rows": 2000,
+      "screen_source": "train/validation partitions only",
+      "full_train_rows": 70000,
+      "full_validation_rows": 15000,
+      "full_test_rows": 15000,
+      "test_used_for_selection": false
+    },
+    "regression_missing_values": {
+      "core_native_missing_bin_tested": true,
+      "final_100k_protocol": "train-only numeric mean + categorical mode imputation before model fit",
+      "final_metrics_demonstrate_native_missing_bin": false
+    },
+    "official_lightgbm_budget": {
+      "strict_iso_iteration_budget": false,
+      "official_max_estimators": 2000,
+      "official_early_stopping_rounds": 50,
+      "regression_scratch_cap": 240,
+      "regression_scratch_best_iteration": 125,
+      "regression_official_best_iteration": 151,
+      "classification_scratch_cap": 450,
+      "classification_scratch_best_iteration": 195,
+      "classification_official_best_iteration": 230,
+      "interpretation": "predictive-quality reference; runtime is Python-vs-native, not iso-compute"
+    },
+    "phase1_location": "legacy/phase1_classification/",
+    "final_classification_pipeline": "classification/case_study_pipeline.py"
+  }
+}

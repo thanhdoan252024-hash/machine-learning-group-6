@@ -1,0 +1,59 @@
+{
+  "params": {
+    "n_estimators": 240,
+    "learning_rate": 0.08,
+    "num_leaves": 15,
+    "max_depth": -1,
+    "max_bins": 32,
+    "min_data_in_leaf": 30,
+    "reg_alpha": 0.0,
+    "reg_lambda": 1.0,
+    "feature_fraction": 0.8,
+    "top_rate": 0.2,
+    "other_rate": 0.1,
+    "use_goss": true,
+    "use_efb": true,
+    "random_state": 42
+  },
+  "best_iteration": 125,
+  "best_validation_rmse": 9.263619272495115,
+  "train_seconds": 31.992354463000083,
+  "metrics": {
+    "train": {
+      "mae": 7.289609654051069,
+      "mse": 83.11513296458736,
+      "rmse": 9.116750131740332,
+      "r2": 0.6707904280936191
+    },
+    "validation": {
+      "mae": 7.4179131671767475,
+      "mse": 85.81464202574291,
+      "rmse": 9.263619272495115,
+      "r2": 0.6601396428809597
+    },
+    "test": {
+      "mae": 7.342514690788344,
+      "mse": 84.81681215342157,
+      "rmse": 9.20960434293578,
+      "r2": 0.6565858345205204
+    }
+  },
+  "efb_applied": false,
+  "n_efb_bundles": 37,
+  "selection": "validation only; test final reporting",
+  "screening_protocol": {
+    "train_subset_rows": 5000,
+    "validation_subset_rows": 2000,
+    "test_used_for_screening": false,
+    "final_retrain_train_rows": 70000,
+    "final_early_stopping_validation_rows": 15000,
+    "final_test_rows": 15000
+  },
+  "preprocessing": {
+    "fit_split": "train",
+    "numeric_missing": "train mean imputation",
+    "categorical_missing": "train mode imputation",
+    "native_missing_bin_used_for_final_100k_metrics": false,
+    "native_missing_bin_verified_by_unit_tests": true
+  }
+}

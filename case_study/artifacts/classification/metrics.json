@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "scenario": "predictive_maintenance_machine_failure",
+  "n_rows": 10000,
+  "n_features": 6,
+  "feature_names": [
+    "Type",
+    "Air temperature [K]",
+    "Process temperature [K]",
+    "Rotational speed [rpm]",
+    "Torque [Nm]",
+    "Tool wear [min]"
+  ],
+  "class_counts": {
+    "0": 9661,
+    "1": 339
+  },
+  "positive_rate": 0.0339,
+  "split_sizes": {
+    "train": 7000,
+    "validation": 1500,
+    "test": 1500
+  },
+  "split_class_counts": {
+    "train": {
+      "0": 6763,
+      "1": 237
+    },
+    "validation": {
+      "0": 1449,
+      "1": 51
+    },
+    "test": {
+      "0": 1449,
+      "1": 51
+    }
+  },
+  "model_params": {
+    "n_estimators": 300,
+    "learning_rate": 0.05,
+    "num_leaves": 15,
+    "max_depth": 5,
+    "max_bins": 63,
+    "min_child_samples": 20,
+    "reg_lambda": 1.0,
+    "top_rate": 0.2,
+    "other_rate": 0.1,
+    "feature_fraction": 1.0,
+    "random_state": 42
+  },
+  "early_stopping_rounds": 25,
+  "best_iteration": 134,
+  "best_validation_binary_logloss": 0.05566506468418491,
+  "threshold_selection_split": "validation",
+  "threshold_selection_metric": "f1",
+  "selected_threshold": 0.36999999999999994,
+  "primary_reporting_split": "test",
+  "metrics": {
+    "train": {
+      "threshold": 0.36999999999999994,
+      "accuracy": 0.9888571428571429,
+      "precision": 0.8767772511848341,
+      "recall": 0.7805907172995781,
+      "f1": 0.8258928571428572,
+      "specificity": 0.9961555522697028,
+      "balanced_accuracy": 0.8883731347846404,
+      "roc_auc": 0.9930579081637421,
+      "pr_auc_average_precision": 0.9110335092781859,
+      "tn": 6737,
+      "fp": 26,
+      "fn": 52,
+      "tp": 185
+    },
+    "validation": {
+      "threshold": 0.36999999999999994,
+      "accuracy": 0.9793333333333333,
+      "precision": 0.717391304347826,
+      "recall": 0.6470588235294118,
+      "f1": 0.6804123711340206,
+      "specificity": 0.9910282953761215,
+      "balanced_accuracy": 0.8190435594527666,
+      "roc_auc": 0.9769550332210201,
+      "pr_auc_average_precision": 0.7507411094275329,
+      "tn": 1436,
+      "fp": 13,
+      "fn": 18,
+      "tp": 33
+    },
+    "test": {
+      "threshold": 0.36999999999999994,
+      "accuracy": 0.9766666666666667,
+      "precision": 0.6904761904761905,
+      "recall": 0.5686274509803921,
+      "f1": 0.6236559139784946,
+      "specificity": 0.9910282953761215,
+      "balanced_accuracy": 0.7798278731782569,
+      "roc_auc": 0.9629088350315905,
+      "pr_auc_average_precision": 0.7348935694098351,
+      "tn": 1436,
+      "fp": 13,
+      "fn": 22,
+      "tp": 29
+    }
+  },
+  "default_threshold_metrics": {
+    "validation": {
+      "threshold": 0.5,
+      "accuracy": 0.98,
+      "precision": 0.8387096774193549,
+      "recall": 0.5098039215686274,
+      "f1": 0.6341463414634145,
+      "specificity": 0.9965493443754313,
+      "balanced_accuracy": 0.7531766329720293,
+      "roc_auc": 0.9769550332210201,
+      "pr_auc_average_precision": 0.7507411094275329,
+      "tn": 1444,
+      "fp": 5,
+      "fn": 25,
+      "tp": 26
+    },
+    "test": {
+      "threshold": 0.5,
+      "accuracy": 0.9813333333333333,
+      "precision": 1.0,
+      "recall": 0.45098039215686275,
+      "f1": 0.6216216216216216,
+      "specificity": 1.0,
+      "balanced_accuracy": 0.7254901960784313,
+      "roc_auc": 0.9629088350315905,
+      "pr_auc_average_precision": 0.7348935694098351,
+      "tn": 1449,
+      "fp": 0,
+      "fn": 28,
+      "tp": 23
+    }
+  }
+}

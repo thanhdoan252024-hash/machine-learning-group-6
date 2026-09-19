@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "milestone": "phase2_model_selection_and_official_baselines",
+  "shared_core": {
+    "histogram_module": "lightgbm_from_scratch/core/histogram.py",
+    "split_module": "lightgbm_from_scratch/core/split.py",
+    "tree_module": "lightgbm_from_scratch/core/tree.py",
+    "regression_uses_shared_tree_engine": true,
+    "classification_uses_shared_tree_engine": true
+  },
+  "correctness_validation_all_pass": true,
+  "test_suite": {
+    "passed": 168,
+    "subtests_passed": 2,
+    "failed": 0
+  },
+  "regression": {
+    "rows": 100000,
+    "features": 37,
+    "split_sizes": {
+      "train": 70000,
+      "validation": 15000,
+      "test": 15000
+    },
+    "best_iteration": 80,
+    "test_metrics": {
+      "mae": 7.545165802066117,
+      "mse": 89.89980835250759,
+      "rmse": 9.481550946575544,
+      "r2": 0.6360053286806286
+    },
+    "leakage_safe": true
+  },
+  "classification": {
+    "rows": 10000,
+    "features": 6,
+    "positive_rate": 0.0339,
+    "split_sizes": {
+      "train": 7000,
+      "validation": 1500,
+      "test": 1500
+    },
+    "best_iteration": 134,
+    "selected_threshold": 0.36999999999999994,
+    "test_metrics_selected_threshold": {
+      "threshold": 0.36999999999999994,
+      "accuracy": 0.9766666666666667,
+      "precision": 0.6904761904761905,
+      "recall": 0.5686274509803921,
+      "f1": 0.6236559139784946,
+      "specificity": 0.9910282953761215,
+      "balanced_accuracy": 0.7798278731782569,
+      "roc_auc": 0.9629088350315905,
+      "pr_auc_average_precision": 0.7348935694098351,
+      "tn": 1436,
+      "fp": 13,
+      "fn": 22,
+      "tp": 29
+    },
+    "test_metrics_default_threshold_0_5": {
+      "threshold": 0.5,
+      "accuracy": 0.9813333333333333,
+      "precision": 1.0,
+      "recall": 0.45098039215686275,
+      "f1": 0.6216216216216216,
+      "specificity": 1.0,
+      "balanced_accuracy": 0.7254901960784313,
+      "roc_auc": 0.9629088350315905,
+      "pr_auc_average_precision": 0.7348935694098351,
+      "tn": 1449,
+      "fp": 0,
+      "fn": 28,
+      "tp": 23
+    }
+  },
+  "next_milestone": [
+    "hyperparameter study",
+    "ablation study",
+    "reference-model comparison",
+    "final report"
+  ]
+}

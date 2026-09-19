@@ -80,7 +80,7 @@ class ClassificationOutputAdapterTests(unittest.TestCase):
                 [0, 1],
                 [0, 1],
                 [[0.8, 0.2], [0.2, 0.8]],
-                "classification/evaluation/outputs",
+                "legacy/phase1_classification/outputs",
             )
 
         runner.assert_not_called()
@@ -95,7 +95,7 @@ class ClassificationOutputAdapterTests(unittest.TestCase):
                 [0, 1],
                 [0, 1],
                 [[0.8, 0.2], [0.2, 0.8]],
-                "classification/evaluation/outputs",
+                "legacy/phase1_classification/outputs",
             )
 
     @patch(
@@ -119,7 +119,7 @@ class ClassificationOutputAdapterTests(unittest.TestCase):
             model,
             X,
             y_true,
-            "classification/evaluation/outputs",
+            "legacy/phase1_classification/outputs",
             save_dpi=96,
         )
 
@@ -131,7 +131,7 @@ class ClassificationOutputAdapterTests(unittest.TestCase):
             y_true=y_true,
             y_pred=model.predict.return_value,
             y_proba=model.predict_proba.return_value,
-            output_dir="classification/evaluation/outputs",
+            output_dir="legacy/phase1_classification/outputs",
             save_dpi=96,
         )
 

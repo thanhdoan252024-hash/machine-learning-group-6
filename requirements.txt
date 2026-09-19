@@ -3,3 +3,9 @@ pandas>=2.0
 matplotlib>=3.7
 # Chỉ dùng cho bước chia train/test; model và metrics không phụ thuộc sklearn.
 scikit-learn>=1.6
+
+# Regression error-distribution visualization.
+seaborn>=0.13
+
+# Optional reference-comparison dependency only; never used by the from-scratch models.
+lightgbm>=4.6

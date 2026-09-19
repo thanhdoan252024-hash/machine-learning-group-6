@@ -1,9 +1,8 @@
-"""Package regression: LightGBM-style model, metrics và visualization.
+"""Regression package for the educational LightGBM-from-scratch project.
 
-Package này nằm tại repo root (``D:\\machine-learning-group-6\\regression``).
-Để import được ``regression.*``, repo root phải nằm trong ``sys.path``.
-Xem ``regression/notebooks/product_sales_prediction.ipynb`` để biết cách
-bootstrap đường dẫn khi chạy từ bên trong thư mục ``regression``.
+Import ``regression.*`` from the repository root. The reproducible notebook is
+``regression/notebooks/student_performance_prediction.ipynb`` and the
+leakage-safe experiment entry point is ``regression.case_study_pipeline``.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"

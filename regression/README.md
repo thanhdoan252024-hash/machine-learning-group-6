@@ -17,7 +17,7 @@ regression/
 ├── data/
 │   ├── raw/student_exam_performance.csv
 │   └── processed/student_performance_processed.csv
-├── notebooks/student_performance_prediction.ipynb.ipynb
+├── notebooks/student_performance_prediction.ipynb
 ├── metrics/
 │   ├── mean_absolute_error.py
 │   ├── mean_squared_error.py

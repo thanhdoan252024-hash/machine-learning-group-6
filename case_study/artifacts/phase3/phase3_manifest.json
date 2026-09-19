@@ -1,0 +1,111 @@
+{
+  "phase": 3,
+  "key_artifact_count": 21,
+  "artifacts": [
+    {
+      "path": "case_study/artifacts/phase3/regression_final.json",
+      "bytes": 1033,
+      "sha256": "9a253dda44588cd5b1de09cfb43b27de8351bf16e20c72d38b964ef90723c437"
+    },
+    {
+      "path": "case_study/artifacts/phase3/classification_final.json",
+      "bytes": 2064,
+      "sha256": "f28b6e61b081665af8f26b23522f8af6a950d3e6ec4e12363c5e5590a265a59d"
+    },
+    {
+      "path": "case_study/artifacts/phase3/regression_hyperparameter_study.csv",
+      "bytes": 1056,
+      "sha256": "cee6d023a990077c522903efb3023da459e51aa91672e3aba7524fa75cb296d5"
+    },
+    {
+      "path": "case_study/artifacts/phase3/classification_hyperparameter_study.csv",
+      "bytes": 2781,
+      "sha256": "6ad9915084e80559f381880b7a1b0bee0a22751e30a87834802ea6d6abff2e31"
+    },
+    {
+      "path": "case_study/artifacts/phase3/regression_ablation.csv",
+      "bytes": 714,
+      "sha256": "e326fb5135062f339cf01ee325056f099f2c4903f4b88ee96b439817f0959143"
+    },
+    {
+      "path": "case_study/artifacts/phase3/classification_ablation.csv",
+      "bytes": 1256,
+      "sha256": "78bc11afe1a390fd8f5ce6a9ea58a97b69bf21a913f5c9fe5d977ff340b4c690"
+    },
+    {
+      "path": "case_study/artifacts/phase3/efb_sparse_microbenchmark.json",
+      "bytes": 358,
+      "sha256": "3674587438fb90548f30f165ea9221dd0ae8d8085f82cb7530d9f00315c3c642"
+    },
+    {
+      "path": "case_study/artifacts/phase3/regression_reference_comparison.csv",
+      "bytes": 571,
+      "sha256": "d4bbd2ae108b1995d36d6b9b864ceef786ec2292e9854c6b8f998c7224727405"
+    },
+    {
+      "path": "case_study/artifacts/phase3/classification_reference_comparison.csv",
+      "bytes": 1205,
+      "sha256": "db62de52bf6bf3762024cc5b28eb625103b6a38e8634408534bc89cc177e4adb"
+    },
+    {
+      "path": "case_study/artifacts/phase3/phase3_summary.json",
+      "bytes": 5188,
+      "sha256": "fd1b79f5d48cad749bab03f6661dda6866322754e0b846378bd755a3363f14c1"
+    },
+    {
+      "path": "case_study/artifacts/phase3/phase3_test_report.txt",
+      "bytes": 277,
+      "sha256": "11ca273398c4521e6776097751c22372adeaf813f23b9a1b2dadd08d26a0df8b"
+    },
+    {
+      "path": "case_study/artifacts/phase3/reference_environment.json",
+      "bytes": 269,
+      "sha256": "4c9a77ebdd17b9f45f26410c859f6d200e2becbea84f72e9d91867b5dcc8d38c"
+    },
+    {
+      "path": "case_study/artifacts/phase3/figures/classification_ablation.png",
+      "bytes": 51327,
+      "sha256": "2c384aaa5577d313e98cfde728ab41d57cece50f6a4b657c9768aa3dece687c1"
+    },
+    {
+      "path": "case_study/artifacts/phase3/figures/classification_hyperparameter_screening.png",
+      "bytes": 77392,
+      "sha256": "3a88ba74d65f1ce7f89ca64ab22287dc7b5e17937b79cd179374cb8268c54a63"
+    },
+    {
+      "path": "case_study/artifacts/phase3/figures/classification_phase2_vs_phase3.png",
+      "bytes": 43889,
+      "sha256": "136f28549e1ee8c98f6a47006e24bf267adaf48b7b1d0d5556e51d19cec18fe3"
+    },
+    {
+      "path": "case_study/artifacts/phase3/figures/classification_reference_comparison.png",
+      "bytes": 56797,
+      "sha256": "9a07d9589ada5a2d7cf82ab0f128731dd375dc8bd5107bead3950e07b9bbb290"
+    },
+    {
+      "path": "case_study/artifacts/phase3/figures/efb_sparse_microbenchmark.png",
+      "bytes": 55808,
+      "sha256": "3c983fe2d0d4ce3b896509fb1c92a8ca6a4e3eb7e6dc73e535fd61991673e9cb"
+    },
+    {
+      "path": "case_study/artifacts/phase3/figures/regression_ablation.png",
+      "bytes": 39585,
+      "sha256": "9bd2ffba84e625ee28872c8a86338dbad8ca6aef08ef72fed4141866fbae2939"
+    },
+    {
+      "path": "case_study/artifacts/phase3/figures/regression_hyperparameter_screening.png",
+      "bytes": 64430,
+      "sha256": "89118c2dbe77f4f3e125cc998549bd32b81b0dca14e77b3a7d6fa5139e575925"
+    },
+    {
+      "path": "case_study/artifacts/phase3/figures/regression_phase2_vs_phase3.png",
+      "bytes": 29689,
+      "sha256": "f2bb3fbbbf2f1ccb058eb9d7e10facf42ee2431f8e82cbccbb82d6fc6a7016a1"
+    },
+    {
+      "path": "case_study/artifacts/phase3/figures/regression_reference_comparison.png",
+      "bytes": 49397,
+      "sha256": "6d38c6474b50561cba0d7ea600f9dd9bc66c5057d8a57085e94a2d55ed4ab16b"
+    }
+  ]
+}

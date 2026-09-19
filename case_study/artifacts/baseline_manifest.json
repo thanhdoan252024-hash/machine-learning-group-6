@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "original_zip_sha256": "f7fa90ba5be7b6897e402f3b30df49a8b9ee735c7a3951d79d67d8785cdfbfe9",
+  "original_tests": {
+    "regression": "55 passed",
+    "classification": "97 passed, 2 subtests passed"
+  },
+  "stored_regression_metrics_from_original_package": {
+    "train": {"mae": 1.441448, "mse": 3.411977, "r2": 0.986483},
+    "test": {"mae": 1.510870, "mse": 4.005270, "r2": 0.983888}
+  },
+  "stored_classification_metrics_from_original_package": {
+    "train": {
+      "accuracy": 0.993000,
+      "precision": 0.961373,
+      "recall": 0.826568,
+      "f1": 0.888889,
+      "roc_auc": 0.996943
+    },
+    "test": {
+      "accuracy": 0.986000,
+      "precision": 0.900000,
+      "recall": 0.661765,
+      "f1": 0.762712,
+      "roc_auc": 0.974211
+    }
+  },
+  "reproduced_classification_metrics_from_original_code": {
+    "train": {
+      "accuracy": 0.994000,
+      "precision": 0.978541,
+      "recall": 0.841328,
+      "f1": 0.904762,
+      "roc_auc": 0.997176
+    },
+    "test": {
+      "accuracy": 0.987500,
+      "precision": 0.905660,
+      "recall": 0.705882,
+      "f1": 0.793388,
+      "roc_auc": 0.974874
+    }
+  },
+  "note": "Stored classification artifacts in the uploaded ZIP were stale relative to the uploaded source code. The reproduced metrics above were obtained by executing the original source code before refactoring."
+}

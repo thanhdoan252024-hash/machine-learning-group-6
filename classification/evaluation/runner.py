@@ -405,7 +405,7 @@ def main() -> None:
     )
     print(
         "Machine-failure pipeline: python -m "
-        "classification.evaluation.run_machine_failure_evaluation"
+        "legacy.phase1_classification.run_machine_failure_evaluation"
     )
 
 

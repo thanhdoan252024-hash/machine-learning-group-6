@@ -1,0 +1,23 @@
+{
+  "submission_status": "final-clean",
+  "canonical_results": [
+    "PHASE3_RESULTS.md",
+    "case_study/artifacts/phase3/phase3_summary.json",
+    "case_study/artifacts/phase3/regression_final.json",
+    "case_study/artifacts/phase3/classification_final.json"
+  ],
+  "final_pipelines": [
+    "regression/case_study_pipeline.py",
+    "classification/case_study_pipeline.py"
+  ],
+  "historical_phase1_location": "legacy/phase1_classification/",
+  "test_status": {
+    "passed": 173,
+    "subtests_passed": 2,
+    "failed": 0
+  },
+  "report_pages_rendered": 20,
+  "phase3_metrics_changed_by_cleanup": false,
+  "report_sha256": "4f80d08cc7eea2683a63a9829fc81804ce69e255fba8e6ee21dab3efc6610465",
+  "cleanup_notes": "CHANGELOG_FINAL_CLEANUP.md"
+}

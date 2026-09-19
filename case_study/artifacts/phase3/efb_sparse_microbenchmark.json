@@ -1,0 +1,11 @@
+{
+  "n_rows": 30000,
+  "n_features": 40,
+  "n_bundles": 1,
+  "compression_ratio_features_per_bundle": 40.0,
+  "direct_histogram_seconds_median": 0.015718086999186198,
+  "efb_histogram_seconds_median": 0.003685357999529515,
+  "speedup_direct_over_efb": 4.265009532640471,
+  "max_histogram_absolute_error": 3.637978807091713e-11,
+  "exact_equivalence": true
+}

@@ -1,0 +1,84 @@
+{
+  "params": {
+    "n_estimators": 450,
+    "learning_rate": 0.05,
+    "num_leaves": 15,
+    "max_depth": 5,
+    "max_bins": 127,
+    "min_child_samples": 20,
+    "reg_alpha": 0.0,
+    "reg_lambda": 1.0,
+    "top_rate": 0.2,
+    "other_rate": 0.1,
+    "feature_fraction": 1.0,
+    "scale_pos_weight": 1.0,
+    "use_goss": true,
+    "use_efb": true,
+    "random_state": 42
+  },
+  "best_iteration": 195,
+  "best_validation_binary_logloss": 0.050116595808972646,
+  "train_seconds": 14.956360210000184,
+  "selected_threshold": 0.21999999999999997,
+  "threshold_selection_split": "validation",
+  "metrics": {
+    "train": {
+      "threshold": 0.21999999999999997,
+      "accuracy": 0.9888571428571429,
+      "precision": 0.7829181494661922,
+      "recall": 0.9282700421940928,
+      "f1": 0.8494208494208495,
+      "specificity": 0.9909803341712258,
+      "balanced_accuracy": 0.9596251881826593,
+      "roc_auc": 0.9966309610932179,
+      "pr_auc_average_precision": 0.956693955547201,
+      "tn": 6702,
+      "fp": 61,
+      "fn": 17,
+      "tp": 220
+    },
+    "validation": {
+      "threshold": 0.21999999999999997,
+      "accuracy": 0.9766666666666667,
+      "precision": 0.6142857142857143,
+      "recall": 0.8431372549019608,
+      "f1": 0.7107438016528925,
+      "specificity": 0.9813664596273292,
+      "balanced_accuracy": 0.912251857264645,
+      "roc_auc": 0.9842555379639761,
+      "pr_auc_average_precision": 0.7807439611753059,
+      "tn": 1422,
+      "fp": 27,
+      "fn": 8,
+      "tp": 43
+    },
+    "test": {
+      "threshold": 0.21999999999999997,
+      "accuracy": 0.9753333333333334,
+      "precision": 0.6129032258064516,
+      "recall": 0.7450980392156863,
+      "f1": 0.672566371681416,
+      "specificity": 0.9834368530020704,
+      "balanced_accuracy": 0.8642674461088784,
+      "roc_auc": 0.9637342859849116,
+      "pr_auc_average_precision": 0.782528053333481,
+      "tn": 1425,
+      "fp": 24,
+      "fn": 13,
+      "tp": 38
+    }
+  },
+  "efb_applied": false,
+  "n_efb_bundles": 6,
+  "selection": "validation only; test final reporting",
+  "screening_protocol": {
+    "uses_full_train_validation": true,
+    "train_rows": 7000,
+    "validation_rows": 1500,
+    "test_rows": 1500,
+    "test_used_for_selection": false
+  },
+  "missing_values": {
+    "final_six_features_have_missing": false
+  }
+}
