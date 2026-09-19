@@ -1,0 +1,2 @@
+Samples,Features,Perplexity,Initial KL,Best KL,Final Restored KL,Best Iteration,Actual Iterations,Stopped Early,Runtime Seconds,Optimizer Seconds,Achieved Perplexity Mean,Achieved Perplexity Min,Achieved Perplexity Max,Achieved Perplexity Max Error
+5620,64,40,4.8065001533640395,1.081797712299418,1.081797712299418,1000,1000,False,1808.5783220870003,1795.2155434620001,39.99999639264284,39.999600012269056,40.00039989283085,0.00039998773094396256

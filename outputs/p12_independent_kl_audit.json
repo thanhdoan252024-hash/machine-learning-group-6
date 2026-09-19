@@ -1,0 +1,9 @@
+{
+  "P12_final_kl_recomputed": "PASS",
+  "recomputed_final_kl": 1.0817977122994187,
+  "saved_final_kl": 1.081797712299418,
+  "abs_error": 6.661338147750939e-16,
+  "distance_seconds": 1.248638098000356,
+  "probability_seconds": 8.990412496999852,
+  "q_kl_seconds": 3.266199805999804
+}

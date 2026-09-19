@@ -1,0 +1,23 @@
+{
+  "project": "t-SNE From Scratch on UCI Optdigits",
+  "version": "2026-09-15-final-submission-hardened",
+  "dataset": {
+    "samples": 5620,
+    "features": 64,
+    "classes": 10
+  },
+  "implementation": "exact NumPy t-SNE; no sklearn.manifold.TSNE",
+  "execution_profiles": [
+    "quick",
+    "screening",
+    "full"
+  ],
+  "verified_reference_outputs": true,
+  "primary_perplexity": 40,
+  "alternative_perplexity": 30,
+  "processed_data_sha256": "814e7821b80b95fc9e9a1b41ec9328c02ea84385c6943071ceb2ac01da362e55",
+  "notebook": "notebook/TSNE_From_Scratch_Optdigits_P00_P13_With_AI_Prompting_Log.ipynb",
+  "cross_machine_runner": "scripts/run_case_study.py",
+  "rerun_output_root": "rerun_outputs",
+  "verified_full_embedding_neighborhood_quality": true
+}

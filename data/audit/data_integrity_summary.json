@@ -1,0 +1,42 @@
+{
+  "raw_train_shape": [
+    3823,
+    65
+  ],
+  "raw_test_shape": [
+    1797,
+    65
+  ],
+  "combined_shape": [
+    5620,
+    65
+  ],
+  "X_shape": [
+    5620,
+    64
+  ],
+  "y_shape": [
+    5620
+  ],
+  "feature_min": 0.0,
+  "feature_max": 16.0,
+  "nan_count": 0,
+  "inf_count": 0,
+  "near_zero_variance_features": [
+    "Pixel_1",
+    "Pixel_40"
+  ],
+  "class_counts": {
+    "0": 554,
+    "1": 571,
+    "2": 557,
+    "3": 572,
+    "4": 568,
+    "5": 558,
+    "6": 558,
+    "7": 566,
+    "8": 554,
+    "9": 562
+  },
+  "processed_csv_has_index_column": false
+}

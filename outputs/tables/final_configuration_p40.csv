@@ -1,0 +1,13 @@
+Parameter,Value
+Samples,5620
+Original dimensions,64
+Embedding dimensions,2
+Perplexity,40
+Learning rate,200.0
+Max iterations,1000
+Early exaggeration,12.0
+Early exaggeration iterations,250
+Initial momentum,0.5
+Final momentum,0.8
+Random state,42
+Implementation,Exact NumPy t-SNE from scratch

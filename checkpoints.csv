@@ -1,0 +1,15 @@
+phase,package_implementation,runtime_status,required_evidence
+P00,included,PASS,Project architecture
+P01,included,PASS,Load and audit Optdigits
+P02,included,PASS,Squared Euclidean distance
+P03,included,PASS,"Conditional probability, entropy, perplexity"
+P04,included,PASS,Perplexity matching and P
+P05,included,PASS,Student-t Q and KL
+P06,included,PASS,Gradient verification
+P07,included,PASS,Optimization engine
+P08,included,PASS,Independent synthetic validation
+P09,included,PASS,Perplexity sensitivity
+P10,included,PASS,Trustworthiness and Continuity
+P11,included,PASS,Multi-seed stability
+P12,included,PASS,Final full-data run
+P13,included,PASS,Reproducibility and handoff

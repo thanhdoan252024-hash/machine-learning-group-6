@@ -1,0 +1,19 @@
+{
+  "reference_outputs": "VERIFIED",
+  "core_P00_P08": "PASS",
+  "P09": "PASS",
+  "P10": "PASS",
+  "P11": "PASS",
+  "P12": "PASS",
+  "P13": "PASS",
+  "primary_perplexity": 40,
+  "alternative_perplexity": 30,
+  "final_embedding_shape": [
+    5620,
+    2
+  ],
+  "final_kl": 1.081797712299418,
+  "note": "Bundled outputs are verified reference results. Cross-machine reruns should write to rerun_outputs/.",
+  "P12_full_neighborhood_quality": "PASS",
+  "final_worst_neighborhood_score": 0.9774777338576365
+}

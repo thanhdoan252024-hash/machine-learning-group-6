@@ -1,0 +1,30 @@
+{
+  "data_contract": "PASS",
+  "P09": "PASS",
+  "P10": "PASS",
+  "P11": "PASS",
+  "P12_artifact_sanity": "PASS",
+  "P12_full_neighborhood_quality": "PASS",
+  "primary_perplexity": 40,
+  "alternative_perplexity": 30,
+  "max_p10_recompute_abs_error": 1.1102230246251565e-16,
+  "max_p11_quality_recompute_abs_error": 1.1102230246251565e-16,
+  "max_p11_stability_recompute_abs_error": 0.0,
+  "max_p12_full_quality_recompute_abs_error": 1.1102230246251565e-16,
+  "final_neighborhood_quality": {
+    "T@5": 0.9968449344693501,
+    "C@5": 0.9924369804917272,
+    "T@10": 0.9946435296496937,
+    "C@10": 0.9893998690046033,
+    "T@20": 0.9916889732559683,
+    "C@20": 0.9848764714852041,
+    "T@50": 0.9862788746759076,
+    "C@50": 0.9774777338576365
+  },
+  "final_embedding_shape": [
+    5620,
+    2
+  ],
+  "final_kl": 1.081797712299418,
+  "full_runtime_seconds": 1808.5783220870003
+}

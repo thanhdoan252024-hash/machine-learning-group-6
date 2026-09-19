@@ -1,0 +1,46 @@
+{
+  "date": "2026-09-15",
+  "submission_status": "READY FOR SUBMISSION",
+  "pytest_passed": 4,
+  "package_audit": "PASS",
+  "empirical_audit": "PASS",
+  "zip_integrity": "PASS",
+  "quick_notebook": {
+    "P00": "PASS",
+    "P01": "PASS",
+    "P02": "PASS",
+    "P03": "PASS",
+    "P04": "PASS",
+    "P05": "PASS",
+    "P06": "PASS",
+    "P07": "PASS",
+    "P08": "PASS",
+    "gradient_relative_error": 1.4483071348660293e-09,
+    "synthetic_neighborhood_overlap": 0.47611111111111115,
+    "synthetic_random_baseline": 0.055865921787709494,
+    "synthetic_lowD_purity": 1.0
+  },
+  "empirical_stages": {
+    "P09": "PASS",
+    "P10": "PASS",
+    "P11": "PASS",
+    "P12": "PASS",
+    "primary_perplexity": 40,
+    "alternative_perplexity": 30,
+    "final_embedding_shape": [
+      5620,
+      2
+    ],
+    "final_kl": 1.081797712299418,
+    "full_runtime_seconds": 1808.5783220870003,
+    "independent_final_kl_abs_error": 6.661338147750939e-16,
+    "full_neighborhood_quality": "PASS",
+    "max_full_neighborhood_recompute_abs_error": 1.1102230246251565e-16,
+    "full_T@5": 0.9968449344693501,
+    "full_C@5": 0.9924369804917272,
+    "full_T@50": 0.9862788746759076,
+    "full_C@50": 0.9774777338576365,
+    "full_worst_neighborhood_score": 0.9774777338576365
+  },
+  "final_word_report": "report/Chuong_Case_Study_Thuc_nghiem_tSNE_UCI_Optdigits_FINAL.docx"
+}
