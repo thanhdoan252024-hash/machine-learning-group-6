@@ -1,0 +1,14 @@
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Local UCI HAR downloads and extracted dataset
+UCI HAR Dataset/
+UCI HAR Dataset.zip
+
+# Generated run outputs and evidence
+run_template/outputs/
+run_template/evidence/

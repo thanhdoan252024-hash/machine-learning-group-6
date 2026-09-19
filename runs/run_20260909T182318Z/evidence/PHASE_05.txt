@@ -1,0 +1,33 @@
+CELL 23
+Số principal components: 561
+Tổng EVR: 0.9999999999999999
+Cumulative variance cuối: 1.000000000000001
+Explained variance checks: PASS ✅
+
+CELL 24
+<Figure size 1100x500 with 1 Axes>
+<Figure size 1100x500 with 1 Axes>
+
+CELL 25
+<Figure size 1100x500 with 1 Axes>
+
+CELL 26
+   Target variance  Components (k)  Actual retained variance  \
+0             0.80              26                  0.801805   
+1             0.90              63                  0.900535   
+2             0.95             102                  0.950756   
+3             0.99             179                  0.990193   
+
+   Dimensions reduced  Reduction ratio  
+0                 535         0.953654  
+1                 498         0.887701  
+2                 459         0.818182  
+3                 382         0.680927  
+
+Selected candidate k values:
+80% variance -> k = 26
+90% variance -> k = 63
+95% variance -> k = 102
+99% variance -> k = 179
+
+CHECKPOINT 4 — Explained Variance: PASS ✅

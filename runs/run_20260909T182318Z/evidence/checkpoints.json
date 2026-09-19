@@ -1,0 +1,848 @@
+[
+  {
+    "checkpoint": "CP1",
+    "phase": 1,
+    "prompt": "P01",
+    "status": "PASS",
+    "source_cells_zero_based": [
+      5,
+      6,
+      7
+    ],
+    "log": "evidence/PHASE_01.txt",
+    "metrics": {
+      "path": "C:\\Users\\LENOVO\\Desktop\\ML_KG\\UCI HAR Dataset",
+      "shapes": {
+        "X_train": [
+          7352,
+          561
+        ],
+        "X_test": [
+          2947,
+          561
+        ],
+        "y_train": [
+          7352
+        ],
+        "y_test": [
+          2947
+        ]
+      },
+      "feature_count": 561,
+      "class_counts": {
+        "train": {
+          "1": 1226,
+          "2": 1073,
+          "3": 986,
+          "4": 1286,
+          "5": 1374,
+          "6": 1407
+        },
+        "test": {
+          "1": 496,
+          "2": 471,
+          "3": 420,
+          "4": 491,
+          "5": 532,
+          "6": 537
+        }
+      },
+      "activity_labels": {
+        "1": "WALKING",
+        "2": "WALKING_UPSTAIRS",
+        "3": "WALKING_DOWNSTAIRS",
+        "4": "SITTING",
+        "5": "STANDING",
+        "6": "LAYING"
+      },
+      "finite": {
+        "X_train": {
+          "finite_count": 4124472,
+          "nan_count": 0,
+          "inf_count": 0,
+          "total_count": 4124472
+        },
+        "X_test": {
+          "finite_count": 1653267,
+          "nan_count": 0,
+          "inf_count": 0,
+          "total_count": 1653267
+        }
+      },
+      "variance": {
+        "min": 0.0016652723790956574,
+        "max": 0.5650254817385447,
+        "near_zero_count": 0,
+        "near_zero_tolerance": 1e-12
+      }
+    },
+    "acceptance_conditions": {
+      "features": 561,
+      "nonfinite_count": 0,
+      "labels": "row counts match; labels in activity metadata"
+    }
+  },
+  {
+    "checkpoint": "CP2",
+    "phase": 2,
+    "prompt": "P02",
+    "status": "PASS",
+    "source_cells_zero_based": [
+      10,
+      11
+    ],
+    "log": "evidence/PHASE_02.txt",
+    "metrics": {
+      "fit_split": "train",
+      "ddof": 0,
+      "epsilon": 1e-12,
+      "max_abs_mean": 3.1128051525275424e-13,
+      "max_std_error": 5.440092820663267e-14,
+      "zero_variance_count": 0,
+      "finite": {
+        "train": {
+          "finite_count": 4124472,
+          "nan_count": 0,
+          "inf_count": 0,
+          "total_count": 4124472
+        },
+        "test": {
+          "finite_count": 1653267,
+          "nan_count": 0,
+          "inf_count": 0,
+          "total_count": 1653267
+        }
+      }
+    },
+    "acceptance_conditions": {
+      "max_abs_mean_lt": 1e-10,
+      "max_std_error_lt": 1e-10,
+      "nonfinite_count": 0
+    }
+  },
+  {
+    "checkpoint": "CP3",
+    "phase": 4,
+    "prompt": "P04/P05",
+    "status": "PASS",
+    "source_cells_zero_based": [
+      17,
+      19
+    ],
+    "log": "evidence/PHASE_04.txt",
+    "metrics": {
+      "symmetry_error": 0.0,
+      "min_eigenvalue": 0.0,
+      "orthogonality_error": 3.552713678800501e-15,
+      "evr_sum": 0.9999999999999999,
+      "max_off_diagonal_score_cov": 1.0692841735916926e-13,
+      "score_cov_diag_vs_eigen_error": 1.7053025658242404e-13,
+      "fit_split": "train",
+      "covariance_ddof": 1,
+      "covariance_shape": [
+        561,
+        561
+      ],
+      "eigenvalues_shape": [
+        561
+      ],
+      "eigenvectors_shape": [
+        561,
+        561
+      ],
+      "eigenvalues_descending": true,
+      "max_order_violation": 0.0,
+      "functional_test": {
+        "k": 10,
+        "train_shape": [
+          7352,
+          10
+        ],
+        "test_shape": [
+          2947,
+          10
+        ],
+        "train_reconstruction_mse": 0.2918443124130924
+      }
+    },
+    "acceptance_conditions": {
+      "symmetry_error_lt": 1e-08,
+      "min_eigenvalue_gte": -1e-08,
+      "orthogonality_error_lt": 1e-08,
+      "abs_evr_sum_minus_one_lt": 1e-08,
+      "score_off_diagonal_lt": 1e-07,
+      "score_diagonal_error_lt": 1e-07
+    }
+  },
+  {
+    "checkpoint": "CP4",
+    "phase": 5,
+    "prompt": "P06",
+    "status": "PASS",
+    "source_cells_zero_based": [
+      23,
+      24,
+      25,
+      26
+    ],
+    "log": "evidence/PHASE_05.txt",
+    "metrics": {
+      "0.8": {
+        "k": 26,
+        "retained_variance": 0.8018050415468281,
+        "reduction_ratio": 0.9536541889483066
+      },
+      "0.9": {
+        "k": 63,
+        "retained_variance": 0.9005345066145933,
+        "reduction_ratio": 0.8877005347593583
+      },
+      "0.95": {
+        "k": 102,
+        "retained_variance": 0.9507558220254131,
+        "reduction_ratio": 0.8181818181818181
+      },
+      "0.99": {
+        "k": 179,
+        "retained_variance": 0.9901926791986623,
+        "reduction_ratio": 0.6809269162210339
+      }
+    },
+    "acceptance_conditions": {
+      "cumulative_diff_gte": -1e-12,
+      "abs_final_cumulative_minus_one_lt": 1e-10,
+      "threshold_k": "nondecreasing for 0.8, 0.9, 0.95, 0.99"
+    }
+  },
+  {
+    "checkpoint": "CP5",
+    "phase": 6,
+    "prompt": "P07",
+    "status": "PASS",
+    "source_cells_zero_based": [
+      29,
+      30,
+      31
+    ],
+    "log": "evidence/PHASE_06.txt",
+    "metrics": {
+      "score_shape": [
+        7352,
+        3
+      ],
+      "train_pc1_pc3_variance": [
+        284.9211307884456,
+        36.92263841847653,
+        15.746252070722074
+      ],
+      "actual_score_variance_log": "evidence/PHASE_06.txt"
+    },
+    "acceptance_conditions": {
+      "shape": [
+        7352,
+        3
+      ],
+      "pc_variance_order_tolerance": 1e-10,
+      "figures": "three 2D views and one 3D view"
+    }
+  },
+  {
+    "checkpoint": "CP6",
+    "phase": 7,
+    "prompt": "P08",
+    "status": "PASS",
+    "source_cells_zero_based": [
+      34,
+      35,
+      36
+    ],
+    "log": "evidence/PHASE_07.txt",
+    "metrics": {
+      "space": "standardized features (train-fitted mean and scale)",
+      "rows": [
+        {
+          "k": 1,
+          "Train MSE": 0.4921882770871368,
+          "Test MSE": 0.43634829816783915,
+          "Train retained variance": 0.507811722912863,
+          "Reduction ratio": 0.9982174688057041
+        },
+        {
+          "k": 2,
+          "Train MSE": 0.4263814744190086,
+          "Test MSE": 0.3916857724605196,
+          "Train retained variance": 0.5736185255809914,
+          "Reduction ratio": 0.9964349376114082
+        },
+        {
+          "k": 3,
+          "Train MSE": 0.3983171066716031,
+          "Test MSE": 0.37357857827614827,
+          "Train retained variance": 0.6016828933283971,
+          "Reduction ratio": 0.9946524064171123
+        },
+        {
+          "k": 5,
+          "Train MSE": 0.35439472906942815,
+          "Test MSE": 0.3387089927807669,
+          "Train retained variance": 0.6456052709305719,
+          "Reduction ratio": 0.9910873440285205
+        },
+        {
+          "k": 10,
+          "Train MSE": 0.2918443124130924,
+          "Test MSE": 0.28804295657647994,
+          "Train retained variance": 0.7081556875869075,
+          "Reduction ratio": 0.982174688057041
+        },
+        {
+          "k": 20,
+          "Train MSE": 0.226253523932132,
+          "Test MSE": 0.22668907735928148,
+          "Train retained variance": 0.7737464760678678,
+          "Reduction ratio": 0.964349376114082
+        },
+        {
+          "k": 26,
+          "Train MSE": 0.19819495845317145,
+          "Test MSE": 0.201124393061518,
+          "Train retained variance": 0.8018050415468281,
+          "Reduction ratio": 0.9536541889483066
+        },
+        {
+          "k": 30,
+          "Train MSE": 0.18220404582714558,
+          "Test MSE": 0.1866055482554415,
+          "Train retained variance": 0.8177959541728542,
+          "Reduction ratio": 0.946524064171123
+        },
+        {
+          "k": 50,
+          "Train MSE": 0.12481636416833736,
+          "Test MSE": 0.13244796529960384,
+          "Train retained variance": 0.8751836358316626,
+          "Reduction ratio": 0.910873440285205
+        },
+        {
+          "k": 63,
+          "Train MSE": 0.09946549338540638,
+          "Test MSE": 0.10826360211643082,
+          "Train retained variance": 0.9005345066145933,
+          "Reduction ratio": 0.8877005347593583
+        },
+        {
+          "k": 75,
+          "Train MSE": 0.08045218035588592,
+          "Test MSE": 0.0892096973798693,
+          "Train retained variance": 0.919547819644114,
+          "Reduction ratio": 0.8663101604278075
+        },
+        {
+          "k": 100,
+          "Train MSE": 0.051084960062028756,
+          "Test MSE": 0.05783615383385757,
+          "Train retained variance": 0.9489150399379711,
+          "Reduction ratio": 0.82174688057041
+        },
+        {
+          "k": 102,
+          "Train MSE": 0.04924417797458671,
+          "Test MSE": 0.05583215221855016,
+          "Train retained variance": 0.9507558220254131,
+          "Reduction ratio": 0.8181818181818181
+        },
+        {
+          "k": 150,
+          "Train MSE": 0.018946266650281873,
+          "Test MSE": 0.023060769845695623,
+          "Train retained variance": 0.9810537333497182,
+          "Reduction ratio": 0.732620320855615
+        },
+        {
+          "k": 179,
+          "Train MSE": 0.009807320801338278,
+          "Test MSE": 0.012421731155096614,
+          "Train retained variance": 0.9901926791986623,
+          "Reduction ratio": 0.6809269162210339
+        },
+        {
+          "k": 200,
+          "Train MSE": 0.006363887061423709,
+          "Test MSE": 0.00804719802573379,
+          "Train retained variance": 0.9936361129385767,
+          "Reduction ratio": 0.64349376114082
+        },
+        {
+          "k": 300,
+          "Train MSE": 0.0009012385141716983,
+          "Test MSE": 0.0012150968176672977,
+          "Train retained variance": 0.999098761485829,
+          "Reduction ratio": 0.4652406417112299
+        },
+        {
+          "k": 400,
+          "Train MSE": 2.6536734185693836e-05,
+          "Test MSE": 4.6806611907463276e-05,
+          "Train retained variance": 0.9999734632658152,
+          "Reduction ratio": 0.28698752228163993
+        },
+        {
+          "k": 500,
+          "Train MSE": 2.674189310977482e-17,
+          "Test MSE": 3.12524943404969e-17,
+          "Train retained variance": 1.000000000000001,
+          "Reduction ratio": 0.10873440285204994
+        },
+        {
+          "k": 561,
+          "Train MSE": 2.5715506145949157e-30,
+          "Test MSE": 2.2674851405482472e-30,
+          "Train retained variance": 1.000000000000001,
+          "Reduction ratio": 0.0
+        }
+      ],
+      "full_train_mse": 2.5715506145949157e-30,
+      "full_test_mse": 2.2674851405482472e-30,
+      "train_monotonic": true,
+      "test_monotonic": true
+    },
+    "acceptance_conditions": {
+      "mse_diff_lte": 1e-10,
+      "full_train_mse_lt": 1e-20,
+      "mse": "finite on train and test"
+    }
+  },
+  {
+    "checkpoint": "CP7",
+    "phase": 8,
+    "prompt": "P09",
+    "status": "PASS",
+    "source_cells_zero_based": [
+      39,
+      40
+    ],
+    "log": "evidence/PHASE_08.txt",
+    "metrics": {
+      "PC1": 0.9999999999999989,
+      "PC2": 0.9999999999999988,
+      "PC3": 1.0000000000000004,
+      "PC4": 1.0000000000000004,
+      "PC5": 0.9999999999999989
+    },
+    "acceptance_conditions": {
+      "abs_loading_norm_squared_minus_one_lt": 1e-10
+    }
+  },
+  {
+    "checkpoint": "CP8",
+    "phase": 9,
+    "prompt": "P10",
+    "status": "PASS",
+    "source_cells_zero_based": [
+      44
+    ],
+    "log": "evidence/PHASE_09.txt",
+    "metrics": {
+      "primary": "PCA95",
+      "alternative": "PCA90",
+      "candidates": [
+        {
+          "Configuration": "PCA80",
+          "Target variance": 0.8,
+          "k": 26,
+          "Actual retained variance": 0.8018050415468281,
+          "Dimensions reduced": 535,
+          "Reduction ratio": 0.9536541889483066,
+          "Train reconstruction MSE": 0.19819495845317145,
+          "Test reconstruction MSE": 0.201124393061518
+        },
+        {
+          "Configuration": "PCA90",
+          "Target variance": 0.9,
+          "k": 63,
+          "Actual retained variance": 0.9005345066145933,
+          "Dimensions reduced": 498,
+          "Reduction ratio": 0.8877005347593583,
+          "Train reconstruction MSE": 0.09946549338540638,
+          "Test reconstruction MSE": 0.10826360211643082
+        },
+        {
+          "Configuration": "PCA95",
+          "Target variance": 0.95,
+          "k": 102,
+          "Actual retained variance": 0.9507558220254131,
+          "Dimensions reduced": 459,
+          "Reduction ratio": 0.8181818181818181,
+          "Train reconstruction MSE": 0.04924417797458671,
+          "Test reconstruction MSE": 0.05583215221855016
+        },
+        {
+          "Configuration": "PCA99",
+          "Target variance": 0.99,
+          "k": 179,
+          "Actual retained variance": 0.9901926791986623,
+          "Dimensions reduced": 382,
+          "Reduction ratio": 0.6809269162210339,
+          "Train reconstruction MSE": 0.009807320801338278,
+          "Test reconstruction MSE": 0.012421731155096614
+        }
+      ],
+      "final_summary": [
+        {
+          "Dataset representation": "Original standardized",
+          "Dimensions": 561,
+          "Retained variance": 1.0,
+          "Reduction ratio": 0.0
+        },
+        {
+          "Dataset representation": "PCA90",
+          "Dimensions": 63,
+          "Retained variance": 0.9005345066145933,
+          "Reduction ratio": 0.8877005347593583
+        },
+        {
+          "Dataset representation": "PCA95",
+          "Dimensions": 102,
+          "Retained variance": 0.9507558220254131,
+          "Reduction ratio": 0.8181818181818181
+        }
+      ]
+    },
+    "acceptance_conditions": {
+      "retained_variance_pca90_gte": 0.9,
+      "retained_variance_pca95_gte": 0.95,
+      "k90_lte_k95": true
+    }
+  },
+  {
+    "checkpoint": "CP9",
+    "phase": 10,
+    "prompt": "P11",
+    "status": "PASS",
+    "source_cells_zero_based": [
+      47,
+      48,
+      49
+    ],
+    "log": "evidence/PHASE_10.txt",
+    "metrics": {
+      "shapes": {
+        "X_train_scaled": [
+          7352,
+          561
+        ],
+        "X_test_scaled": [
+          2947,
+          561
+        ],
+        "X_train_pca90": [
+          7352,
+          63
+        ],
+        "X_test_pca90": [
+          2947,
+          63
+        ],
+        "X_train_pca95": [
+          7352,
+          102
+        ],
+        "X_test_pca95": [
+          2947,
+          102
+        ],
+        "y_train": [
+          7352
+        ],
+        "y_test": [
+          2947
+        ]
+      },
+      "finite": {
+        "X_train_scaled": {
+          "finite_count": 4124472,
+          "nan_count": 0,
+          "inf_count": 0,
+          "total_count": 4124472
+        },
+        "X_test_scaled": {
+          "finite_count": 1653267,
+          "nan_count": 0,
+          "inf_count": 0,
+          "total_count": 1653267
+        },
+        "X_train_pca90": {
+          "finite_count": 463176,
+          "nan_count": 0,
+          "inf_count": 0,
+          "total_count": 463176
+        },
+        "X_test_pca90": {
+          "finite_count": 185661,
+          "nan_count": 0,
+          "inf_count": 0,
+          "total_count": 185661
+        },
+        "X_train_pca95": {
+          "finite_count": 749904,
+          "nan_count": 0,
+          "inf_count": 0,
+          "total_count": 749904
+        },
+        "X_test_pca95": {
+          "finite_count": 300594,
+          "nan_count": 0,
+          "inf_count": 0,
+          "total_count": 300594
+        },
+        "y_train": {
+          "finite_count": 7352,
+          "nan_count": 0,
+          "inf_count": 0,
+          "total_count": 7352
+        },
+        "y_test": {
+          "finite_count": 2947,
+          "nan_count": 0,
+          "inf_count": 0,
+          "total_count": 2947
+        }
+      },
+      "nested_train_error": 4.440892098500626e-15,
+      "nested_test_error": 5.329070518200751e-15,
+      "train_pc_variances_descending": true,
+      "train_labels_unchanged": true,
+      "test_labels_unchanged": true
+    },
+    "acceptance_conditions": {
+      "nested_train_error_lt": 1e-10,
+      "nested_test_error_lt": 1e-10,
+      "pc_variance_diff_lte": 1e-08,
+      "shape": "same rows as labels; columns k90/k95; all finite"
+    }
+  },
+  {
+    "checkpoint": "CP10",
+    "phase": 11,
+    "prompt": "P12",
+    "status": "PASS",
+    "source_cells_zero_based": [
+      52
+    ],
+    "log": "evidence/PHASE_11.txt",
+    "metrics": {
+      "array_checks": {
+        "X_train_scaled.npy": {
+          "shape": [
+            7352,
+            561
+          ],
+          "dtype": "float64",
+          "exact_match": true,
+          "finite": true
+        },
+        "X_test_scaled.npy": {
+          "shape": [
+            2947,
+            561
+          ],
+          "dtype": "float64",
+          "exact_match": true,
+          "finite": true
+        },
+        "X_train_pca90.npy": {
+          "shape": [
+            7352,
+            63
+          ],
+          "dtype": "float64",
+          "exact_match": true,
+          "finite": true
+        },
+        "X_test_pca90.npy": {
+          "shape": [
+            2947,
+            63
+          ],
+          "dtype": "float64",
+          "exact_match": true,
+          "finite": true
+        },
+        "X_train_pca95.npy": {
+          "shape": [
+            7352,
+            102
+          ],
+          "dtype": "float64",
+          "exact_match": true,
+          "finite": true
+        },
+        "X_test_pca95.npy": {
+          "shape": [
+            2947,
+            102
+          ],
+          "dtype": "float64",
+          "exact_match": true,
+          "finite": true
+        },
+        "y_train.npy": {
+          "shape": [
+            7352
+          ],
+          "dtype": "int64",
+          "exact_match": true,
+          "finite": true
+        },
+        "y_test.npy": {
+          "shape": [
+            2947
+          ],
+          "dtype": "int64",
+          "exact_match": true,
+          "finite": true
+        }
+      },
+      "parameter_checks": {
+        "train_mean": {
+          "shape": [
+            561
+          ],
+          "dtype": "float64",
+          "exact_match": true,
+          "finite": true
+        },
+        "train_scale": {
+          "shape": [
+            561
+          ],
+          "dtype": "float64",
+          "exact_match": true,
+          "finite": true
+        },
+        "zero_variance_mask": {
+          "shape": [
+            561
+          ],
+          "dtype": "bool",
+          "exact_match": true,
+          "finite": true
+        },
+        "eigenvalues": {
+          "shape": [
+            561
+          ],
+          "dtype": "float64",
+          "exact_match": true,
+          "finite": true
+        },
+        "eigenvectors": {
+          "shape": [
+            561,
+            561
+          ],
+          "dtype": "float64",
+          "exact_match": true,
+          "finite": true
+        },
+        "explained_variance_ratio": {
+          "shape": [
+            561
+          ],
+          "dtype": "float64",
+          "exact_match": true,
+          "finite": true
+        },
+        "cumulative_variance": {
+          "shape": [
+            561
+          ],
+          "dtype": "float64",
+          "exact_match": true,
+          "finite": true
+        },
+        "k90": {
+          "shape": [],
+          "dtype": "int64",
+          "exact_match": true,
+          "finite": true
+        },
+        "k95": {
+          "shape": [],
+          "dtype": "int64",
+          "exact_match": true,
+          "finite": true
+        }
+      },
+      "projection_errors": {
+        "X_train_scaled.npy": 0.0,
+        "X_train_pca90.npy": 0.0,
+        "X_train_pca95.npy": 0.0,
+        "X_test_scaled.npy": 0.0,
+        "X_test_pca90.npy": 0.0,
+        "X_test_pca95.npy": 0.0
+      },
+      "projection_atol": 1e-10,
+      "projection_rtol": 0.0,
+      "required_parameter_keys": [
+        "train_mean",
+        "train_scale",
+        "zero_variance_mask",
+        "eigenvalues",
+        "eigenvectors",
+        "explained_variance_ratio",
+        "cumulative_variance",
+        "k90",
+        "k95"
+      ],
+      "required_files": [
+        "X_train_scaled.npy",
+        "X_test_scaled.npy",
+        "X_train_pca90.npy",
+        "X_test_pca90.npy",
+        "X_train_pca95.npy",
+        "X_test_pca95.npy",
+        "y_train.npy",
+        "y_test.npy",
+        "pca_from_scratch_parameters.npz",
+        "pca_candidate_comparison.csv",
+        "pca_final_summary.csv",
+        "pca_reconstruction_analysis.csv",
+        "README.txt",
+        "CP04_variance_summary.csv",
+        "CP04_eigenvalue_spectrum.csv",
+        "feature_names.csv",
+        "activity_labels.csv",
+        "CP07_all_loadings.csv",
+        "CP07_top_loadings_pc1.csv",
+        "CP07_top_loadings_pc2.csv",
+        "CP07_top_loadings_pc3.csv",
+        "CP07_top_loadings_pc4.csv",
+        "CP07_top_loadings_pc5.csv"
+      ],
+      "required_figures": [
+        "CP04_scree_plot.png",
+        "CP04_scree_first100.png",
+        "CP04_cumulative_variance.png",
+        "CP05_pc1_pc2.png",
+        "CP05_pc1_pc3.png",
+        "CP05_pc2_pc3.png",
+        "CP05_pc1_pc2_pc3_3d.png",
+        "CP06_reconstruction_curve.png",
+        "CP07_loadings_pc1.png",
+        "CP07_loadings_pc2.png",
+        "CP07_loadings_pc3.png",
+        "CP07_loadings_pc4.png",
+        "CP07_loadings_pc5.png"
+      ],
+      "passed": true
+    },
+    "acceptance_conditions": {
+      "files": "all required files exist and nonempty",
+      "disk_arrays": "exact match, including dtype",
+      "projection_atol": 1e-10,
+      "projection_rtol": 0.0,
+      "figures": "13 PNG signatures checked"
+    }
+  }
+]

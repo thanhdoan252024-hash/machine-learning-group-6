@@ -1,0 +1,71 @@
+Build Dependencies:
+  blas:
+    detection method: pkgconfig
+    found: true
+    include directory: C:/Users/LENOVO/anaconda3/Library/include
+    lib directory: C:/Users/LENOVO/anaconda3/Library/lib
+    name: mkl-sdl
+    openblas configuration: unknown
+    pc file directory: C:\b\abs_25aj347ekn\croot\numpy_and_numpy_base_1730835595898\_h_env\Library\lib\pkgconfig
+    version: '2023.1'
+  lapack:
+    detection method: pkgconfig
+    found: true
+    include directory: C:/Users/LENOVO/anaconda3/Library/include
+    lib directory: C:/Users/LENOVO/anaconda3/Library/lib
+    name: mkl-sdl
+    openblas configuration: unknown
+    pc file directory: C:\b\abs_25aj347ekn\croot\numpy_and_numpy_base_1730835595898\_h_env\Library\lib\pkgconfig
+    version: '2023.1'
+Compilers:
+  c:
+    commands: cl.exe
+    linker: link
+    name: msvc
+    version: 19.29.30156
+  c++:
+    commands: cl.exe
+    linker: link
+    name: msvc
+    version: 19.29.30156
+  cython:
+    commands: cython
+    linker: cython
+    name: cython
+    version: 3.0.11
+Machine Information:
+  build:
+    cpu: x86_64
+    endian: little
+    family: x86_64
+    system: windows
+  host:
+    cpu: x86_64
+    endian: little
+    family: x86_64
+    system: windows
+Python Information:
+  path: C:\b\abs_25aj347ekn\croot\numpy_and_numpy_base_1730835595898\_h_env\python.exe
+  version: '3.13'
+SIMD Extensions:
+  baseline:
+  - SSE
+  - SSE2
+  - SSE3
+  found:
+  - SSSE3
+  - SSE41
+  - POPCNT
+  - SSE42
+  - AVX
+  - F16C
+  - FMA3
+  - AVX2
+  not found:
+  - AVX512F
+  - AVX512CD
+  - AVX512_SKX
+  - AVX512_CLX
+  - AVX512_CNL
+  - AVX512_ICL
+

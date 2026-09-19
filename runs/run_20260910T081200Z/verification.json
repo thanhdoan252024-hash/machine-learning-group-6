@@ -1,0 +1,1796 @@
+{
+  "passed": true,
+  "run_dir": "C:\\Users\\LENOVO\\Desktop\\ML_KG\\runs\\run_20260910T081200Z",
+  "manifest_checked": true,
+  "raw_dataset_checked": true,
+  "checks_total": 446,
+  "checks_failed": 0,
+  "failures": [],
+  "checks": [
+    {
+      "check": "file: outputs/X_train_scaled.npy",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/X_train_pca90.npy",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/X_train_pca95.npy",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/X_test_scaled.npy",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/X_test_pca90.npy",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/X_test_pca95.npy",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/y_train.npy",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/y_test.npy",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/pca_from_scratch_parameters.npz",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/pca_candidate_comparison.csv",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/pca_final_summary.csv",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/pca_reconstruction_analysis.csv",
+      "passed": true
+    },
+    {
+      "check": "file: outputs/README.txt",
+      "passed": true
+    },
+    {
+      "check": "required arrays and parameters loaded",
+      "passed": true
+    },
+    {
+      "check": "finite parameter: eigenvectors",
+      "passed": true
+    },
+    {
+      "check": "finite parameter: eigenvalues",
+      "passed": true
+    },
+    {
+      "check": "finite parameter: k90",
+      "passed": true
+    },
+    {
+      "check": "finite parameter: explained_variance_ratio",
+      "passed": true
+    },
+    {
+      "check": "finite parameter: zero_variance_mask",
+      "passed": true
+    },
+    {
+      "check": "finite parameter: k95",
+      "passed": true
+    },
+    {
+      "check": "finite parameter: cumulative_variance",
+      "passed": true
+    },
+    {
+      "check": "finite parameter: train_mean",
+      "passed": true
+    },
+    {
+      "check": "finite parameter: train_scale",
+      "passed": true
+    },
+    {
+      "check": "parameter shape: eigenvalues",
+      "passed": true
+    },
+    {
+      "check": "parameter shape: explained_variance_ratio",
+      "passed": true
+    },
+    {
+      "check": "parameter shape: zero_variance_mask",
+      "passed": true
+    },
+    {
+      "check": "parameter shape: cumulative_variance",
+      "passed": true
+    },
+    {
+      "check": "parameter shape: train_mean",
+      "passed": true
+    },
+    {
+      "check": "parameter shape: train_scale",
+      "passed": true
+    },
+    {
+      "check": "eigenvector shape",
+      "passed": true
+    },
+    {
+      "check": "integer scalar: k90",
+      "passed": true
+    },
+    {
+      "check": "integer scalar: k95",
+      "passed": true
+    },
+    {
+      "check": "component counts valid",
+      "passed": true
+    },
+    {
+      "check": "positive total variance and nonnegative spectrum",
+      "passed": true
+    },
+    {
+      "check": "descending eigenvalues",
+      "passed": true
+    },
+    {
+      "check": "explained variance ratio",
+      "passed": true
+    },
+    {
+      "check": "cumulative variance",
+      "passed": true
+    },
+    {
+      "check": "orthonormal eigenbasis",
+      "passed": true
+    },
+    {
+      "check": "minimal k for threshold 0.9",
+      "passed": true
+    },
+    {
+      "check": "minimal k for threshold 0.95",
+      "passed": true
+    },
+    {
+      "check": "positive train scales",
+      "passed": true
+    },
+    {
+      "check": "boolean zero-variance mask",
+      "passed": true
+    },
+    {
+      "check": "shape: train scaled",
+      "passed": true
+    },
+    {
+      "check": "finite: train scaled",
+      "passed": true
+    },
+    {
+      "check": "shape: train pca90",
+      "passed": true
+    },
+    {
+      "check": "finite: train pca90",
+      "passed": true
+    },
+    {
+      "check": "shape: train pca95",
+      "passed": true
+    },
+    {
+      "check": "finite: train pca95",
+      "passed": true
+    },
+    {
+      "check": "labels: train",
+      "passed": true
+    },
+    {
+      "check": "nested PCA basis: train",
+      "passed": true
+    },
+    {
+      "check": "persisted projection PCA95: train",
+      "passed": true
+    },
+    {
+      "check": "persisted projection PCA90: train",
+      "passed": true
+    },
+    {
+      "check": "shape: test scaled",
+      "passed": true
+    },
+    {
+      "check": "finite: test scaled",
+      "passed": true
+    },
+    {
+      "check": "shape: test pca90",
+      "passed": true
+    },
+    {
+      "check": "finite: test pca90",
+      "passed": true
+    },
+    {
+      "check": "shape: test pca95",
+      "passed": true
+    },
+    {
+      "check": "finite: test pca95",
+      "passed": true
+    },
+    {
+      "check": "labels: test",
+      "passed": true
+    },
+    {
+      "check": "nested PCA basis: test",
+      "passed": true
+    },
+    {
+      "check": "persisted projection PCA95: test",
+      "passed": true
+    },
+    {
+      "check": "persisted projection PCA90: test",
+      "passed": true
+    },
+    {
+      "check": "train is centered",
+      "passed": true
+    },
+    {
+      "check": "train unit standard deviation",
+      "passed": true
+    },
+    {
+      "check": "constant features have zero variance",
+      "passed": true
+    },
+    {
+      "check": "saved eigensystem matches independent train covariance",
+      "passed": true
+    },
+    {
+      "check": "total eigenvalue sum matches train covariance trace",
+      "passed": true
+    },
+    {
+      "check": "raw dataset scaling: train",
+      "passed": true
+    },
+    {
+      "check": "raw labels unchanged: train",
+      "passed": true
+    },
+    {
+      "check": "train-only scaler mean",
+      "passed": true
+    },
+    {
+      "check": "train-only scaler scale",
+      "passed": true
+    },
+    {
+      "check": "train-only zero-variance mask",
+      "passed": true
+    },
+    {
+      "check": "raw dataset scaling: test",
+      "passed": true
+    },
+    {
+      "check": "raw labels unchanged: test",
+      "passed": true
+    },
+    {
+      "check": "all CSV tables loaded",
+      "passed": true
+    },
+    {
+      "check": "reconstruction rows ordered and unique",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 1",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=1",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 2",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=2",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 3",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=3",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 5",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=5",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 10",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=10",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 20",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=20",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 26",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=26",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 30",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=30",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 50",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=50",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 63",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=63",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 75",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=75",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 100",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=100",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 102",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=102",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 150",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=150",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 179",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=179",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 200",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=200",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 300",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=300",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 400",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=400",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 500",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=500",
+      "passed": true
+    },
+    {
+      "check": "reconstruction k valid: 561",
+      "passed": true
+    },
+    {
+      "check": "reconstruction metrics: k=561",
+      "passed": true
+    },
+    {
+      "check": "full-basis reconstruction row exists",
+      "passed": true
+    },
+    {
+      "check": "four candidate configurations",
+      "passed": true
+    },
+    {
+      "check": "candidate selection: PCA80",
+      "passed": true
+    },
+    {
+      "check": "candidate metrics: PCA80",
+      "passed": true
+    },
+    {
+      "check": "candidate selection: PCA90",
+      "passed": true
+    },
+    {
+      "check": "candidate metrics: PCA90",
+      "passed": true
+    },
+    {
+      "check": "candidate selection: PCA95",
+      "passed": true
+    },
+    {
+      "check": "candidate metrics: PCA95",
+      "passed": true
+    },
+    {
+      "check": "candidate selection: PCA99",
+      "passed": true
+    },
+    {
+      "check": "candidate metrics: PCA99",
+      "passed": true
+    },
+    {
+      "check": "three final representations",
+      "passed": true
+    },
+    {
+      "check": "final summary: Original standardized",
+      "passed": true
+    },
+    {
+      "check": "final summary: PCA90",
+      "passed": true
+    },
+    {
+      "check": "final summary: PCA95",
+      "passed": true
+    },
+    {
+      "check": "file: notebook.executed.ipynb",
+      "passed": true
+    },
+    {
+      "check": "JSON content: notebook.executed.ipynb",
+      "passed": true
+    },
+    {
+      "check": "all 26 code cells executed",
+      "passed": true
+    },
+    {
+      "check": "notebook has no error outputs",
+      "passed": true
+    },
+    {
+      "check": "notebook checkpoints 1 through 10 passed",
+      "passed": true
+    },
+    {
+      "check": "13 exported PNG figures",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP04_cumulative_variance.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP04_cumulative_variance.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP04_scree_first100.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP04_scree_first100.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP04_scree_plot.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP04_scree_plot.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP05_pc1_pc2.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP05_pc1_pc2.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP05_pc1_pc2_pc3_3d.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP05_pc1_pc2_pc3_3d.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP05_pc1_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP05_pc1_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP05_pc2_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP05_pc2_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP06_reconstruction_curve.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP06_reconstruction_curve.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP07_loadings_pc1.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP07_loadings_pc1.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP07_loadings_pc2.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP07_loadings_pc2.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP07_loadings_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP07_loadings_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP07_loadings_pc4.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP07_loadings_pc4.png",
+      "passed": true
+    },
+    {
+      "check": "file: figures/CP07_loadings_pc5.png",
+      "passed": true
+    },
+    {
+      "check": "PNG signature: CP07_loadings_pc5.png",
+      "passed": true
+    },
+    {
+      "check": "file: evidence/run_metrics.json",
+      "passed": true
+    },
+    {
+      "check": "JSON content: evidence/run_metrics.json",
+      "passed": true
+    },
+    {
+      "check": "file: evidence/checkpoints.json",
+      "passed": true
+    },
+    {
+      "check": "JSON content: evidence/checkpoints.json",
+      "passed": true
+    },
+    {
+      "check": "file: artifact_manifest.json",
+      "passed": true
+    },
+    {
+      "check": "JSON content: artifact_manifest.json",
+      "passed": true
+    },
+    {
+      "check": "manifest files schema",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: dataset_manifest.json",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: dataset_manifest.json",
+      "passed": true
+    },
+    {
+      "check": "manifest size: dataset_manifest.json",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: dataset_manifest.json",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: environment.json",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: environment.json",
+      "passed": true
+    },
+    {
+      "check": "manifest size: environment.json",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: environment.json",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: evidence/checkpoints.json",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: evidence/checkpoints.json",
+      "passed": true
+    },
+    {
+      "check": "manifest size: evidence/checkpoints.json",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: evidence/checkpoints.json",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: evidence/numpy_config.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: evidence/numpy_config.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest size: evidence/numpy_config.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: evidence/numpy_config.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: evidence/PHASE_01.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: evidence/PHASE_01.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest size: evidence/PHASE_01.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: evidence/PHASE_01.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: evidence/PHASE_02.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: evidence/PHASE_02.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest size: evidence/PHASE_02.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: evidence/PHASE_02.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: evidence/PHASE_03.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: evidence/PHASE_03.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest size: evidence/PHASE_03.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: evidence/PHASE_03.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: evidence/PHASE_04.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: evidence/PHASE_04.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest size: evidence/PHASE_04.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: evidence/PHASE_04.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: evidence/PHASE_05.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: evidence/PHASE_05.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest size: evidence/PHASE_05.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: evidence/PHASE_05.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: evidence/PHASE_06.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: evidence/PHASE_06.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest size: evidence/PHASE_06.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: evidence/PHASE_06.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: evidence/PHASE_07.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: evidence/PHASE_07.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest size: evidence/PHASE_07.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: evidence/PHASE_07.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: evidence/PHASE_08.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: evidence/PHASE_08.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest size: evidence/PHASE_08.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: evidence/PHASE_08.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: evidence/PHASE_09.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: evidence/PHASE_09.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest size: evidence/PHASE_09.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: evidence/PHASE_09.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: evidence/PHASE_10.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: evidence/PHASE_10.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest size: evidence/PHASE_10.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: evidence/PHASE_10.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: evidence/PHASE_11.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: evidence/PHASE_11.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest size: evidence/PHASE_11.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: evidence/PHASE_11.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: evidence/pip-freeze.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: evidence/pip-freeze.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest size: evidence/pip-freeze.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: evidence/pip-freeze.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: evidence/run_metrics.json",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: evidence/run_metrics.json",
+      "passed": true
+    },
+    {
+      "check": "manifest size: evidence/run_metrics.json",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: evidence/run_metrics.json",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: execution.log",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: execution.log",
+      "passed": true
+    },
+    {
+      "check": "manifest size: execution.log",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: execution.log",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: execution_status.json",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: execution_status.json",
+      "passed": true
+    },
+    {
+      "check": "manifest size: execution_status.json",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: execution_status.json",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: figures/CP04_cumulative_variance.png",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: figures/CP04_cumulative_variance.png",
+      "passed": true
+    },
+    {
+      "check": "manifest size: figures/CP04_cumulative_variance.png",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: figures/CP04_cumulative_variance.png",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: figures/CP04_scree_first100.png",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: figures/CP04_scree_first100.png",
+      "passed": true
+    },
+    {
+      "check": "manifest size: figures/CP04_scree_first100.png",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: figures/CP04_scree_first100.png",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: figures/CP04_scree_plot.png",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: figures/CP04_scree_plot.png",
+      "passed": true
+    },
+    {
+      "check": "manifest size: figures/CP04_scree_plot.png",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: figures/CP04_scree_plot.png",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: figures/CP05_pc1_pc2.png",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: figures/CP05_pc1_pc2.png",
+      "passed": true
+    },
+    {
+      "check": "manifest size: figures/CP05_pc1_pc2.png",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: figures/CP05_pc1_pc2.png",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: figures/CP05_pc1_pc2_pc3_3d.png",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: figures/CP05_pc1_pc2_pc3_3d.png",
+      "passed": true
+    },
+    {
+      "check": "manifest size: figures/CP05_pc1_pc2_pc3_3d.png",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: figures/CP05_pc1_pc2_pc3_3d.png",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: figures/CP05_pc1_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: figures/CP05_pc1_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "manifest size: figures/CP05_pc1_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: figures/CP05_pc1_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: figures/CP05_pc2_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: figures/CP05_pc2_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "manifest size: figures/CP05_pc2_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: figures/CP05_pc2_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: figures/CP06_reconstruction_curve.png",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: figures/CP06_reconstruction_curve.png",
+      "passed": true
+    },
+    {
+      "check": "manifest size: figures/CP06_reconstruction_curve.png",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: figures/CP06_reconstruction_curve.png",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: figures/CP07_loadings_pc1.png",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: figures/CP07_loadings_pc1.png",
+      "passed": true
+    },
+    {
+      "check": "manifest size: figures/CP07_loadings_pc1.png",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: figures/CP07_loadings_pc1.png",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: figures/CP07_loadings_pc2.png",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: figures/CP07_loadings_pc2.png",
+      "passed": true
+    },
+    {
+      "check": "manifest size: figures/CP07_loadings_pc2.png",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: figures/CP07_loadings_pc2.png",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: figures/CP07_loadings_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: figures/CP07_loadings_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "manifest size: figures/CP07_loadings_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: figures/CP07_loadings_pc3.png",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: figures/CP07_loadings_pc4.png",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: figures/CP07_loadings_pc4.png",
+      "passed": true
+    },
+    {
+      "check": "manifest size: figures/CP07_loadings_pc4.png",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: figures/CP07_loadings_pc4.png",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: figures/CP07_loadings_pc5.png",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: figures/CP07_loadings_pc5.png",
+      "passed": true
+    },
+    {
+      "check": "manifest size: figures/CP07_loadings_pc5.png",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: figures/CP07_loadings_pc5.png",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: notebook.executed.ipynb",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: notebook.executed.ipynb",
+      "passed": true
+    },
+    {
+      "check": "manifest size: notebook.executed.ipynb",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: notebook.executed.ipynb",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: notebook.html",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: notebook.html",
+      "passed": true
+    },
+    {
+      "check": "manifest size: notebook.html",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: notebook.html",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: notebook.source.ipynb",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: notebook.source.ipynb",
+      "passed": true
+    },
+    {
+      "check": "manifest size: notebook.source.ipynb",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: notebook.source.ipynb",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: outputs/activity_labels.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: outputs/activity_labels.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest size: outputs/activity_labels.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: outputs/activity_labels.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: outputs/CP04_eigenvalue_spectrum.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: outputs/CP04_eigenvalue_spectrum.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest size: outputs/CP04_eigenvalue_spectrum.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: outputs/CP04_eigenvalue_spectrum.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: outputs/CP04_variance_summary.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: outputs/CP04_variance_summary.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest size: outputs/CP04_variance_summary.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: outputs/CP04_variance_summary.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: outputs/CP07_all_loadings.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: outputs/CP07_all_loadings.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest size: outputs/CP07_all_loadings.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: outputs/CP07_all_loadings.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: outputs/CP07_top_loadings_pc1.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: outputs/CP07_top_loadings_pc1.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest size: outputs/CP07_top_loadings_pc1.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: outputs/CP07_top_loadings_pc1.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: outputs/CP07_top_loadings_pc2.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: outputs/CP07_top_loadings_pc2.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest size: outputs/CP07_top_loadings_pc2.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: outputs/CP07_top_loadings_pc2.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: outputs/CP07_top_loadings_pc3.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: outputs/CP07_top_loadings_pc3.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest size: outputs/CP07_top_loadings_pc3.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: outputs/CP07_top_loadings_pc3.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: outputs/CP07_top_loadings_pc4.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: outputs/CP07_top_loadings_pc4.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest size: outputs/CP07_top_loadings_pc4.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: outputs/CP07_top_loadings_pc4.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: outputs/CP07_top_loadings_pc5.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: outputs/CP07_top_loadings_pc5.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest size: outputs/CP07_top_loadings_pc5.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: outputs/CP07_top_loadings_pc5.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: outputs/feature_names.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: outputs/feature_names.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest size: outputs/feature_names.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: outputs/feature_names.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: outputs/pca_candidate_comparison.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: outputs/pca_candidate_comparison.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest size: outputs/pca_candidate_comparison.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: outputs/pca_candidate_comparison.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: outputs/pca_final_summary.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: outputs/pca_final_summary.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest size: outputs/pca_final_summary.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: outputs/pca_final_summary.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: outputs/pca_from_scratch_parameters.npz",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: outputs/pca_from_scratch_parameters.npz",
+      "passed": true
+    },
+    {
+      "check": "manifest size: outputs/pca_from_scratch_parameters.npz",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: outputs/pca_from_scratch_parameters.npz",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: outputs/pca_reconstruction_analysis.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: outputs/pca_reconstruction_analysis.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest size: outputs/pca_reconstruction_analysis.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: outputs/pca_reconstruction_analysis.csv",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: outputs/README.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: outputs/README.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest size: outputs/README.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: outputs/README.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: outputs/X_test_pca90.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: outputs/X_test_pca90.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest size: outputs/X_test_pca90.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: outputs/X_test_pca90.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: outputs/X_test_pca95.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: outputs/X_test_pca95.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest size: outputs/X_test_pca95.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: outputs/X_test_pca95.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: outputs/X_test_scaled.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: outputs/X_test_scaled.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest size: outputs/X_test_scaled.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: outputs/X_test_scaled.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: outputs/X_train_pca90.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: outputs/X_train_pca90.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest size: outputs/X_train_pca90.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: outputs/X_train_pca90.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: outputs/X_train_pca95.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: outputs/X_train_pca95.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest size: outputs/X_train_pca95.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: outputs/X_train_pca95.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: outputs/X_train_scaled.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: outputs/X_train_scaled.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest size: outputs/X_train_scaled.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: outputs/X_train_scaled.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: outputs/y_test.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: outputs/y_test.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest size: outputs/y_test.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: outputs/y_test.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: outputs/y_train.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: outputs/y_train.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest size: outputs/y_train.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: outputs/y_train.npy",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: README.md",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: README.md",
+      "passed": true
+    },
+    {
+      "check": "manifest size: README.md",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: README.md",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: reports/AGENT_HANDOFF.md",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: reports/AGENT_HANDOFF.md",
+      "passed": true
+    },
+    {
+      "check": "manifest size: reports/AGENT_HANDOFF.md",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: reports/AGENT_HANDOFF.md",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: reports/DECISION_LOG.md",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: reports/DECISION_LOG.md",
+      "passed": true
+    },
+    {
+      "check": "manifest size: reports/DECISION_LOG.md",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: reports/DECISION_LOG.md",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: reports/ENVIRONMENT_RECORD.md",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: reports/ENVIRONMENT_RECORD.md",
+      "passed": true
+    },
+    {
+      "check": "manifest size: reports/ENVIRONMENT_RECORD.md",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: reports/ENVIRONMENT_RECORD.md",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: reports/FINAL_PCA_REPORT.md",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: reports/FINAL_PCA_REPORT.md",
+      "passed": true
+    },
+    {
+      "check": "manifest size: reports/FINAL_PCA_REPORT.md",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: reports/FINAL_PCA_REPORT.md",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: reports/ISSUE_LOG.md",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: reports/ISSUE_LOG.md",
+      "passed": true
+    },
+    {
+      "check": "manifest size: reports/ISSUE_LOG.md",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: reports/ISSUE_LOG.md",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: reports/PHASE_REPORTS.md",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: reports/PHASE_REPORTS.md",
+      "passed": true
+    },
+    {
+      "check": "manifest size: reports/PHASE_REPORTS.md",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: reports/PHASE_REPORTS.md",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: reports/RESULTS.md",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: reports/RESULTS.md",
+      "passed": true
+    },
+    {
+      "check": "manifest size: reports/RESULTS.md",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: reports/RESULTS.md",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: requirements-lock.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: requirements-lock.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest size: requirements-lock.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: requirements-lock.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: scripts/run_pca.py",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: scripts/run_pca.py",
+      "passed": true
+    },
+    {
+      "check": "manifest size: scripts/run_pca.py",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: scripts/run_pca.py",
+      "passed": true
+    },
+    {
+      "check": "manifest safe unique path: scripts/verify_pca_artifacts.py",
+      "passed": true
+    },
+    {
+      "check": "manifest target exists: scripts/verify_pca_artifacts.py",
+      "passed": true
+    },
+    {
+      "check": "manifest size: scripts/verify_pca_artifacts.py",
+      "passed": true
+    },
+    {
+      "check": "manifest SHA256: scripts/verify_pca_artifacts.py",
+      "passed": true
+    },
+    {
+      "check": "manifest covers all required artifacts",
+      "passed": true,
+      "detail": []
+    }
+  ]
+}

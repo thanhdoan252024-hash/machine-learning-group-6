@@ -1,0 +1,13 @@
+CELL 29
+Z_train_3d shape: (7352, 3)
+Variance PC1-PC3: [284.921131  36.922638  15.746252]
+PCA visualization preparation: PASS ✅
+
+CELL 30
+<Figure size 900x700 with 1 Axes>
+<Figure size 900x700 with 1 Axes>
+<Figure size 900x700 with 1 Axes>
+
+CELL 31
+<Figure size 1000x800 with 1 Axes>
+CHECKPOINT 5 — PCA Visualization: PASS ✅

@@ -1,0 +1,13 @@
+CELL 10
+X_train_scaled: (7352, 561)
+X_test_scaled : (2947, 561)
+
+CELL 11
+=== STANDARDIZATION CHECK ===
+Max |mean| trên train scaled: 3.1128051525275424e-13
+Max |std - 1| (non-constant features): 5.440092820663267e-14
+Zero/near-zero variance features: 0
+Train finite: True
+Test finite : True
+
+CHECKPOINT 2: PASS ✅

@@ -1,0 +1,48 @@
+CELL 5
+Dataset đã sẵn sàng: C:\Users\LENOVO\Desktop\ML_KG\data\raw\UCI HAR Dataset
+
+DATASET_DIR cuối cùng: C:\Users\LENOVO\Desktop\ML_KG\data\raw\UCI HAR Dataset
+
+CELL 6
+X_train: (7352, 561)
+X_test : (2947, 561)
+y_train: (7352,)
+y_test : (2947,)
+Số feature names: 561
+Activities: {1: 'WALKING', 2: 'WALKING_UPSTAIRS', 3: 'WALKING_DOWNSTAIRS', 4: 'SITTING', 5: 'STANDING', 6: 'LAYING'}
+
+CELL 7
+=== DATASET AUDIT ===
+Train samples : 7352
+Test samples  : 2947
+Features      : 561
+Classes       : 6
+
+NaN / Inf:
+X_train NaN: 0
+X_train Inf: 0
+X_test  NaN: 0
+X_test  Inf: 0
+
+Feature variance:
+Min variance: 0.0016652723790956574
+Max variance: 0.5650254817385447
+Số feature variance < 1e-12: 0
+
+Class distribution — train:
+1: WALKING              1226
+2: WALKING_UPSTAIRS     1073
+3: WALKING_DOWNSTAIRS   986
+4: SITTING              1286
+5: STANDING             1374
+6: LAYING               1407
+
+Class distribution — test:
+1: WALKING              496
+2: WALKING_UPSTAIRS     471
+3: WALKING_DOWNSTAIRS   420
+4: SITTING              491
+5: STANDING             532
+6: LAYING               537
+
+CHECKPOINT 1: PASS ✅

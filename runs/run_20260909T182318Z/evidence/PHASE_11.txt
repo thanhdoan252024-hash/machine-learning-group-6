@@ -1,0 +1,44 @@
+CELL 52
+Exported files:
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\pca_candidate_comparison.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\pca_final_summary.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\pca_from_scratch_parameters.npz
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\pca_reconstruction_analysis.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\README.txt
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_test_pca90.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_test_pca95.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_test_scaled.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_train_pca90.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_train_pca95.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_train_scaled.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\y_test.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\y_train.npy
+All exported files:
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_train_scaled.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_test_scaled.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_train_pca90.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_test_pca90.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_train_pca95.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\X_test_pca95.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\y_train.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\y_test.npy
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\pca_from_scratch_parameters.npz
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\pca_candidate_comparison.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\pca_final_summary.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\pca_reconstruction_analysis.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\README.txt
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\CP04_variance_summary.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\CP04_eigenvalue_spectrum.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\feature_names.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\activity_labels.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\CP07_all_loadings.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\CP07_top_loadings_pc1.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\CP07_top_loadings_pc2.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\CP07_top_loadings_pc3.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\CP07_top_loadings_pc4.csv
+- C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\outputs\CP07_top_loadings_pc5.csv
+Saved figures: 13 in C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\figures
+Numerical evidence: C:\Users\LENOVO\Desktop\ML_KG\runs\run_20260909T182318Z\evidence\run_metrics.json
+Disk reload and raw-input projection checks: PASS
+
+CHECKPOINT 10 — Export: PASS ✅

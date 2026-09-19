@@ -1,0 +1,23 @@
+CELL 17
+=== PCA MATHEMATICAL VALIDATION ===
+1) Max covariance symmetry error: 0.0
+2) Minimum eigenvalue: 0.0
+3) Max eigenvector orthogonality error: 3.552713678800501e-15
+4) Sum explained variance ratio: 0.9999999999999999
+5) Eigenvalues descending: True
+   Max order violation: 0.0
+6) Max |off-diagonal| of PCA-score covariance: 1.0692841735916926e-13
+7) Max |diag(cov_Z) - eigenvalue|: 1.7053025658242404e-13
+
+CHECKPOINT 3: PASS ✅
+
+CELL 19
+=== PCA FUNCTIONAL TEST ===
+k_test: 10
+Train original: (7352, 561)
+Train PCA     : (7352, 10)
+Test original : (2947, 561)
+Test PCA      : (2947, 10)
+Reconstruction MSE (k=10): 0.2918443124130924
+
+FUNCTIONAL TEST: PASS ✅
